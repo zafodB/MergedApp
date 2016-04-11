@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent">
+
+    <EditText
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/taskNameInput"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginStart="43dp"
+        android:layout_marginTop="43dp"
+        android:hint="@string/taskNameHint" />
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:ems="10"
+        android:id="@+id/dateInput"
+        android:layout_below="@+id/taskNameInput"
+        android:layout_alignStart="@+id/taskNameInput"
+        android:layout_marginTop="32dp"
+        android:enabled="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/setDayButtonText"
+        android:id="@+id/setDateButton"
+        android:layout_alignBottom="@+id/dateInput"
+        android:layout_toEndOf="@+id/dateInput" />
+
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:ems="10"
+        android:id="@+id/timeInput"
+        android:layout_below="@+id/dateInput"
+        android:layout_alignStart="@+id/taskNameInput"
+        android:layout_marginTop="32dp"
+        android:enabled="true"
+        android:clickable="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/setTimeButtonText"
+        android:id="@+id/setTimeButton"
+        android:layout_alignBottom="@+id/timeInput"
+        android:layout_toEndOf="@+id/timeInput"
+        android:enabled="true"
+        android:clickable="false" />
+
+
+
+</RelativeLayout>

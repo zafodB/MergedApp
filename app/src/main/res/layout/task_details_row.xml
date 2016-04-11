@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Task Name"
+        android:id="@+id/rowTaskName"
+        android:layout_gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/rowCheckBox"
+        android:layout_gravity="center_vertical"
+        android:layout_centerVertical="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="20dp" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Task Due Date"
+        android:id="@+id/rowTaskDate"
+        android:layout_below="@+id/rowCheckBox"
+        android:layout_alignParentStart="true" />
+
+    <Space
+        android:layout_width="100px"
+        android:layout_height="20px"
+        android:layout_alignTop="@+id/rowTaskDate"
+        android:layout_toEndOf="@+id/rowTaskDate"
+        android:id="@+id/space" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:text="Task Responsible"
+        android:id="@+id/rowTaskResponsible"
+        android:layout_below="@+id/rowCheckBox"
+        android:layout_toEndOf="@+id/space" />
+</RelativeLayout>

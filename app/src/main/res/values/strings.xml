@@ -1,0 +1,22 @@
+<resources>
+    <string name="facebook_app_id">1683129748613047</string>
+    <string name="app_name">Merged App</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="theButtonText">Sign-up</string>
+    <string name="addTaskButtonText">Create Account</string>
+    <string name="title_activity_task_details">taskDetails</string>
+    <string name="signInButtonText">Sign in</string>
+    <string name="signUpButtonText">Create Accoount</string>
+    <string name="passwordInputText">Password</string>
+    <string name="passwordConfirmText">Repeat password</string>
+    <string name="emailInputText">Email</string>
+    <string name="acceptTerms">I sell my kidney</string>
+    <string name="successMessageText">YOU ARE NOW SIGNED IN</string>
+    <string name="logOutText">Log Out</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="taskNameHint">Task Name</string>
+    <string name="setTimeButtonText">Set Time</string>
+    <string name="setDayButtonText">Set Date</string>
+</resources>

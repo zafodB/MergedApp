@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <EditText
+        android:id="@+id/singUpEmail"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:width="300dp"
+        android:inputType="textEmailAddress"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="15dp"
+        android:hint="@string/emailInputText"
+        />
+
+    <EditText
+        android:id="@+id/SignUpPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:width="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/singUpEmail"
+        android:layout_marginTop="15dp"
+        android:hint="@string/passwordInputText"
+        android:inputType="textPassword"
+
+        />
+
+    <EditText
+        android:id="@+id/SignUpPassConfirm"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:width="300dp"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/SignUpPassword"
+        android:layout_marginTop="15dp"
+        android:hint="@string/passwordConfirmText"
+        android:inputType="textPassword"
+
+        />
+
+    <Button
+        android:id="@+id/CreateAccButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/addTaskButtonText"
+
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="105dp" />
+
+    <CheckBox
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/acceptTerms"
+        android:id="@+id/iAccept"
+        android:layout_centerVertical="true"
+        android:layout_alignStart="@+id/CreateAccButton" />
+
+    <TextView android:id="@+id/toast"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="#FFF"
+        />
+
+
+</RelativeLayout>

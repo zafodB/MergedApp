@@ -19,4 +19,6 @@
     <string name="taskNameHint">Task Name</string>
     <string name="setTimeButtonText">Set Time</string>
     <string name="setDayButtonText">Set Date</string>
+    <string name="nameHint">Name</string>
+    <string name="ageHint">Age</string>
 </resources>

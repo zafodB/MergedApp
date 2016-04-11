@@ -1,5 +1,6 @@
 package com.example.filip.firstview;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -31,6 +32,10 @@ import com.firebase.client.FirebaseError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Calendar;
+
 public class LoginScreenActivity extends AppCompatActivity {
 
     private LoginButton myLogin;
@@ -42,6 +47,7 @@ public class LoginScreenActivity extends AppCompatActivity {
     String enteredPass;
     String fbName;
     String fbEmail;
+    String fbBirthday;
 
 
     public static final String TAG = "fifko";
@@ -58,9 +64,7 @@ public class LoginScreenActivity extends AppCompatActivity {
 
         myCallback = CallbackManager.Factory.create();
         myLogin = (LoginButton) findViewById(R.id.fb_login_button);
-        myLogin.setReadPermissions("public_profile");
-        myLogin.setReadPermissions("email");
-        myLogin.setReadPermissions("user_birthday");
+        myLogin.setReadPermissions("public_profile", "email", "user_birthday");
 
 
         email = (EditText) findViewById(R.id.signInEmail);
@@ -78,7 +82,6 @@ public class LoginScreenActivity extends AppCompatActivity {
                 Log.i(TAG, loginResult.toString());
                 AccessToken token = loginResult.getAccessToken();
 
-
                 if (token != null) {
                     myFirebaseRef.authWithOAuthToken("facebook", token.getToken(), new Firebase.AuthResultHandler() {
 
@@ -87,12 +90,15 @@ public class LoginScreenActivity extends AppCompatActivity {
                         public void onAuthenticated(AuthData authData) {
                             // The Facebook user is now authenticated with your Firebase app
 
-
                             Log.i(TAG, "Firebase authentication success");
                             Log.i(TAG, authData.toString());
 
-                            Profile fbProfile = Profile.getCurrentProfile();
+                            final AuthData myAuthData = authData;
 
+                            final Profile fbProfile = Profile.getCurrentProfile();
+                            fbName = fbProfile.getName();
+
+//                            Log.i(TAG,fbProfile.getName();
 
                             GraphRequest request = GraphRequest.newMeRequest(
                                     loginResult.getAccessToken(),
@@ -101,31 +107,29 @@ public class LoginScreenActivity extends AppCompatActivity {
                                         public void onCompleted(
                                                 JSONObject object,
                                                 GraphResponse response) {
-                                            Log.v("LoginActivity Response ", response.toString());
-
+                                            Log.v(TAG, "LoginActivity Response" + response.toString());
                                             try {
-                                                fbName = object.getString("name");
-
                                                 fbEmail = object.getString("email");
-                                                Log.v(TAG, "Email = " + fbEmail);
-                                                Toast.makeText(getApplicationContext(), "Name " + fbName, Toast.LENGTH_LONG).show();
+                                                fbBirthday = object.getString("birthday");
 
+//                                                Log.i(TAG, "birthday: " + fbBirthday);
+//                                                Log.i(TAG, "age: " + calculateAge(Integer.parseInt(fbBirthday.substring(0,2)), Integer.parseInt(fbBirthday.substring(3,5)), Integer.parseInt(fbBirthday.substring(fbBirthday.length() - 4))));
 
+                                                CreateAccountActivity.createUserRecord(myAuthData, fbEmail, fbName, calculateAge(Integer.parseInt(fbBirthday.substring(0,2)), Integer.parseInt(fbBirthday.substring(3,5)), Integer.parseInt(fbBirthday.substring(fbBirthday.length() - 4))));
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
                                             }
                                         }
                                     });
 
-//                            try {
-                                CreateAccountActivity.createUserRecord(authData, fbName, fbEmail, 0);
-//                            } catch (NullPointerException e) {
-//                                e.printStackTrace();
-//                            }
+                            Bundle parameters = new Bundle();
+                            parameters.putString("fields", "email, birthday");
+                            request.setParameters(parameters);
+
+                            request.executeAsync();
 
                             Intent myIntent = new Intent(LoginScreenActivity.this, NavDrawerActivity.class);
                             LoginScreenActivity.this.startActivity(myIntent);
-
                         }
 
                         @Override
@@ -239,6 +243,25 @@ public class LoginScreenActivity extends AppCompatActivity {
         super.onDestroy();
     }
 
+    int calculateAge(int month, int day, int year) {
+        Calendar c = Calendar.getInstance();
+        int thisYear = c.get(Calendar.YEAR);
+        int thisMonth = c.get(Calendar.MONTH);
+        int thisDay = c.get(Calendar.DAY_OF_MONTH);
+
+        if (month > thisMonth) {
+            return thisYear - year - 1;
+        } else if (month < thisMonth) {
+            return thisYear - year;
+        } else {
+            if (day > thisDay) {
+                return thisYear - year - 1;
+            } else {
+                return thisYear - year;
+            }
+        }
+    }
+
     static void LogOff(Context context) {
         LoginScreenActivity.myFirebaseRef.unauth();
 
@@ -249,8 +272,4 @@ public class LoginScreenActivity extends AppCompatActivity {
         Toast.makeText(context,
                 "You've been logged out.", Toast.LENGTH_LONG).show();
     }
-
-    ;
-
-
 }

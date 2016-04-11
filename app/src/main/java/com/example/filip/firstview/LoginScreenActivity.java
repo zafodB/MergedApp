@@ -66,6 +66,7 @@ public class LoginScreenActivity extends AppCompatActivity {
         myLogin = (LoginButton) findViewById(R.id.fb_login_button);
         myLogin.setReadPermissions("public_profile", "email", "user_birthday");
 
+        //hura
 
         email = (EditText) findViewById(R.id.signInEmail);
         password = (EditText) findViewById(R.id.signInPass);

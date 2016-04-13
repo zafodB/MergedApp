@@ -53,6 +53,14 @@
         android:enabled="true"
         android:clickable="false" />
 
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="addTask"
+        android:id="@+id/addTaskBtn"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="108dp" />
 
 
 </RelativeLayout>

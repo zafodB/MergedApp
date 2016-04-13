@@ -22,13 +22,14 @@ import com.firebase.ui.FirebaseListAdapter;
 
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by filip on 07/04/2016.
  */
 public class AdamsFamily extends ListFragment {
 
-    DataSnapshot myData;
+    static ArrayAdapter mojAdapter;
 
     @Nullable
     @Override
@@ -40,12 +41,10 @@ public class AdamsFamily extends ListFragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        String[] taskList = new String[]{"task1", "task2", "task3", "task4", "task5", "task6", "task7", "task8", "task9", "task10", "task11", "task12", "task13", "task14", "task15", "task16", "task17", "task18", "task19", "task20"};
+        mojAdapter = new CustomAdapter(getContext(), LoginScreenActivity.tasks);
 
-        Map<String, String> myMap = null;
+        loadUpTasks();
 
-
-        ListAdapter mojAdapter = new CustomAdapter(getContext() , (List<DataSnapshot>) MyTasks.myData);
         setListAdapter(mojAdapter);
 
         super.onActivityCreated(savedInstanceState);
@@ -61,6 +60,42 @@ public class AdamsFamily extends ListFragment {
         AdamsFamily instance = new AdamsFamily();
 
         return instance;
+    }
+
+    void loadUpTasks() {
+        ApplicationMain.myFirebaseRef.child("Groups").child("group1").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                int j = 0;
+                LoginScreenActivity.tasks.clear();
+
+//                Log.i(LoginScreenActivity.TAG, "Children count "+String.valueOf(dataSnapshot.getChildrenCount()));
+//                Log.i(LoginScreenActivity.TAG, "WHAT THE FUCK-");
+                for (DataSnapshot i : dataSnapshot.getChildren()) {
+                    j++;
+
+//                    Log.i(LoginScreenActivity.TAG, i.child("dateDay").getValue(String.class)+" tuto");
+                    int day = i.child("dateDay").getValue(Integer.class);
+                    int month = i.child("dateMonth").getValue(Integer.class);
+                    int year = i.child("dateYear").getValue(Integer.class);
+                    String name = i.child("name").getValue(String.class);
+
+                    UUID uuid = UUID.fromString(i.getKey());
+
+                    LoginScreenActivity.tasks.add(new Task(name, day, month, year, uuid));
+
+//                    LoginScreenActivity.tasks.add(new Task(name, 1, 2, 34, uuid));
+
+                    mojAdapter.notifyDataSetChanged();
+                }
+
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
     }
 
 

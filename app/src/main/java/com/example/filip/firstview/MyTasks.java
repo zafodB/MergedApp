@@ -17,49 +17,20 @@ import com.firebase.client.FirebaseError;
 /**
  * Created by filip on 07/04/2016.
  */
-public class MyTasks extends Fragment {public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-    ViewGroup myView = (ViewGroup) inflater.inflate(R.layout.other_fragment, null);
+public class MyTasks extends Fragment {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        ViewGroup myView = (ViewGroup) inflater.inflate(R.layout.other_fragment, null);
 
-    Button myTasks = (Button) myView.findViewById(R.id.myTasks);
-    myTasks.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            ApplicationMain.myFirebaseRef.child("Groups").child("group1").addChildEventListener(new ChildEventListener() {
-                @Override
-                public void onChildAdded(DataSnapshot dataSnapshot, String s) {
-                    Log.i(LoginScreenActivity.TAG, "child added");
-                    myData = dataSnapshot;
-                }
+        Button myTasks = (Button) myView.findViewById(R.id.myTasks);
+        myTasks.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
-                @Override
-                public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-                    myData = dataSnapshot;
-                }
+            }
+        });
 
-                @Override
-                public void onChildRemoved(DataSnapshot dataSnapshot) {
-                    myData = dataSnapshot;
-                }
+        return myView;
 
-                @Override
-                public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-                    myData = dataSnapshot;
-                }
-
-                @Override
-                public void onCancelled(FirebaseError firebaseError) {
-                    Log.i(LoginScreenActivity.TAG, firebaseError.getMessage());
-                }
-            });
-        }
-    });
-    return myView;
-}
-static DataSnapshot myData;
-
-    public static Fragment newInstance(Context context) {
-        MyTasks instance = new MyTasks();
-
-        return instance;
     }
+
 }

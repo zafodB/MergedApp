@@ -37,7 +37,7 @@ public class NavDrawerActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 Intent myIntent = new Intent(NavDrawerActivity.this, AddNewTaskActivity.class);
-                NavDrawerActivity.this.startActivity(myIntent);
+                NavDrawerActivity.this.startActivityForResult(myIntent, 1);
             }
         });
 

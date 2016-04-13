@@ -19,11 +19,11 @@ import java.util.Map;
  * Created by filip on 09/04/2016.
  */
 
-class CustomAdapter extends ArrayAdapter<DataSnapshot> {
+class CustomAdapter extends ArrayAdapter<Task> {
 
 
 
-    public CustomAdapter(Context context, List<DataSnapshot> taskData) {
+    public CustomAdapter(Context context, List<Task> taskData) {
         super(context, R.layout.task_details_row, taskData);
         Log.i(LoginScreenActivity.TAG, "adapter created");
     }
@@ -33,16 +33,17 @@ class CustomAdapter extends ArrayAdapter<DataSnapshot> {
         LayoutInflater myInflater = LayoutInflater.from(getContext());
         View customView = myInflater.inflate(R.layout.task_details_row, parent, false);
 
-        DataSnapshot taskDetails = getItem(position);
+        String taskName = getItem(position).getName();
+        String taskDate = getItem(position).getDueDay() +"."+getItem(position).getDueMonth()+"."+getItem(position).getDueYear();
 
-//        taskDetails.
 
         TextView rowTaskName = (TextView) customView.findViewById(R.id.rowTaskName);
-        rowTaskName.setText("ggg");
-
-//        TextView rowTaskDate = (TextView) customView.findViewById(R.id.rowTaskDate);
+        TextView rowTaskDate = (TextView) customView.findViewById(R.id.rowTaskDate);
 //        TextView rowTaskResponsible = (TextView) customView.findViewById(R.id.rowTaskResponsible);
 //        CheckBox rowCheckBox = (CheckBox) customView.findViewById(R.id.rowCheckBox);
+
+        rowTaskName.setText(taskName);
+        rowTaskDate.setText(taskDate);
 
         customView.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -9,6 +9,9 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by filip on 07/04/2016.
@@ -25,6 +28,7 @@ public class AddNewTaskActivity extends AppCompatActivity {
 
     static TextView dateInput;
     static TextView timeInput;
+    static TextView taskNameInput;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,8 +36,8 @@ public class AddNewTaskActivity extends AppCompatActivity {
         setContentView(R.layout.add_new_task_activity);
 
         dateInput = (TextView)findViewById(R.id.dateInput);
-
         timeInput = (TextView)findViewById(R.id.timeInput);
+        taskNameInput = (TextView)findViewById(R.id.taskNameInput);
 
         Button setDateButton = (Button) findViewById(R.id.setDateButton);
         setDateButton.setOnClickListener(new View.OnClickListener() {
@@ -51,6 +55,34 @@ public class AddNewTaskActivity extends AppCompatActivity {
             public void onClick(View v) {
                 showTimePickerDialog(getCurrentFocus());
                 setTime(minute, hour);
+            }
+        });
+
+        Button addTaskBtn = (Button) findViewById(R.id.addTaskBtn);
+        addTaskBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String taskName = taskNameInput.getText().toString();
+                String uuid = UUID.randomUUID().toString();
+
+                Map<String,String> map= new HashMap<String,String>();
+                map.put("name", taskName);
+                map.put("dateDay", String.valueOf(day));
+                map.put("dateMonth", String.valueOf(month));
+                map.put("dateYear", String.valueOf(year));
+                map.put("responsible", "names");
+
+                ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(uuid).setValue(map);
+//                ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(uuid).child("name").setValue(taskName);
+//                ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(uuid).child("dateDay").setValue(day);
+//                ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(uuid).child("dateMonth").setValue(month);
+//                ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(uuid).child("dateYear").setValue(year);
+//                ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(uuid).child("responsible").setValue("names");
+
+
+
+
+                finish();
             }
         });
 

@@ -114,6 +114,9 @@ public class CreateAccountActivity extends AppCompatActivity {
                                                                             Log.i(LoginScreenActivity.TAG, "User ID: " + authData.getUid() + ", Provider: " + authData.getProvider());
 
                                                                             createUserRecord(authData, enteredEmail, enteredName, enteredAge);
+
+                                                                            LoginScreenActivity.loadUpGroups();
+
                                                                             Intent myIntent = new Intent(CreateAccountActivity.this, NavDrawerActivity.class);
                                                                             CreateAccountActivity.this.startActivity(myIntent);
 
@@ -155,12 +158,13 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     static void createUserRecord(AuthData authData, String email, String name, int age) {
-        userAuthData = authData;
+//        userAuthData = authData;
 
-        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).setValue("");
         ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("email").setValue(email);
         ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("name").setValue(name);
         ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("age").setValue(age);
+        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("inGroups").child("myGroup").setValue("myGroup");
+        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("inGroups").child("group1").setValue("group1");
 
     }
 

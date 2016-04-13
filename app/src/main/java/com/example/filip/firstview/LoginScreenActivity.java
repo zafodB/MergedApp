@@ -26,15 +26,20 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.firebase.client.AuthData;
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
 
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class LoginScreenActivity extends AppCompatActivity {
 
@@ -49,6 +54,8 @@ public class LoginScreenActivity extends AppCompatActivity {
     String fbEmail;
     String fbBirthday;
 
+    static List<String> userGroups = new ArrayList<String>();
+    static List<Task> tasks = new ArrayList<Task>();
 
     public static final String TAG = "fifko";
 
@@ -58,8 +65,6 @@ public class LoginScreenActivity extends AppCompatActivity {
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
-
-
 
 
         myCallback = CallbackManager.Factory.create();
@@ -110,11 +115,7 @@ public class LoginScreenActivity extends AppCompatActivity {
                                             try {
                                                 fbEmail = object.getString("email");
                                                 fbBirthday = object.getString("birthday");
-
-//                                                Log.i(TAG, "birthday: " + fbBirthday);
-//                                                Log.i(TAG, "age: " + calculateAge(Integer.parseInt(fbBirthday.substring(0,2)), Integer.parseInt(fbBirthday.substring(3,5)), Integer.parseInt(fbBirthday.substring(fbBirthday.length() - 4))));
-
-                                                CreateAccountActivity.createUserRecord(myAuthData, fbEmail, fbName, calculateAge(Integer.parseInt(fbBirthday.substring(0,2)), Integer.parseInt(fbBirthday.substring(3,5)), Integer.parseInt(fbBirthday.substring(fbBirthday.length() - 4))));
+                                                CreateAccountActivity.createUserRecord(myAuthData, fbEmail, fbName, calculateAge(Integer.parseInt(fbBirthday.substring(0, 2)), Integer.parseInt(fbBirthday.substring(3, 5)), Integer.parseInt(fbBirthday.substring(fbBirthday.length() - 4))));
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
                                             }
@@ -126,6 +127,8 @@ public class LoginScreenActivity extends AppCompatActivity {
                             request.setParameters(parameters);
 
                             request.executeAsync();
+
+                            loadUpGroups();
 
                             Intent myIntent = new Intent(LoginScreenActivity.this, NavDrawerActivity.class);
                             LoginScreenActivity.this.startActivity(myIntent);
@@ -178,6 +181,8 @@ public class LoginScreenActivity extends AppCompatActivity {
                         public void onAuthenticated(AuthData authData) {
                             Log.i(TAG, "Firebase authentication success");
                             Log.i(LoginScreenActivity.TAG, "User ID: " + authData.getUid() + ", Provider: " + authData.getProvider());
+
+                            loadUpGroups();
 
                             Intent myIntent = new Intent(LoginScreenActivity.this, NavDrawerActivity.class);
                             LoginScreenActivity.this.startActivity(myIntent);
@@ -270,5 +275,54 @@ public class LoginScreenActivity extends AppCompatActivity {
 
         Toast.makeText(context,
                 "You've been logged out.", Toast.LENGTH_LONG).show();
+    }
+
+    static void loadUpGroups() {
+        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(ApplicationMain.myFirebaseRef.getAuth().getUid()).child("inGroups").addValueEventListener(new ValueEventListener() {
+
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot i : dataSnapshot.getChildren()) {
+                    userGroups.add(i.getValue(String.class));
+                }
+
+//                for (String s : userGroups) {
+//                    if (s.equals("myGroup")) {
+//                        Log.i(TAG, "suck me");
+//                    } else
+//                        ApplicationMain.myFirebaseRef.child("Groups").child(s).addValueEventListener(new ValueEventListener() {
+//                            @Override
+//                            public void onDataChange(DataSnapshot dataSnapshot) {
+//                                int j = 0;
+//                                for (DataSnapshot i : dataSnapshot.getChildren()) {
+//                                    j++;
+//                                    int day = i.child("dateDay").getValue(Integer.class);
+//                                    int month = i.child("dateMonth").getValue(Integer.class);
+//                                    int year = i.child("dateYear").getValue(Integer.class);
+//                                    String name = i.child("name").getValue(String.class);
+//
+//
+//                                    tasks.add(new Task(name,day,month,year));
+//
+////                                    Log.i(TAG, "worked with task: " + String.valueOf(j));
+//
+//                                }
+//
+//                            }
+//
+//                            @Override
+//                            public void onCancelled(FirebaseError firebaseError) {
+//
+//                            }
+//                        });
+//                }
+            }
+
+            @Override
+            public void onCancelled(FirebaseError firebaseError) {
+
+            }
+        });
+
     }
 }

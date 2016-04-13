@@ -40,7 +40,7 @@ public class LoginScreenActivity extends AppCompatActivity {
 
     private LoginButton myLogin;
     private CallbackManager myCallback;
-    static Firebase myFirebaseRef;
+
     EditText email;
     EditText password;
     String enteredEmail;
@@ -58,15 +58,13 @@ public class LoginScreenActivity extends AppCompatActivity {
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
-        Firebase.setAndroidContext(this);
 
-        myFirebaseRef = new Firebase("https://torrid-inferno-1193.firebaseio.com/");
+
+
 
         myCallback = CallbackManager.Factory.create();
         myLogin = (LoginButton) findViewById(R.id.fb_login_button);
         myLogin.setReadPermissions("public_profile", "email", "user_birthday");
-
-        //hura
 
         email = (EditText) findViewById(R.id.signInEmail);
         password = (EditText) findViewById(R.id.signInPass);
@@ -84,7 +82,7 @@ public class LoginScreenActivity extends AppCompatActivity {
                 AccessToken token = loginResult.getAccessToken();
 
                 if (token != null) {
-                    myFirebaseRef.authWithOAuthToken("facebook", token.getToken(), new Firebase.AuthResultHandler() {
+                    ApplicationMain.myFirebaseRef.authWithOAuthToken("facebook", token.getToken(), new Firebase.AuthResultHandler() {
 
 
                         @Override
@@ -142,7 +140,7 @@ public class LoginScreenActivity extends AppCompatActivity {
                     });
                 } else {
                      /* Logged out of Facebook so do a logout from the Firebase app */
-                    myFirebaseRef.unauth();
+                    ApplicationMain.myFirebaseRef.unauth();
                     Log.i(TAG, "firebase unauth");
                 }
 
@@ -175,7 +173,7 @@ public class LoginScreenActivity extends AppCompatActivity {
                             "Enter a password.", Toast.LENGTH_LONG).show();
                 } else {
 
-                    myFirebaseRef.authWithPassword(enteredEmail, enteredPass, new Firebase.AuthResultHandler() {
+                    ApplicationMain.myFirebaseRef.authWithPassword(enteredEmail, enteredPass, new Firebase.AuthResultHandler() {
                         @Override
                         public void onAuthenticated(AuthData authData) {
                             Log.i(TAG, "Firebase authentication success");
@@ -240,7 +238,7 @@ public class LoginScreenActivity extends AppCompatActivity {
 
     @Override
     protected void onDestroy() {
-        myFirebaseRef.unauth();
+        ApplicationMain.myFirebaseRef.unauth();
         super.onDestroy();
     }
 
@@ -264,7 +262,7 @@ public class LoginScreenActivity extends AppCompatActivity {
     }
 
     static void LogOff(Context context) {
-        LoginScreenActivity.myFirebaseRef.unauth();
+        ApplicationMain.myFirebaseRef.unauth();
 
         LoginManager.getInstance().logOut();
 

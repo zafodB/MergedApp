@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,12 +14,21 @@ import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.firebase.client.ChildEventListener;
+import com.firebase.client.DataSnapshot;
+import com.firebase.client.FirebaseError;
+import com.firebase.client.ValueEventListener;
+import com.firebase.ui.FirebaseListAdapter;
+
+import java.util.List;
+import java.util.Map;
+
 /**
  * Created by filip on 07/04/2016.
  */
 public class AdamsFamily extends ListFragment {
 
-
+    DataSnapshot myData;
 
     @Nullable
     @Override
@@ -32,8 +42,10 @@ public class AdamsFamily extends ListFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         String[] taskList = new String[]{"task1", "task2", "task3", "task4", "task5", "task6", "task7", "task8", "task9", "task10", "task11", "task12", "task13", "task14", "task15", "task16", "task17", "task18", "task19", "task20"};
 
-        ListAdapter mojAdapter = new CustomAdapter(getContext() , taskList);
+        Map<String, String> myMap = null;
 
+
+        ListAdapter mojAdapter = new CustomAdapter(getContext() , (List<DataSnapshot>) MyTasks.myData);
         setListAdapter(mojAdapter);
 
         super.onActivityCreated(savedInstanceState);

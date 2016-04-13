@@ -100,14 +100,14 @@ public class CreateAccountActivity extends AppCompatActivity {
                                                 } else {
                                                     enteredAge = Integer.parseInt(age.getText().toString());
 
-                                                    LoginScreenActivity.myFirebaseRef.createUser(enteredEmail, enteredPass, new Firebase.ValueResultHandler<Map<String, Object>>() {
+                                                    ApplicationMain.myFirebaseRef.createUser(enteredEmail, enteredPass, new Firebase.ValueResultHandler<Map<String, Object>>() {
                                                                 @Override
                                                                 public void onSuccess(Map<String, Object> result) {
                                                                     Log.i(LoginScreenActivity.TAG, "Firebase user sign-up success.");
                                                                     Log.i(LoginScreenActivity.TAG, "Successfully created user account with uid: " + result.get("uid"));
 
 
-                                                                    LoginScreenActivity.myFirebaseRef.authWithPassword(enteredEmail, enteredPass, new Firebase.AuthResultHandler() {
+                                                                    ApplicationMain.myFirebaseRef.authWithPassword(enteredEmail, enteredPass, new Firebase.AuthResultHandler() {
                                                                         @Override
                                                                         public void onAuthenticated(AuthData authData) {
                                                                             Log.i(LoginScreenActivity.TAG, "Firebase authentication success.");
@@ -157,10 +157,10 @@ public class CreateAccountActivity extends AppCompatActivity {
     static void createUserRecord(AuthData authData, String email, String name, int age) {
         userAuthData = authData;
 
-        LoginScreenActivity.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).setValue("");
-        LoginScreenActivity.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("email").setValue(email);
-        LoginScreenActivity.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("name").setValue(name);
-        LoginScreenActivity.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("age").setValue(age);
+        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).setValue("");
+        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("email").setValue(email);
+        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("name").setValue(name);
+        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("age").setValue(age);
 
     }
 

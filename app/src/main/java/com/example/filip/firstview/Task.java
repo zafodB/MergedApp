@@ -27,32 +27,40 @@ public class Task {
         dueYear = myCal.get(Calendar.YEAR);
         dueMinute = myCal.get(Calendar.MINUTE);
         dueHour = myCal.get(Calendar.HOUR_OF_DAY);
-        done = false;
+
+        isDone = false;
+        whoDidIt = -1;
+        isDoubleChecked = false;
+        whoIsResponsible = null;
+
     }
 
-    public Task(String name){
+//    public Task(String name){
+//        this.name = name;
+//
+//        final Calendar myCal = Calendar.getInstance();
+//        dueDay = myCal.get(Calendar.DAY_OF_MONTH);
+//        dueMonth = myCal.get(Calendar.MONTH);
+//        dueYear = myCal.get(Calendar.YEAR);
+//        dueMinute = myCal.get(Calendar.MINUTE);
+//        dueHour = myCal.get(Calendar.HOUR_OF_DAY);
+//
+//        isDone = false;
+//    }
+
+    public Task(String name, int day, int month, int year, int minute, int hour, int[] responsible){
         this.name = name;
 
-        final Calendar myCal = Calendar.getInstance();
-        dueDay = myCal.get(Calendar.DAY_OF_MONTH);
-        dueMonth = myCal.get(Calendar.MONTH);
-        dueYear = myCal.get(Calendar.YEAR);
-        dueMinute = myCal.get(Calendar.MINUTE);
-        dueHour = myCal.get(Calendar.HOUR_OF_DAY);
-
-        done = false;
-    }
-
-    public Task(String name, int day, int month, int year, int minute, int hour){
-        this.name = name;
-
-        final Calendar myCal = Calendar.getInstance();
         dueDay = day;
         dueMonth = month;
         dueYear = year;
         dueMinute = minute;
         dueHour = hour;
 
-        done = false;
+        isDone = false;
+        whoDidIt = -1;
+        isDoubleChecked = false;
+
+        whoIsResponsible = responsible;
     }
 }

@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.HashMap;
@@ -35,16 +36,16 @@ public class AddNewTaskActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.add_new_task_activity);
 
-        dateInput = (TextView)findViewById(R.id.dateInput);
-        timeInput = (TextView)findViewById(R.id.timeInput);
-        taskNameInput = (TextView)findViewById(R.id.taskNameInput);
+        dateInput = (TextView) findViewById(R.id.dateInput);
+        timeInput = (TextView) findViewById(R.id.timeInput);
+        taskNameInput = (TextView) findViewById(R.id.taskNameInput);
 
         Button setDateButton = (Button) findViewById(R.id.setDateButton);
         setDateButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showDatePickerDialog(getCurrentFocus());
-                setDate(day,month+1, year);
+                setDate(day, month + 1, year);
 
             }
         });
@@ -62,32 +63,31 @@ public class AddNewTaskActivity extends AppCompatActivity {
         addTaskBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String taskName = taskNameInput.getText().toString();
-                String uuid = UUID.randomUUID().toString();
+//                Log.i(LoginScreenActivity.TAG, taskNameInput.getText().toString());
+                if (taskNameInput.getText().length() == 0) {
+                    Toast.makeText(getApplicationContext(), "TASK IS MISSING A NAME!", Toast.LENGTH_SHORT).show();
+                } else {
+                    String taskName = taskNameInput.getText().toString();
+                    String uuid = UUID.randomUUID().toString();
 
-                Map<String,String> map= new HashMap<String,String>();
-                map.put("name", taskName);
-                map.put("dateDay", String.valueOf(day));
-                map.put("dateMonth", String.valueOf(month));
-                map.put("dateYear", String.valueOf(year));
-                map.put("responsible", "names");
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("name", taskName);
+                    map.put("dateDay", String.valueOf(day));
+                    map.put("dateMonth", String.valueOf(month));
+                    map.put("dateYear", String.valueOf(year));
+                    map.put("responsible", "names");
+                    map.put("isDone", "false");
+                    map.put("isDoubleChecked", "false");
 
-                ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(uuid).setValue(map);
-//                ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(uuid).child("name").setValue(taskName);
-//                ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(uuid).child("dateDay").setValue(day);
-//                ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(uuid).child("dateMonth").setValue(month);
-//                ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(uuid).child("dateYear").setValue(year);
-//                ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(uuid).child("responsible").setValue("names");
+                    ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(uuid).setValue(map);
 
-
-
-
-                finish();
+                    finish();
+                }
             }
         });
 
 
-        setDate(day,month+1,year);
+        setDate(day, month + 1, year);
         setTime(minute, hour);
     }
 
@@ -101,15 +101,15 @@ public class AddNewTaskActivity extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-    void setTime(int minute, int hour){
-        if (minute<10){
-            timeInput.setText(hour + ":0"+minute);
+    void setTime(int minute, int hour) {
+        if (minute < 10) {
+            timeInput.setText(hour + ":0" + minute);
         } else
-            timeInput.setText(hour + ":"+minute);
+            timeInput.setText(hour + ":" + minute);
     }
 
-    public static void setDate(int day, int month, int year){
-        dateInput.setText(day + ". "+month+". "+year);
+    public static void setDate(int day, int month, int year) {
+        dateInput.setText(day + ". " + month + ". " + year);
     }
 
 }

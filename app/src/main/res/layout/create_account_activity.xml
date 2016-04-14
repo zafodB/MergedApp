@@ -10,7 +10,7 @@
         android:width="300dp"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:hint="@string/nameHint"
+        android:hint="@string/name_hint"
         />
 
     <EditText
@@ -22,7 +22,7 @@
         android:layout_below="@+id/signUpName"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
-        android:hint="@string/emailInputText"
+        android:hint="@string/email_input_text"
         />
 
     <EditText
@@ -33,7 +33,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/singUpEmail"
         android:layout_marginTop="15dp"
-        android:hint="@string/passwordInputText"
+        android:hint="@string/password_input_text"
         android:inputType="textPassword"
 
         />
@@ -46,7 +46,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/signUpPassword"
         android:layout_marginTop="15dp"
-        android:hint="@string/passwordConfirmText"
+        android:hint="@string/password_confirm_text"
         android:inputType="textPassword"
 
         />
@@ -60,7 +60,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/signUpPassConfirm"
         android:layout_marginTop="15dp"
-        android:hint="@string/ageHint"
+        android:hint="@string/age_hint"
         />
 
 
@@ -69,7 +69,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/signUpAge"
         android:layout_marginTop="50dp"
-        android:text="@string/acceptTerms"
+        android:text="@string/accept_terms"
         android:id="@+id/iAccept"
         android:layout_centerHorizontal="true"
         />
@@ -78,7 +78,7 @@
         android:id="@+id/CreateAccButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/addTaskButtonText"
+        android:text="@string/add_task_button_text"
 
         android:layout_below="@+id/iAccept"
         android:layout_centerHorizontal="true"

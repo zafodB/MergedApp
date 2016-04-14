@@ -1,5 +1,8 @@
 package com.example.filip.firstview;
 
+import android.content.Intent;
+import android.util.Log;
+
 import java.util.Calendar;
 import java.util.UUID;
 
@@ -19,7 +22,7 @@ public class Task {
     boolean isDoubleChecked;
     int[] whoIsResponsible; //kids responsible
 
-    boolean done;
+//    boolean done;
     String name;
 
     public Task(){
@@ -56,7 +59,7 @@ public class Task {
         return id;
     }
 
-    public Task(String name, int day, int month, int year, UUID uuid){
+    public Task(String name, int day, int month, int year, UUID uuid, boolean isDone, boolean isDoubleChecked){
         if (uuid == null) {
             id = UUID.randomUUID();
         } else
@@ -70,34 +73,34 @@ public class Task {
         dueMinute = 1;
         dueHour = 1;
 
-        isDone = false;
+        this.isDone = isDone;
         whoDidIt = -1;
-        isDoubleChecked = false;
+        this.isDoubleChecked = isDoubleChecked;
     }
 
-    public Task(String name, int day, int month, int year, int minute, int hour, int[] responsible){
-        id = UUID.randomUUID();
-        this.name = name;
-
-        dueDay = day;
-        dueMonth = month;
-        dueYear = year;
-        dueMinute = minute;
-        dueHour = hour;
-
-        isDone = false;
-        whoDidIt = -1;
-        isDoubleChecked = false;
-
-        whoIsResponsible = responsible;
-    }
+//    public Task(String name, int day, int month, int year, int minute, int hour, int[] responsible){
+//        id = UUID.randomUUID();
+//        this.name = name;
+//
+//        dueDay = day;
+//        dueMonth = month;
+//        dueYear = year;
+//        dueMinute = minute;
+//        dueHour = hour;
+//
+//        isDone = false;
+//        whoDidIt = -1;
+//        isDoubleChecked = false;
+//
+//        whoIsResponsible = responsible;
+//    }
 
     public boolean isDone() {
-        return done;
+        return isDone;
     }
 
     public void setDone(boolean done) {
-        this.done = done;
+        this.isDone = done;
     }
 
     public boolean isDoubleChecked() {
@@ -170,5 +173,24 @@ public class Task {
 
     public void setDueYear(int dueYear) {
         this.dueYear = dueYear;
+    }
+    public int getDate(){
+        String date;
+
+        if (dueMonth<10){
+            if (dueDay<10){
+                date = String.valueOf(dueYear)+"0"+String.valueOf(dueMonth)+"0"+String.valueOf(dueDay);
+            }else {
+                date = String.valueOf(dueYear) + "0" + String.valueOf(dueMonth) + String.valueOf(dueDay);
+            }
+        }else{
+            if (dueDay<10){
+                date = String.valueOf(dueYear)+String.valueOf(dueMonth)+"0"+String.valueOf(dueDay);
+            } else {
+                date = String.valueOf(dueYear) + String.valueOf(dueMonth) + String.valueOf(dueDay);
+            }
+        }
+
+        return Integer.parseInt(date);
     }
 }

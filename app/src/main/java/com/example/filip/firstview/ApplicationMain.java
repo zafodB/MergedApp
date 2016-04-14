@@ -14,4 +14,11 @@ public class ApplicationMain extends android.app.Application {
         Firebase.setAndroidContext(this);
         myFirebaseRef = new Firebase("https://torrid-inferno-1193.firebaseio.com/");
     }
+
+    @Override
+    public void onTerminate() {
+        LoginScreenActivity.LogOff(getApplicationContext());
+        super.onTerminate();
+    }
+
 }

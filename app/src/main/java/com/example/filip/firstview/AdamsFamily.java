@@ -10,18 +10,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ListAdapter;
-import android.widget.ListView;
-import android.widget.Toast;
 
-import com.firebase.client.ChildEventListener;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
-import com.firebase.ui.FirebaseListAdapter;
 
+import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -30,6 +25,7 @@ import java.util.UUID;
 public class AdamsFamily extends ListFragment {
 
     static ArrayAdapter mojAdapter;
+    static List<Task> tasks = new ArrayList<Task>();
 
     @Nullable
     @Override
@@ -41,7 +37,7 @@ public class AdamsFamily extends ListFragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        mojAdapter = new CustomAdapter(getContext(), LoginScreenActivity.tasks);
+        mojAdapter = new CustomAdapter(getContext(), tasks);
 
         loadUpTasks();
 
@@ -49,12 +45,6 @@ public class AdamsFamily extends ListFragment {
 
         super.onActivityCreated(savedInstanceState);
     }
-
-//    @Override
-//    public void onListItemClick(ListView l, View v, int position, long id) {
-//        Toast.makeText(getActivity() , "launch new activity", Toast.LENGTH_LONG).show();
-//        super.onListItemClick(l, v, position, id);
-//    }
 
     public static Fragment newInstance(Context context) {
         AdamsFamily instance = new AdamsFamily();
@@ -67,28 +57,44 @@ public class AdamsFamily extends ListFragment {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 int j = 0;
-                LoginScreenActivity.tasks.clear();
+                tasks.clear();
+                Log.i(LoginScreenActivity.TAG, "date chenged");
 
-//                Log.i(LoginScreenActivity.TAG, "Children count "+String.valueOf(dataSnapshot.getChildrenCount()));
-//                Log.i(LoginScreenActivity.TAG, "WHAT THE FUCK-");
                 for (DataSnapshot i : dataSnapshot.getChildren()) {
                     j++;
-
-//                    Log.i(LoginScreenActivity.TAG, i.child("dateDay").getValue(String.class)+" tuto");
                     int day = i.child("dateDay").getValue(Integer.class);
                     int month = i.child("dateMonth").getValue(Integer.class);
                     int year = i.child("dateYear").getValue(Integer.class);
                     String name = i.child("name").getValue(String.class);
 
+                    boolean isDone;
+                    boolean isDoubleChecked;
+                    if (i.child("isDone").getValue(String.class).equals("true")) {
+                        isDone = true;
+                    } else isDone = false;
+
+                    if (i.child("isDoubleChecked").getValue(String.class).equals("true")) {
+                        isDoubleChecked = true;
+                    } else isDoubleChecked = false;
+
                     UUID uuid = UUID.fromString(i.getKey());
 
-                    LoginScreenActivity.tasks.add(new Task(name, day, month, year, uuid));
+                    if (tasks.isEmpty()) {
+                        tasks.add(new Task(name, day, month, year, uuid, isDone, isDoubleChecked));
+                    }else{
+                        int pos = 0;
+                        for(Task t:tasks){
+                            if (t.getDate() > getDate(year,month,day)){
+                                break;
+                            }
 
-//                    LoginScreenActivity.tasks.add(new Task(name, 1, 2, 34, uuid));
+                            pos++;
+                        }
+                        tasks.add(pos, new Task(name, day, month, year, uuid, isDone, isDoubleChecked));
+                    }
 
                     mojAdapter.notifyDataSetChanged();
                 }
-
             }
 
             @Override
@@ -96,6 +102,27 @@ public class AdamsFamily extends ListFragment {
 
             }
         });
+    }
+
+    int getDate(int dueYear, int dueMonth, int dueDay){
+        String date;
+
+        if (dueMonth<10){
+            if (dueDay<10){
+                date = String.valueOf(dueYear)+"0"+String.valueOf(dueMonth)+"0"+String.valueOf(dueDay);
+            }else {
+                date = String.valueOf(dueYear) + "0" + String.valueOf(dueMonth) + String.valueOf(dueDay);
+            }
+        }else{
+            if (dueDay<10){
+                date = String.valueOf(dueYear)+String.valueOf(dueMonth)+"0"+String.valueOf(dueDay);
+            } else {
+                date = String.valueOf(dueYear) + String.valueOf(dueMonth) + String.valueOf(dueDay);
+            }
+        }
+
+        Log.i(LoginScreenActivity.TAG,date);
+        return Integer.parseInt(date);
     }
 
 

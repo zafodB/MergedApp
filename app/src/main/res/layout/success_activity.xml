@@ -6,7 +6,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="@string/successMessageText"
+        android:text="@string/success_message_text"
         android:id="@+id/successText"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
@@ -14,7 +14,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/logOutText"
+        android:text="@string/log_out_text"
         android:id="@+id/logOutButton"
         android:layout_below="@+id/successText"
         android:layout_centerHorizontal="true"

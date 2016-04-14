@@ -11,14 +11,9 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
-import android.widget.Toast;
-
-import com.facebook.login.LoginManager;
 
 public class NavDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -44,9 +39,6 @@ public class NavDrawerActivity extends AppCompatActivity
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 
-//        ArrayAdapter adapter = new ArrayAdapter(getActionBar().getThemedContext(), android.R.layout.simple_list_item_1, data);
-
-
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
@@ -59,10 +51,8 @@ public class NavDrawerActivity extends AppCompatActivity
 
         try {
             fragmentManager.beginTransaction().replace(R.id.fragment_space, MyTasks.class.newInstance()).commit();
-//            Log.i(LoginScreenActivity.TAG, "Tried");
         } catch (Exception e) {
             e.printStackTrace();
-//            Log.i(LoginScreenActivity.TAG, "catched");
         }
     }
 
@@ -94,7 +84,6 @@ public class NavDrawerActivity extends AppCompatActivity
         boolean isFragment = false;
         Class fragmentClass = null;
         Fragment myFrag = null;
-
 
         int id = item.getItemId();
 

@@ -28,6 +28,12 @@ public class AdamsFamily extends ListFragment {
 
     static List<Task> tasks = new ArrayList<Task>();
 
+    String groupId;
+
+    public AdamsFamily (String groupId){
+        this.groupId = groupId;
+    }
+
 
     @Nullable
     @Override
@@ -49,20 +55,20 @@ public class AdamsFamily extends ListFragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    public static Fragment newInstance(Context context) {
-        AdamsFamily instance = new AdamsFamily();
+    public static Fragment newInstance(Context context, String groupId) {
+        AdamsFamily instance = new AdamsFamily(groupId);
 
         return instance;
     }
 
 
     void loadUpTasks() {
-        ApplicationMain.myFirebaseRef.child("Groups").child("group1").addValueEventListener(new ValueEventListener() {
+        ApplicationMain.myFirebaseRef.child("Groups").child(groupId).addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 int j = 0;
                 tasks.clear();
-                Log.i(LoginScreenActivity.TAG, "date chenged");
+//                Log.i(LoginScreenActivity.TAG, "date chenged");
 
                 for (DataSnapshot i : dataSnapshot.getChildren()) {
                     j++;
@@ -125,7 +131,7 @@ public class AdamsFamily extends ListFragment {
             }
         }
 
-        Log.i(LoginScreenActivity.TAG,date);
+//        Log.i(LoginScreenActivity.TAG,date);
         return Integer.parseInt(date);
     }
 

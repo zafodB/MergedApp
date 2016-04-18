@@ -11,14 +11,25 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.SubMenu;
 import android.view.View;
 
 public class NavDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
     FragmentManager fragmentManager;
+    NavigationView navigationView;
+    Menu myMenu;
+    SubMenu menuGroups;
+    SubMenu menuRest;
+
+    final private int ID_SETTINGS_MENU = 1;
+    final private int ID_FEEDBACK_MENU = 2;
+    final private int ID_LOG_OFF_MENU = 3;
+    final private int[] ID_GROUPS = {4, 5, 6, 7, 8, 9, 10};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,7 +55,9 @@ public class NavDrawerActivity extends AppCompatActivity
         drawer.setDrawerListener(toggle);
         toggle.syncState();
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
+        loadUpButtons();
+
         navigationView.setNavigationItemSelectedListener(this);
 
         fragmentManager = getSupportFragmentManager();
@@ -87,43 +100,69 @@ public class NavDrawerActivity extends AppCompatActivity
 
         int id = item.getItemId();
 
-        if (id == R.id.feedback) {
+        if (id == ID_FEEDBACK_MENU) {
             Intent myIntent = new Intent(NavDrawerActivity.this, Feedback.class);
             NavDrawerActivity.this.startActivity(myIntent);
 
-        } else if (id == R.id.settings) {
+        } else if (id == ID_SETTINGS_MENU) {
             Intent myIntent = new Intent(NavDrawerActivity.this, Settings.class);
             NavDrawerActivity.this.startActivity(myIntent);
 
-        }
-         else if (id == R.id.adams_family) {
-            fragmentClass = AdamsFamily.class;
-            isFragment = true;
-        }
-         else if (id == R.id.my_tasks) {
-            fragmentClass = MyTasks.class;
-            isFragment = true;
-        }
-        else if (id == R.id.log_out_ad){
+        } else if (id == ID_LOG_OFF_MENU) {
             LoginScreenActivity.LogOff(getApplicationContext());
             finish();
-        }
-
-        if (isFragment) {
-
-            try {
-                myFrag = (Fragment) fragmentClass.newInstance();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        } else {
 
             fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.fragment_space, myFrag).commit();
+            fragmentManager.beginTransaction().replace(R.id.fragment_space, AdamsFamily.newInstance
+                    (getApplicationContext(), item.getTitle().toString())).commit();
+
+//            isFragment = true;
         }
+//         else if (id == R.id.my_tasks) {
+//            fragmentClass = MyTasks.class;
+//            isFragment = true;
+//        }
+
+
+//        if (isFragment) {
+
+//            try {
+//                myFrag = (Fragment) AdamsFamily.newInstance(getApplicationContext(), "ahooj");
+//            } catch (Exception e) {
+//                e.printStackTrace();
+//            }
+
+//            fragmentManager = getSupportFragmentManager();
+//            fragmentManager.beginTransaction().replace(R.id.fragment_space, AdamsFamily.newInstance
+//                    (getApplicationContext(), "ahooj")).commit();
+//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    void loadUpButtons() {
+        myMenu = navigationView.getMenu();
+        menuGroups = myMenu.addSubMenu("Groups");
+        int i = 0;
+        for (String s : ApplicationMain.userGroups) {
+//            menuGroups.add(R.id.menu_group_groups, Menu.NONE, Menu.NONE, s);
+            menuGroups.add(R.id.menu_group_groups, ID_GROUPS[i], Menu.NONE, s).setIcon(android.R.drawable
+                    .btn_star_big_on);
+            i++;
+        }
+
+        menuRest = myMenu.addSubMenu("Others");
+        menuRest.add(Menu.NONE, ID_SETTINGS_MENU, Menu.NONE, "Settings").setIcon(android.R.drawable
+                .ic_menu_preferences);
+        menuRest.add(Menu.NONE, ID_FEEDBACK_MENU, Menu.NONE, "Send Feedback").setIcon(android.R.drawable.ic_menu_send);
+        menuRest.add(Menu.NONE, ID_LOG_OFF_MENU, Menu.NONE, "Log off").setIcon(android.R.drawable.ic_lock_idle_lock);
+
+
+        Log.i(LoginScreenActivity.TAG, String.valueOf(ApplicationMain.userGroups.size()) + " is the size of groups");
+        Log.i(LoginScreenActivity.TAG, "loadUp buttons");
     }
 
 }

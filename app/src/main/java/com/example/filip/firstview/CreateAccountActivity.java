@@ -1,5 +1,6 @@
 package com.example.filip.firstview;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,6 +24,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     EditText password;
     EditText confirmPassword;
     EditText age;
+    ProgressDialog dialog;
 
     CheckBox terms;
     String enteredName;
@@ -47,6 +49,11 @@ public class CreateAccountActivity extends AppCompatActivity {
         confirmPassword = (EditText) findViewById(R.id.signUpPassConfirm);
         terms = (CheckBox) findViewById(R.id.iAccept);
 
+        dialog = new ProgressDialog(this); // this = YourActivity
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage("Retrievin' data from the base o' Fire ");
+        dialog.setIndeterminate(true);
+        dialog.setCanceledOnTouchOutside(false);
 
         Button signUpButton = (Button) findViewById(R.id.CreateAccButton);
         signUpButton.setOnClickListener(new View.OnClickListener() {
@@ -110,17 +117,16 @@ public class CreateAccountActivity extends AppCompatActivity {
                                                                     ApplicationMain.myFirebaseRef.authWithPassword(enteredEmail, enteredPass, new Firebase.AuthResultHandler() {
                                                                         @Override
                                                                         public void onAuthenticated(AuthData authData) {
+                                                                            dialog.show();
+
                                                                             Log.i(LoginScreenActivity.TAG, "Firebase authentication success.");
                                                                             Log.i(LoginScreenActivity.TAG, "User ID: " + authData.getUid() + ", Provider: " + authData.getProvider());
 
                                                                             createUserRecord(authData, enteredEmail, enteredName, enteredAge);
 
-                                                                            LoginScreenActivity.loadUpGroups();
-
-                                                                            Intent myIntent = new Intent(CreateAccountActivity.this, NavDrawerActivity.class);
-                                                                            CreateAccountActivity.this.startActivity(myIntent);
-
+                                                                            setResult(3);
                                                                             finish();
+                                                                            dialog.hide();
                                                                         }
 
                                                                         @Override
@@ -163,8 +169,8 @@ public class CreateAccountActivity extends AppCompatActivity {
         ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("email").setValue(email);
         ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("name").setValue(name);
         ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("age").setValue(age);
-        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("inGroups").child("myGroup").setValue("myGroup");
-        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("inGroups").child("group1").setValue("group1");
+        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("inGroups").child("Adams Family").setValue("Adams Family");
+        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("inGroups").child("My group").setValue("My Group");
 
     }
 

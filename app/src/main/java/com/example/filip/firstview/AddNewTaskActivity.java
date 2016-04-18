@@ -79,7 +79,7 @@ public class AddNewTaskActivity extends AppCompatActivity {
                     map.put("isDone", "false");
                     map.put("isDoubleChecked", "false");
 
-                    ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(uuid).setValue(map);
+                    ApplicationMain.myFirebaseRef.child("Groups").child("My Group").child(uuid).setValue(map);
 
                     finish();
                 }

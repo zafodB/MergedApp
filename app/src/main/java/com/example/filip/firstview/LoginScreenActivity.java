@@ -47,6 +47,7 @@ public class LoginScreenActivity extends AppCompatActivity {
     private CallbackManager myCallback;
     ProgressDialog dialog;
 
+
     TextView forgetPass;
     EditText email;
     EditText password;
@@ -56,7 +57,7 @@ public class LoginScreenActivity extends AppCompatActivity {
     String fbEmail;
     String fbBirthday;
 
-    static List<String> userGroups = new ArrayList<String>();
+//    static List<String> userGroups = new ArrayList<String>();
 
     public static final String TAG = "fifko";
 
@@ -65,7 +66,7 @@ public class LoginScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         FacebookSdk.sdkInitialize(getApplicationContext());
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.login_screen);
 
 
         myCallback = CallbackManager.Factory.create();
@@ -150,9 +151,7 @@ public class LoginScreenActivity extends AppCompatActivity {
 
                             loadUpGroups();
 
-                            Intent myIntent = new Intent(LoginScreenActivity.this, NavDrawerActivity.class);
-                            LoginScreenActivity.this.startActivity(myIntent);
-                            dialog.hide();
+
                         }
 
                         @Override
@@ -209,9 +208,6 @@ public class LoginScreenActivity extends AppCompatActivity {
 
                             loadUpGroups();
 
-                            Intent myIntent = new Intent(LoginScreenActivity.this, NavDrawerActivity.class);
-                            LoginScreenActivity.this.startActivity(myIntent);
-                            dialog.hide();
                         }
 
                         @Override
@@ -235,11 +231,13 @@ public class LoginScreenActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     Intent myIntent = new Intent(LoginScreenActivity.this, CreateAccountActivity.class);
-                    LoginScreenActivity.this.startActivity(myIntent);
+                    LoginScreenActivity.this.startActivityForResult(myIntent, 1);
+
                 }
             });
         }
     }
+
 
     private void showDialog() {
         new AlertDialog.Builder(this)
@@ -270,6 +268,10 @@ public class LoginScreenActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode ==3){
+            loadUpGroups();
+        }
+
         myCallback.onActivityResult(requestCode, resultCode, data);
     }
 
@@ -331,15 +333,19 @@ public class LoginScreenActivity extends AppCompatActivity {
                 "You've been logged out.", Toast.LENGTH_LONG).show();
     }
 
-    static void loadUpGroups() {
+    void loadUpGroups() {
         ApplicationMain.myFirebaseRef.child("ListOfUsers").child(ApplicationMain.myFirebaseRef.getAuth().getUid())
                 .child("inGroups").addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 for (DataSnapshot i : dataSnapshot.getChildren()) {
-                    userGroups.add(i.getValue(String.class));
+                    ApplicationMain.userGroups.add(i.getValue(String.class));
                 }
+
+                Intent myIntent = new Intent(LoginScreenActivity.this, NavDrawerActivity.class);
+                LoginScreenActivity.this.startActivity(myIntent);
+                dialog.hide();
             }
 
             @Override
@@ -349,4 +355,6 @@ public class LoginScreenActivity extends AppCompatActivity {
         });
 
     }
+
+
 }

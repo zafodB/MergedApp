@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +24,10 @@ import java.util.UUID;
  */
 public class AdamsFamily extends ListFragment {
 
-    static ArrayAdapter mojAdapter;
+    static ArrayAdapter myAdapter;
+
     static List<Task> tasks = new ArrayList<Task>();
+
 
     @Nullable
     @Override
@@ -38,11 +39,12 @@ public class AdamsFamily extends ListFragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        mojAdapter = new CustomAdapter(getContext(), tasks);
+        myAdapter = new CustomAdapter(getContext(), tasks);
 
         loadUpTasks();
 
-        setListAdapter(mojAdapter);
+        setListAdapter(myAdapter);
+
 
         super.onActivityCreated(savedInstanceState);
     }
@@ -52,6 +54,7 @@ public class AdamsFamily extends ListFragment {
 
         return instance;
     }
+
 
     void loadUpTasks() {
         ApplicationMain.myFirebaseRef.child("Groups").child("group1").addValueEventListener(new ValueEventListener() {
@@ -94,7 +97,7 @@ public class AdamsFamily extends ListFragment {
                         tasks.add(pos, new Task(name, day, month, year, uuid, isDone, isDoubleChecked));
                     }
 
-                    mojAdapter.notifyDataSetChanged();
+                    myAdapter.notifyDataSetChanged();
                 }
             }
 
@@ -126,34 +129,4 @@ public class AdamsFamily extends ListFragment {
         return Integer.parseInt(date);
     }
 
-    class myRecViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-
-        public myRecViewHolder(View myView){
-            super(myView);
-
-        }
-
-        @Override
-        public void onClick(View v) {
-
-        }
-    }
-
-
-    class myRecycleAdapter extends RecyclerView.Adapter<myRecViewHolder>{
-        @Override
-        public int getItemCount() {
-            return 0;
-        }
-
-        @Override
-        public myRecViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return null;
-        }
-
-        @Override
-        public void onBindViewHolder(myRecViewHolder holder, int position) {
-
-        }
-    }
 }

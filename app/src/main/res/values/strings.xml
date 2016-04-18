@@ -23,4 +23,5 @@
     <string name="age_hint">Age</string>
     <string name="task_due_date">Task Due Date</string>
     <string name="task_responsible">Task Responsible</string>
+    <string name="i_forgot_my_password">I forgot my password</string>
 </resources>

@@ -19,6 +19,7 @@ import java.util.List;
 
 class CustomAdapter extends ArrayAdapter<Task> {
 
+CheckBox rowCheckBox;
 
     public CustomAdapter(Context context, List<Task> taskData) {
         super(context, R.layout.task_details_row, taskData);
@@ -37,7 +38,7 @@ class CustomAdapter extends ArrayAdapter<Task> {
         TextView rowTaskName = (TextView) customView.findViewById(R.id.rowTaskName);
         TextView rowTaskDate = (TextView) customView.findViewById(R.id.rowTaskDate);
 //        TextView rowTaskResponsible = (TextView) customView.findViewById(R.id.rowTaskResponsible);
-        final CheckBox rowCheckBox = (CheckBox) customView.findViewById(R.id.rowCheckBox);
+       rowCheckBox = (CheckBox) customView.findViewById(R.id.rowCheckBox);
 
         if (getItem(position).isDone()) {
             rowCheckBox.setChecked(true);
@@ -62,7 +63,6 @@ class CustomAdapter extends ArrayAdapter<Task> {
             }
 
         });
-
 
         customView.setOnClickListener(new View.OnClickListener() {
             @Override

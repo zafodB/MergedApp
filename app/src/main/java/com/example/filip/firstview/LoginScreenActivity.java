@@ -2,8 +2,10 @@ package com.example.filip.firstview;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -12,6 +14,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
@@ -44,6 +47,7 @@ public class LoginScreenActivity extends AppCompatActivity {
     private CallbackManager myCallback;
     ProgressDialog dialog;
 
+    TextView forgetPass;
     EditText email;
     EditText password;
     String enteredEmail;
@@ -51,7 +55,6 @@ public class LoginScreenActivity extends AppCompatActivity {
     String fbName;
     String fbEmail;
     String fbBirthday;
-
 
     static List<String> userGroups = new ArrayList<String>();
 
@@ -81,6 +84,15 @@ public class LoginScreenActivity extends AppCompatActivity {
         dialog.setIndeterminate(true);
         dialog.setCanceledOnTouchOutside(false);
 
+        forgetPass = (TextView) findViewById(R.id.password_forgot);
+        forgetPass.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDialog();
+            }
+        });
+
+
         myLogin.registerCallback(myCallback, new FacebookCallback<LoginResult>() {
 
             @Override
@@ -93,7 +105,8 @@ public class LoginScreenActivity extends AppCompatActivity {
                 if (token != null) {
 
                     dialog.show();
-                    ApplicationMain.myFirebaseRef.authWithOAuthToken("facebook", token.getToken(), new Firebase.AuthResultHandler() {
+                    ApplicationMain.myFirebaseRef.authWithOAuthToken("facebook", token.getToken(), new Firebase
+                            .AuthResultHandler() {
 
                         @Override
                         public void onAuthenticated(AuthData authData) {
@@ -118,7 +131,11 @@ public class LoginScreenActivity extends AppCompatActivity {
                                             try {
                                                 fbEmail = object.getString("email");
                                                 fbBirthday = object.getString("birthday");
-                                                CreateAccountActivity.createUserRecord(myAuthData, fbEmail, fbName, calculateAge(Integer.parseInt(fbBirthday.substring(0, 2)), Integer.parseInt(fbBirthday.substring(3, 5)), Integer.parseInt(fbBirthday.substring(fbBirthday.length() - 4))));
+                                                CreateAccountActivity.createUserRecord(myAuthData, fbEmail, fbName,
+                                                        calculateAge(Integer.parseInt(fbBirthday.substring(0, 2)),
+                                                                Integer.parseInt(fbBirthday.substring(3, 5)), Integer
+                                                                        .parseInt(fbBirthday.substring(fbBirthday
+                                                                                .length() - 4))));
                                             } catch (JSONException e) {
                                                 e.printStackTrace();
                                             }
@@ -182,11 +199,13 @@ public class LoginScreenActivity extends AppCompatActivity {
 
                     dialog.show();
 
-                    ApplicationMain.myFirebaseRef.authWithPassword(enteredEmail, enteredPass, new Firebase.AuthResultHandler() {
+                    ApplicationMain.myFirebaseRef.authWithPassword(enteredEmail, enteredPass, new Firebase
+                            .AuthResultHandler() {
                         @Override
                         public void onAuthenticated(AuthData authData) {
                             Log.i(TAG, "Firebase authentication success");
-                            Log.i(LoginScreenActivity.TAG, "User ID: " + authData.getUid() + ", Provider: " + authData.getProvider());
+                            Log.i(LoginScreenActivity.TAG, "User ID: " + authData.getUid() + ", Provider: " +
+                                    authData.getProvider());
 
                             loadUpGroups();
 
@@ -202,6 +221,7 @@ public class LoginScreenActivity extends AppCompatActivity {
                                     firebaseError.getMessage(), Toast.LENGTH_LONG).show();
                             Log.i(TAG, "Firebase authentication error");
                             Log.i(TAG, firebaseError.getMessage());
+                            dialog.hide();
                         }
                     });
                 }
@@ -219,6 +239,33 @@ public class LoginScreenActivity extends AppCompatActivity {
                 }
             });
         }
+    }
+
+    private void showDialog() {
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm")
+                .setMessage("Reset password?")
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+
+                    public void onClick(DialogInterface dialog, int whichButton) {
+//                        Toast.makeText(LoginScreenActivity.this, "Yaay", Toast.LENGTH_SHORT).show();
+                        ApplicationMain.myFirebaseRef.resetPassword(email.getText().toString(), new Firebase.ResultHandler() {
+
+                            @Override
+                            public void onSuccess() {
+                                Toast.makeText(LoginScreenActivity.this, "We've sent you an email with instructions.", Toast.LENGTH_SHORT).show();
+                            }
+
+                            @Override
+                            public void onError(FirebaseError firebaseError) {
+                                Toast.makeText(LoginScreenActivity.this, "There was an error, try again.", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+                })
+                .setNegativeButton(android.R.string.no, null).show();
+
     }
 
     @Override
@@ -285,7 +332,8 @@ public class LoginScreenActivity extends AppCompatActivity {
     }
 
     static void loadUpGroups() {
-        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(ApplicationMain.myFirebaseRef.getAuth().getUid()).child("inGroups").addValueEventListener(new ValueEventListener() {
+        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(ApplicationMain.myFirebaseRef.getAuth().getUid())
+                .child("inGroups").addValueEventListener(new ValueEventListener() {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

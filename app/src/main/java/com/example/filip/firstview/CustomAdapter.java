@@ -1,7 +1,6 @@
 package com.example.filip.firstview;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,7 +17,7 @@ import java.util.List;
  * Created by filip on 09/04/2016.
  */
 
-class CustomAdapter extends RecyclerView.Adapter<Task> {
+class CustomAdapter extends ArrayAdapter<Task> {
 
 
     public CustomAdapter(Context context, List<Task> taskData) {
@@ -31,7 +30,8 @@ class CustomAdapter extends RecyclerView.Adapter<Task> {
         View customView = myInflater.inflate(R.layout.task_details_row, parent, false);
 
         String taskName = getItem(position).getName();
-        String taskDate = getItem(position).getDueDay() + "." + getItem(position).getDueMonth() + "." + getItem(position).getDueYear();
+        String taskDate = getItem(position).getDueDay() + "." + getItem(position).getDueMonth() + "." + getItem
+                (position).getDueYear();
 
 
         TextView rowTaskName = (TextView) customView.findViewById(R.id.rowTaskName);
@@ -52,10 +52,12 @@ class CustomAdapter extends RecyclerView.Adapter<Task> {
                 Log.i(LoginScreenActivity.TAG, String.valueOf(rowCheckBox.isChecked()));
                 if (rowCheckBox.isChecked()) {
                     rowCheckBox.setChecked(true);
-                    ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(getItem(position).getId().toString()).child("isDone").setValue("true");
-                }else {
+                    ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(getItem(position).getId()
+                            .toString()).child("isDone").setValue("true");
+                } else {
                     rowCheckBox.setChecked(false);
-                    ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(getItem(position).getId().toString()).child("isDone").setValue("false");
+                    ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(getItem(position).getId()
+                            .toString()).child("isDone").setValue("false");
                 }
             }
 
@@ -70,20 +72,5 @@ class CustomAdapter extends RecyclerView.Adapter<Task> {
         });
 
         return customView;
-    }
-
-    @Override
-    public Task onCreateViewHolder(ViewGroup parent, int viewType) {
-        return null;
-    }
-
-    @Override
-    public void onBindViewHolder(Task holder, int position) {
-
-    }
-
-    @Override
-    public int getItemCount() {
-        return 0;
     }
 }

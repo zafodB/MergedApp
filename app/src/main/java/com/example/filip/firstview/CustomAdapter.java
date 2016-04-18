@@ -1,6 +1,7 @@
 package com.example.filip.firstview;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,7 @@ import java.util.List;
  * Created by filip on 09/04/2016.
  */
 
-class CustomAdapter extends ArrayAdapter<Task> {
+class CustomAdapter extends RecyclerView.Adapter<Task> {
 
     CheckBox rowCheckBox;
     String groupId;
@@ -73,5 +74,20 @@ class CustomAdapter extends ArrayAdapter<Task> {
         });
 
         return customView;
+    }
+
+    @Override
+    public Task onCreateViewHolder(ViewGroup parent, int viewType) {
+        return null;
+    }
+
+    @Override
+    public void onBindViewHolder(Task holder, int position) {
+
+    }
+
+    @Override
+    public int getItemCount() {
+        return 0;
     }
 }

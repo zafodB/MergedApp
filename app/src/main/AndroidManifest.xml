@@ -13,10 +13,6 @@
         android:theme="@style/AppTheme"
         android:name=".ApplicationMain">
 
-
-
-        <!--- ahahahahahah -->
-
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />

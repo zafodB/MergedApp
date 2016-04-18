@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -125,5 +126,34 @@ public class AdamsFamily extends ListFragment {
         return Integer.parseInt(date);
     }
 
+    class myRecViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
+        public myRecViewHolder(View myView){
+            super(myView);
+
+        }
+
+        @Override
+        public void onClick(View v) {
+
+        }
+    }
+
+
+    class myRecycleAdapter extends RecyclerView.Adapter<myRecViewHolder>{
+        @Override
+        public int getItemCount() {
+            return 0;
+        }
+
+        @Override
+        public myRecViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return null;
+        }
+
+        @Override
+        public void onBindViewHolder(myRecViewHolder holder, int position) {
+
+        }
+    }
 }

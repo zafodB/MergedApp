@@ -30,7 +30,8 @@ class CustomAdapter extends ArrayAdapter<Task> {
         View customView = myInflater.inflate(R.layout.task_details_row, parent, false);
 
         String taskName = getItem(position).getName();
-        String taskDate = getItem(position).getDueDay() + "." + getItem(position).getDueMonth() + "." + getItem(position).getDueYear();
+        String taskDate = getItem(position).getDueDay() + "." + getItem(position).getDueMonth() + "." + getItem
+                (position).getDueYear();
 
 
         TextView rowTaskName = (TextView) customView.findViewById(R.id.rowTaskName);
@@ -51,10 +52,12 @@ class CustomAdapter extends ArrayAdapter<Task> {
                 Log.i(LoginScreenActivity.TAG, String.valueOf(rowCheckBox.isChecked()));
                 if (rowCheckBox.isChecked()) {
                     rowCheckBox.setChecked(true);
-                    ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(getItem(position).getId().toString()).child("isDone").setValue("true");
-                }else {
+                    ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(getItem(position).getId()
+                            .toString()).child("isDone").setValue("true");
+                } else {
                     rowCheckBox.setChecked(false);
-                    ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(getItem(position).getId().toString()).child("isDone").setValue("false");
+                    ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(getItem(position).getId()
+                            .toString()).child("isDone").setValue("false");
                 }
             }
 

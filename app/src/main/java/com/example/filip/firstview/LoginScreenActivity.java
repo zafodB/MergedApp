@@ -1,5 +1,6 @@
 package com.example.filip.firstview;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,6 +42,7 @@ public class LoginScreenActivity extends AppCompatActivity {
 
     private LoginButton myLogin;
     private CallbackManager myCallback;
+    ProgressDialog dialog;
 
     EditText email;
     EditText password;
@@ -49,6 +51,7 @@ public class LoginScreenActivity extends AppCompatActivity {
     String fbName;
     String fbEmail;
     String fbBirthday;
+
 
     static List<String> userGroups = new ArrayList<String>();
 
@@ -72,6 +75,12 @@ public class LoginScreenActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        dialog = new ProgressDialog(this); // this = YourActivity
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage("Retrievin' data from the base o' Fire ");
+        dialog.setIndeterminate(true);
+        dialog.setCanceledOnTouchOutside(false);
+
         myLogin.registerCallback(myCallback, new FacebookCallback<LoginResult>() {
 
             @Override
@@ -82,8 +91,9 @@ public class LoginScreenActivity extends AppCompatActivity {
                 AccessToken token = loginResult.getAccessToken();
 
                 if (token != null) {
-                    ApplicationMain.myFirebaseRef.authWithOAuthToken("facebook", token.getToken(), new Firebase.AuthResultHandler() {
 
+                    dialog.show();
+                    ApplicationMain.myFirebaseRef.authWithOAuthToken("facebook", token.getToken(), new Firebase.AuthResultHandler() {
 
                         @Override
                         public void onAuthenticated(AuthData authData) {
@@ -96,8 +106,6 @@ public class LoginScreenActivity extends AppCompatActivity {
 
                             final Profile fbProfile = Profile.getCurrentProfile();
                             fbName = fbProfile.getName();
-
-//                            Log.i(TAG,fbProfile.getName();
 
                             GraphRequest request = GraphRequest.newMeRequest(
                                     loginResult.getAccessToken(),
@@ -127,6 +135,7 @@ public class LoginScreenActivity extends AppCompatActivity {
 
                             Intent myIntent = new Intent(LoginScreenActivity.this, NavDrawerActivity.class);
                             LoginScreenActivity.this.startActivity(myIntent);
+                            dialog.hide();
                         }
 
                         @Override
@@ -171,6 +180,8 @@ public class LoginScreenActivity extends AppCompatActivity {
                             "Enter a password.", Toast.LENGTH_LONG).show();
                 } else {
 
+                    dialog.show();
+
                     ApplicationMain.myFirebaseRef.authWithPassword(enteredEmail, enteredPass, new Firebase.AuthResultHandler() {
                         @Override
                         public void onAuthenticated(AuthData authData) {
@@ -181,6 +192,7 @@ public class LoginScreenActivity extends AppCompatActivity {
 
                             Intent myIntent = new Intent(LoginScreenActivity.this, NavDrawerActivity.class);
                             LoginScreenActivity.this.startActivity(myIntent);
+                            dialog.hide();
                         }
 
                         @Override
@@ -280,37 +292,6 @@ public class LoginScreenActivity extends AppCompatActivity {
                 for (DataSnapshot i : dataSnapshot.getChildren()) {
                     userGroups.add(i.getValue(String.class));
                 }
-
-//                for (String s : userGroups) {
-//                    if (s.equals("myGroup")) {
-//                        Log.i(TAG, "suck me");
-//                    } else
-//                        ApplicationMain.myFirebaseRef.child("Groups").child(s).addValueEventListener(new ValueEventListener() {
-//                            @Override
-//                            public void onDataChange(DataSnapshot dataSnapshot) {
-//                                int j = 0;
-//                                for (DataSnapshot i : dataSnapshot.getChildren()) {
-//                                    j++;
-//                                    int day = i.child("dateDay").getValue(Integer.class);
-//                                    int month = i.child("dateMonth").getValue(Integer.class);
-//                                    int year = i.child("dateYear").getValue(Integer.class);
-//                                    String name = i.child("name").getValue(String.class);
-//
-//
-//                                    tasks.add(new Task(name,day,month,year));
-//
-////                                    Log.i(TAG, "worked with task: " + String.valueOf(j));
-//
-//                                }
-//
-//                            }
-//
-//                            @Override
-//                            public void onCancelled(FirebaseError firebaseError) {
-//
-//                            }
-//                        });
-//                }
             }
 
             @Override

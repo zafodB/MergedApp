@@ -27,6 +27,9 @@ import java.util.List;
 
 public class GroupPick extends AppCompatActivity {
 
+    Button createGroup;
+    EditText groupNameInput;
+
     List<String> allGroups = new ArrayList<>();
     boolean joinGroup = false;
 
@@ -36,9 +39,9 @@ public class GroupPick extends AppCompatActivity {
         setContentView(R.layout.group_pick);
         loadAllGroups();
 
-        final Button createGroup = (Button) findViewById(R.id.create_group_button);
+        createGroup = (Button) findViewById(R.id.create_group_button);
 
-        final EditText groupNameInput = (EditText) findViewById(R.id.group_name_input);
+        groupNameInput = (EditText) findViewById(R.id.group_name_input);
         groupNameInput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -47,15 +50,21 @@ public class GroupPick extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+                boolean isThere = false;
                 for (String group : allGroups) {
                     if (group.equals(s.toString())) {
-                        Log.i(ApplicationMain.TAG, "set join");
-                        createGroup.setText("JOIN");
-                        joinGroup = true;
-                    } else {
-                        createGroup.setText("CREATE");
-                        joinGroup = false;
+                        isThere = true;
+                        break;
                     }
+                }
+
+                if (isThere) {
+                    createGroup.setText("JOIN");
+                    joinGroup = true;
+                } else {
+                    createGroup.setText("CREATE");
+                    joinGroup = false;
                 }
             }
 
@@ -106,7 +115,6 @@ public class GroupPick extends AppCompatActivity {
                 allGroups.clear();
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     allGroups.add(d.getKey());
-                    Log.i(ApplicationMain.TAG, "groups: "+ d.getKey());
                 }
             }
 

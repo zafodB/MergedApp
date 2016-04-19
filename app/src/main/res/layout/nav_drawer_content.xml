@@ -12,8 +12,6 @@
     tools:context="com.example.filip.mainscreennavdraw.MainScreen"
     tools:showIn="@layout/app_bar_main_screen">
 
-
-
     <FrameLayout
         android:id="@+id/fragment_space"
         android:layout_width="match_parent"

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@drawable/illos">
+    android:layout_width="match_parent" android:layout_height="match_parent">
 
     <EditText
         android:layout_width="280dp"
@@ -30,9 +29,8 @@
         android:layout_height="wrap_content"
         android:text="@string/set_day_button_text"
         android:id="@+id/setDateButton"
-        android:background="@color/abc_search_url_text_normal"
-        android:layout_above="@+id/timeInput"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignBottom="@+id/dateInput"
+        android:layout_toEndOf="@+id/dateInput" />
 
     <TextView
         android:layout_width="200dp"
@@ -51,21 +49,19 @@
         android:layout_height="wrap_content"
         android:text="@string/set_time_button_text"
         android:id="@+id/setTimeButton"
+        android:layout_alignBottom="@+id/timeInput"
+        android:layout_toEndOf="@+id/timeInput"
         android:enabled="true"
-        android:clickable="false"
-        android:background="@color/abc_search_url_text_normal"
-        android:layout_below="@+id/timeInput"
-        android:layout_alignStart="@+id/setDateButton" />
+        android:clickable="false" />
 
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="addTask"
         android:id="@+id/addTaskBtn"
-        android:layout_marginBottom="56dp"
-        android:background="@color/abc_search_url_text_normal"
         android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/timeInput" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="200dp" />
 
 
 </RelativeLayout>

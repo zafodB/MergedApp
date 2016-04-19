@@ -49,6 +49,7 @@ public class GroupPick extends AppCompatActivity {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 for (String group : allGroups) {
                     if (group.equals(s.toString())) {
+                        Log.i(ApplicationMain.TAG, "set join");
                         createGroup.setText("JOIN");
                         joinGroup = true;
                     } else {
@@ -105,6 +106,7 @@ public class GroupPick extends AppCompatActivity {
                 allGroups.clear();
                 for (DataSnapshot d : dataSnapshot.getChildren()) {
                     allGroups.add(d.getKey());
+                    Log.i(ApplicationMain.TAG, "groups: "+ d.getKey());
                 }
             }
 

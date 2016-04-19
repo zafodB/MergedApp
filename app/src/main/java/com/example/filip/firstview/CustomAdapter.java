@@ -19,10 +19,12 @@ import java.util.List;
 
 class CustomAdapter extends ArrayAdapter<Task> {
 
-CheckBox rowCheckBox;
+    CheckBox rowCheckBox;
+    String groupId;
 
-    public CustomAdapter(Context context, List<Task> taskData) {
+    public CustomAdapter(Context context, List<Task> taskData, String groupId) {
         super(context, R.layout.task_details_row, taskData);
+        this.groupId = groupId;
     }
 
     @Override
@@ -38,11 +40,11 @@ CheckBox rowCheckBox;
         TextView rowTaskName = (TextView) customView.findViewById(R.id.rowTaskName);
         TextView rowTaskDate = (TextView) customView.findViewById(R.id.rowTaskDate);
 //        TextView rowTaskResponsible = (TextView) customView.findViewById(R.id.rowTaskResponsible);
-       rowCheckBox = (CheckBox) customView.findViewById(R.id.rowCheckBox);
+        rowCheckBox = (CheckBox) customView.findViewById(R.id.rowCheckBox);
 
         if (getItem(position).isDone()) {
             rowCheckBox.setChecked(true);
-        } else rowCheckBox.setChecked(false);
+        }
 
         rowTaskName.setText(taskName);
         rowTaskDate.setText(taskDate);
@@ -50,15 +52,14 @@ CheckBox rowCheckBox;
         rowCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i(LoginScreenActivity.TAG, String.valueOf(rowCheckBox.isChecked()));
-                if (rowCheckBox.isChecked()) {
-                    rowCheckBox.setChecked(true);
-                    ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(getItem(position).getId()
-                            .toString()).child("isDone").setValue("true");
-                } else {
+                if (getItem(position).isDone()) {
                     rowCheckBox.setChecked(false);
-                    ApplicationMain.myFirebaseRef.child("Groups").child("group1").child(getItem(position).getId()
+                    ApplicationMain.myFirebaseRef.child("Groups").child(groupId).child(getItem(position).getId()
                             .toString()).child("isDone").setValue("false");
+                } else {
+                    rowCheckBox.setChecked(true);
+                    ApplicationMain.myFirebaseRef.child("Groups").child(groupId).child(getItem(position).getId()
+                            .toString()).child("isDone").setValue("true");
                 }
             }
 

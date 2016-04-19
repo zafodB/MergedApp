@@ -37,9 +37,7 @@ import com.firebase.client.ValueEventListener;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class LoginScreenActivity extends AppCompatActivity {
 
@@ -327,6 +325,9 @@ public class LoginScreenActivity extends AppCompatActivity {
 
         LoginManager.getInstance().logOut();
 
+        ApplicationMain.userGroups.clear();
+        TasksListFragment.tasks.clear();
+
         Log.i(LoginScreenActivity.TAG, "Logged out.");
 
         Toast.makeText(context,
@@ -346,6 +347,9 @@ public class LoginScreenActivity extends AppCompatActivity {
                 Intent myIntent = new Intent(LoginScreenActivity.this, NavDrawerActivity.class);
                 LoginScreenActivity.this.startActivity(myIntent);
                 dialog.hide();
+
+//                ApplicationMain.myFirebaseRef.child("ListOfUsers").child(ApplicationMain.myFirebaseRef.getAuth().getUid())
+//                        .child("inGroups").removeEventListener(this);
             }
 
             @Override

@@ -22,7 +22,7 @@ import java.util.UUID;
 /**
  * Created by filip on 07/04/2016.
  */
-public class AdamsFamily extends ListFragment {
+public class TasksListFragment extends ListFragment {
 
     static ArrayAdapter myAdapter;
 
@@ -30,23 +30,19 @@ public class AdamsFamily extends ListFragment {
 
     String groupId;
 
-    public AdamsFamily (String groupId){
-        this.groupId = groupId;
-    }
-
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        ViewGroup myView = (ViewGroup) inflater.inflate(R.layout.adams_family_fragment, null);
+        ViewGroup myView = (ViewGroup) inflater.inflate(R.layout.task_list_fragment, null);
 
         return myView;
     }
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-        myAdapter = new CustomAdapter(getContext(), tasks);
-
+        myAdapter = new CustomAdapter(getContext(), tasks, groupId);
+        Log.i(LoginScreenActivity.TAG, "loadup tasks");
         loadUpTasks();
 
         setListAdapter(myAdapter);
@@ -56,7 +52,10 @@ public class AdamsFamily extends ListFragment {
     }
 
     public static Fragment newInstance(Context context, String groupId) {
-        AdamsFamily instance = new AdamsFamily(groupId);
+        TasksListFragment instance = new TasksListFragment();
+
+        Log.i(LoginScreenActivity.TAG, "assign groupid");
+        instance.groupId = groupId;
 
         return instance;
     }

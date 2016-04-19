@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -63,7 +62,8 @@ public class NavDrawerActivity extends AppCompatActivity
         fragmentManager = getSupportFragmentManager();
 
         try {
-            fragmentManager.beginTransaction().replace(R.id.fragment_space, MyTasks.class.newInstance()).commit();
+            fragmentManager.beginTransaction().replace(R.id.fragment_space, TasksListFragment.newInstance
+                    (getApplicationContext(), ApplicationMain.userGroups.get(0))).commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -94,9 +94,6 @@ public class NavDrawerActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
 
-        boolean isFragment = false;
-        Class fragmentClass = null;
-        Fragment myFrag = null;
 
         int id = item.getItemId();
 
@@ -114,29 +111,10 @@ public class NavDrawerActivity extends AppCompatActivity
         } else {
 
             fragmentManager = getSupportFragmentManager();
-            fragmentManager.beginTransaction().replace(R.id.fragment_space, AdamsFamily.newInstance
+            fragmentManager.beginTransaction().replace(R.id.fragment_space, TasksListFragment.newInstance
                     (getApplicationContext(), item.getTitle().toString())).commit();
 
-//            isFragment = true;
         }
-//         else if (id == R.id.my_tasks) {
-//            fragmentClass = MyTasks.class;
-//            isFragment = true;
-//        }
-
-
-//        if (isFragment) {
-
-//            try {
-//                myFrag = (Fragment) AdamsFamily.newInstance(getApplicationContext(), "ahooj");
-//            } catch (Exception e) {
-//                e.printStackTrace();
-//            }
-
-//            fragmentManager = getSupportFragmentManager();
-//            fragmentManager.beginTransaction().replace(R.id.fragment_space, AdamsFamily.newInstance
-//                    (getApplicationContext(), "ahooj")).commit();
-//        }
 
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
@@ -148,7 +126,6 @@ public class NavDrawerActivity extends AppCompatActivity
         menuGroups = myMenu.addSubMenu("Groups");
         int i = 0;
         for (String s : ApplicationMain.userGroups) {
-//            menuGroups.add(R.id.menu_group_groups, Menu.NONE, Menu.NONE, s);
             menuGroups.add(R.id.menu_group_groups, ID_GROUPS[i], Menu.NONE, s).setIcon(android.R.drawable
                     .btn_star_big_on);
             i++;

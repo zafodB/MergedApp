@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/hoehoehoe">
 
     <EditText
         android:id="@+id/signUpName"
@@ -87,7 +88,8 @@
 
         android:layout_below="@+id/iAccept"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="35dp" />
+        android:layout_marginTop="35dp"
+        android:background="@color/abc_search_url_text_normal" />
 
     <TextView android:id="@+id/toast"
         android:layout_width="wrap_content"

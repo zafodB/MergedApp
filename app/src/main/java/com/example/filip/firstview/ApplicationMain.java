@@ -1,5 +1,6 @@
 package com.example.filip.firstview;
 
+import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 
 import java.util.ArrayList;
@@ -12,6 +13,9 @@ public class ApplicationMain extends android.app.Application {
 
     static Firebase myFirebaseRef;
     static List<String> userGroups = new ArrayList<>();
+    static AuthData userAuthData;
+
+    public static final String TAG = "fifko";
 
     @Override
     public void onCreate() {

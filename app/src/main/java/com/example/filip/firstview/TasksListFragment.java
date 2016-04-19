@@ -42,7 +42,7 @@ public class TasksListFragment extends ListFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         myAdapter = new CustomAdapter(getContext(), tasks, groupId);
-        Log.i(LoginScreenActivity.TAG, "loadup tasks");
+        Log.i(ApplicationMain.TAG, "loadup tasks");
         loadUpTasks();
 
         setListAdapter(myAdapter);
@@ -54,7 +54,7 @@ public class TasksListFragment extends ListFragment {
     public static Fragment newInstance(Context context, String groupId) {
         TasksListFragment instance = new TasksListFragment();
 
-        Log.i(LoginScreenActivity.TAG, "assign groupid");
+        Log.i(ApplicationMain.TAG, "assign groupid");
         instance.groupId = groupId;
 
         return instance;

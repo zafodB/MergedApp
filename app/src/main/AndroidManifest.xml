@@ -44,6 +44,9 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:parentActivityName=".LoginScreenActivity" />
 
+        <activity android:name=".GroupPick"
+                  android:parentActivityName=".LoginScreenActivity"/>
+
             <!--<intent-filter>&ndash;&gt;-->
                 <!--<action android:name="android.intent.action.MAIN" />-->
 

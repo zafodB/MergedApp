@@ -57,7 +57,7 @@ public class LoginScreenActivity extends AppCompatActivity {
 
 //    static List<String> userGroups = new ArrayList<String>();
 
-    public static final String TAG = "fifko";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -97,8 +97,8 @@ public class LoginScreenActivity extends AppCompatActivity {
             @Override
             public void onSuccess(final LoginResult loginResult) {
 
-                Log.i(TAG, "Facebook Login success");
-                Log.i(TAG, loginResult.toString());
+                Log.i(ApplicationMain.TAG, "Facebook Login success");
+                Log.i(ApplicationMain.TAG, loginResult.toString());
                 AccessToken token = loginResult.getAccessToken();
 
                 if (token != null) {
@@ -111,8 +111,8 @@ public class LoginScreenActivity extends AppCompatActivity {
                         public void onAuthenticated(AuthData authData) {
                             // The Facebook user is now authenticated with your Firebase app
 
-                            Log.i(TAG, "Firebase authentication success");
-                            Log.i(TAG, authData.toString());
+                            Log.i(ApplicationMain.TAG, "Firebase authentication success");
+                            Log.i(ApplicationMain.TAG, authData.toString());
 
                             final AuthData myAuthData = authData;
 
@@ -126,7 +126,7 @@ public class LoginScreenActivity extends AppCompatActivity {
                                         public void onCompleted(
                                                 JSONObject object,
                                                 GraphResponse response) {
-                                            Log.v(TAG, "LoginActivity Response" + response.toString());
+                                            Log.v(ApplicationMain.TAG, "LoginActivity Response" + response.toString());
                                             try {
                                                 fbEmail = object.getString("email");
                                                 fbBirthday = object.getString("birthday");
@@ -147,6 +147,8 @@ public class LoginScreenActivity extends AppCompatActivity {
 
                             request.executeAsync();
 
+                            ApplicationMain.userAuthData = authData;
+
                             loadUpGroups();
 
 
@@ -155,27 +157,27 @@ public class LoginScreenActivity extends AppCompatActivity {
                         @Override
                         public void onAuthenticationError(FirebaseError firebaseError) {
                             // there was an error
-                            Log.i(TAG, "Firebase authentication error");
-                            Log.i(TAG, firebaseError.getMessage());
+                            Log.i(ApplicationMain.TAG, "Firebase authentication error");
+                            Log.i(ApplicationMain.TAG, firebaseError.getMessage());
                         }
                     });
                 } else {
                      /* Logged out of Facebook so do a logout from the Firebase app */
                     ApplicationMain.myFirebaseRef.unauth();
-                    Log.i(TAG, "firebase unauth");
+                    Log.i(ApplicationMain.TAG, "firebase unauth");
                 }
 
             }
 
             @Override
             public void onCancel() {
-                Log.i(TAG, "Facebook authentication cancel");
+                Log.i(ApplicationMain.TAG, "Facebook authentication cancel");
             }
 
             @Override
             public void onError(FacebookException error) {
-                Log.i(TAG, "Facebook authentication error");
-                Log.i(TAG, error.getMessage());
+                Log.i(ApplicationMain.TAG, "Facebook authentication error");
+                Log.i(ApplicationMain.TAG, error.getMessage());
             }
         });
 
@@ -200,9 +202,11 @@ public class LoginScreenActivity extends AppCompatActivity {
                             .AuthResultHandler() {
                         @Override
                         public void onAuthenticated(AuthData authData) {
-                            Log.i(TAG, "Firebase authentication success");
-                            Log.i(LoginScreenActivity.TAG, "User ID: " + authData.getUid() + ", Provider: " +
+                            Log.i(ApplicationMain.TAG, "Firebase authentication success");
+                            Log.i(ApplicationMain.TAG, "User ID: " + authData.getUid() + ", Provider: " +
                                     authData.getProvider());
+
+                            ApplicationMain.userAuthData = authData;
 
                             loadUpGroups();
 
@@ -213,8 +217,8 @@ public class LoginScreenActivity extends AppCompatActivity {
                             // there was an error
                             Toast.makeText(getApplicationContext(),
                                     firebaseError.getMessage(), Toast.LENGTH_LONG).show();
-                            Log.i(TAG, "Firebase authentication error");
-                            Log.i(TAG, firebaseError.getMessage());
+                            Log.i(ApplicationMain.TAG, "Firebase authentication error");
+                            Log.i(ApplicationMain.TAG, firebaseError.getMessage());
                             dialog.hide();
                         }
                     });
@@ -246,16 +250,19 @@ public class LoginScreenActivity extends AppCompatActivity {
 
                     public void onClick(DialogInterface dialog, int whichButton) {
 //                        Toast.makeText(LoginScreenActivity.this, "Yaay", Toast.LENGTH_SHORT).show();
-                        ApplicationMain.myFirebaseRef.resetPassword(email.getText().toString(), new Firebase.ResultHandler() {
+                        ApplicationMain.myFirebaseRef.resetPassword(email.getText().toString(), new Firebase
+                                .ResultHandler() {
 
                             @Override
                             public void onSuccess() {
-                                Toast.makeText(LoginScreenActivity.this, "We've sent you an email with instructions.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginScreenActivity.this, "We've sent you an email with instructions" +
+                                        ".", Toast.LENGTH_SHORT).show();
                             }
 
                             @Override
                             public void onError(FirebaseError firebaseError) {
-                                Toast.makeText(LoginScreenActivity.this, "There was an error, try again.", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(LoginScreenActivity.this, "There was an error, try again.", Toast
+                                        .LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -266,7 +273,7 @@ public class LoginScreenActivity extends AppCompatActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode ==3){
+        if (resultCode == 3) {
             loadUpGroups();
         }
 
@@ -328,7 +335,7 @@ public class LoginScreenActivity extends AppCompatActivity {
         ApplicationMain.userGroups.clear();
         TasksListFragment.tasks.clear();
 
-        Log.i(LoginScreenActivity.TAG, "Logged out.");
+        Log.i(ApplicationMain.TAG, "Logged out.");
 
         Toast.makeText(context,
                 "You've been logged out.", Toast.LENGTH_LONG).show();
@@ -340,16 +347,30 @@ public class LoginScreenActivity extends AppCompatActivity {
 
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+
+                boolean noGroups = false;
                 for (DataSnapshot i : dataSnapshot.getChildren()) {
+                    if (i.getValue(String.class).equals("0")) {
+                        noGroups = true;
+                        break;
+                    }
                     ApplicationMain.userGroups.add(i.getValue(String.class));
                 }
 
-                Intent myIntent = new Intent(LoginScreenActivity.this, NavDrawerActivity.class);
-                LoginScreenActivity.this.startActivity(myIntent);
+                Intent myIntent;
+
+                if (noGroups) {
+                    myIntent = new Intent(LoginScreenActivity.this, GroupPick.class);
+                    LoginScreenActivity.this.startActivityForResult(myIntent, 0);
+
+                }else {
+                    myIntent = new Intent(LoginScreenActivity.this, NavDrawerActivity.class);
+                    LoginScreenActivity.this.startActivity(myIntent);
+                }
+
+
                 dialog.hide();
 
-//                ApplicationMain.myFirebaseRef.child("ListOfUsers").child(ApplicationMain.myFirebaseRef.getAuth().getUid())
-//                        .child("inGroups").removeEventListener(this);
             }
 
             @Override

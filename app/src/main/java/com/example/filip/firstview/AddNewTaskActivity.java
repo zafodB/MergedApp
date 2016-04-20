@@ -5,12 +5,15 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -30,6 +33,8 @@ public class AddNewTaskActivity extends AppCompatActivity {
     static TextView dateInput;
     static TextView timeInput;
     static TextView taskNameInput;
+    Spinner pickGroup;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,6 +44,9 @@ public class AddNewTaskActivity extends AppCompatActivity {
         dateInput = (TextView) findViewById(R.id.dateInput);
         timeInput = (TextView) findViewById(R.id.timeInput);
         taskNameInput = (TextView) findViewById(R.id.taskNameInput);
+        pickGroup = (Spinner) findViewById(R.id.spinner);
+
+        addGroupsToSpinner();
 
         Button setDateButton = (Button) findViewById(R.id.setDateButton);
         setDateButton.setOnClickListener(new View.OnClickListener() {
@@ -79,7 +87,14 @@ public class AddNewTaskActivity extends AppCompatActivity {
                     map.put("isDone", "false");
                     map.put("isDoubleChecked", "false");
 
-                    ApplicationMain.myFirebaseRef.child("Groups").child("My Group").child(uuid).setValue(map);
+                    String selectedGroup = pickGroup.getSelectedItem().toString();
+
+                    if (selectedGroup.equals("My Tasks")) {
+                        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(ApplicationMain.userAuthData.getUid
+                                ()).child("inGroups").child("My Tasks").child(uuid).setValue(map);
+                    } else {
+                        ApplicationMain.myFirebaseRef.child("Groups").child(selectedGroup).child(uuid).setValue(map);
+                    }
 
                     finish();
                 }
@@ -106,6 +121,13 @@ public class AddNewTaskActivity extends AppCompatActivity {
             timeInput.setText(hour + ":0" + minute);
         } else
             timeInput.setText(hour + ":" + minute);
+    }
+
+    void addGroupsToSpinner() {
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout
+                .simple_spinner_dropdown_item, ApplicationMain.userGroups);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        pickGroup.setAdapter(spinnerAdapter);
     }
 
     public static void setDate(int day, int month, int year) {

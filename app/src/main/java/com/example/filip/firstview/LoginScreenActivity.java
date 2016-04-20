@@ -362,10 +362,14 @@ public class LoginScreenActivity extends AppCompatActivity {
                 if (noGroups) {
                     myIntent = new Intent(LoginScreenActivity.this, GroupPick.class);
                     LoginScreenActivity.this.startActivityForResult(myIntent, 0);
+                    ApplicationMain.myFirebaseRef.child("ListOfUsers").child(ApplicationMain.myFirebaseRef.getAuth().getUid())
+                            .child("inGroups").removeEventListener(this);
 
                 }else {
                     myIntent = new Intent(LoginScreenActivity.this, NavDrawerActivity.class);
                     LoginScreenActivity.this.startActivity(myIntent);
+                    ApplicationMain.myFirebaseRef.child("ListOfUsers").child(ApplicationMain.myFirebaseRef.getAuth().getUid())
+                            .child("inGroups").removeEventListener(this);
                 }
 
 

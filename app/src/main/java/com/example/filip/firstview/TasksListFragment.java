@@ -43,7 +43,7 @@ public class TasksListFragment extends ListFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         myAdapter = new CustomAdapter(getContext(), tasks, groupId);
         Log.i(ApplicationMain.TAG, "loadup tasks");
-        loadUpTasks();
+        loadUpContent();
 
         setListAdapter(myAdapter);
 
@@ -61,56 +61,34 @@ public class TasksListFragment extends ListFragment {
     }
 
 
-    void loadUpTasks() {
-        ApplicationMain.myFirebaseRef.child("Groups").child(groupId).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                int j = 0;
-                tasks.clear();
-//                Log.i(LoginScreenActivity.TAG, "date chenged");
-
-                for (DataSnapshot i : dataSnapshot.getChildren()) {
-                    j++;
-                    int day = i.child("dateDay").getValue(Integer.class);
-                    int month = i.child("dateMonth").getValue(Integer.class);
-                    int year = i.child("dateYear").getValue(Integer.class);
-                    String name = i.child("name").getValue(String.class);
-
-                    boolean isDone;
-                    boolean isDoubleChecked;
-                    if (i.child("isDone").getValue(String.class).equals("true")) {
-                        isDone = true;
-                    } else isDone = false;
-
-                    if (i.child("isDoubleChecked").getValue(String.class).equals("true")) {
-                        isDoubleChecked = true;
-                    } else isDoubleChecked = false;
-
-                    UUID uuid = UUID.fromString(i.getKey());
-
-                    if (tasks.isEmpty()) {
-                        tasks.add(new Task(name, day, month, year, uuid, isDone, isDoubleChecked));
-                    }else{
-                        int pos = 0;
-                        for(Task t:tasks){
-                            if (t.getDate() > getDate(year,month,day)){
-                                break;
-                            }
-
-                            pos++;
-                        }
-                        tasks.add(pos, new Task(name, day, month, year, uuid, isDone, isDoubleChecked));
-                    }
-
-                    myAdapter.notifyDataSetChanged();
+    void loadUpContent() {
+        if (groupId.equals("My Tasks")){
+            ApplicationMain.myFirebaseRef.child("ListOfUsers").child(ApplicationMain.userAuthData.getUid()).child("inGroups").child("MyTasks").addValueEventListener(new ValueEventListener() {
+                
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    loadUpTasks(dataSnapshot);
                 }
-            }
 
-            @Override
-            public void onCancelled(FirebaseError firebaseError) {
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
 
-            }
-        });
+                }
+            });
+        } else {
+            ApplicationMain.myFirebaseRef.child("Groups").child(groupId).addValueEventListener(new ValueEventListener() {
+
+                @Override
+                public void onDataChange(DataSnapshot dataSnapshot) {
+                    loadUpTasks(dataSnapshot);
+                }
+
+                @Override
+                public void onCancelled(FirebaseError firebaseError) {
+
+                }
+            });
+        }
     }
 
     int getDate(int dueYear, int dueMonth, int dueDay){
@@ -132,6 +110,48 @@ public class TasksListFragment extends ListFragment {
 
 //        Log.i(LoginScreenActivity.TAG,date);
         return Integer.parseInt(date);
+    }
+
+    void loadUpTasks(DataSnapshot dataSnapshot){
+        int j = 0;
+        tasks.clear();
+//                Log.i(LoginScreenActivity.TAG, "date chenged");
+
+        for (DataSnapshot i : dataSnapshot.getChildren()) {
+            j++;
+            int day = i.child("dateDay").getValue(Integer.class);
+            int month = i.child("dateMonth").getValue(Integer.class);
+            int year = i.child("dateYear").getValue(Integer.class);
+            String name = i.child("name").getValue(String.class);
+
+            boolean isDone;
+            boolean isDoubleChecked;
+            if (i.child("isDone").getValue(String.class).equals("true")) {
+                isDone = true;
+            } else isDone = false;
+
+            if (i.child("isDoubleChecked").getValue(String.class).equals("true")) {
+                isDoubleChecked = true;
+            } else isDoubleChecked = false;
+
+            UUID uuid = UUID.fromString(i.getKey());
+
+            if (tasks.isEmpty()) {
+                tasks.add(new Task(name, day, month, year, uuid, isDone, isDoubleChecked));
+            } else {
+                int pos = 0;
+                for (Task t : tasks) {
+                    if (t.getDate() > getDate(year, month, day)) {
+                        break;
+                    }
+
+                    pos++;
+                }
+                tasks.add(pos, new Task(name, day, month, year, uuid, isDone, isDoubleChecked));
+            }
+
+            myAdapter.notifyDataSetChanged();
+        }
     }
 
 }

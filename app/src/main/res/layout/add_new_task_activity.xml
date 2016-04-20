@@ -59,9 +59,17 @@
         android:layout_height="wrap_content"
         android:text="addTask"
         android:id="@+id/addTaskBtn"
+        android:layout_marginBottom="120dp"
         android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"/>
+
+    <Spinner
+        android:layout_width="280dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinner"
+        android:layout_above="@+id/addTaskBtn"
         android:layout_centerHorizontal="true"
-        android:layout_marginBottom="200dp" />
+        android:layout_marginBottom="49dp"/>
 
 
 </RelativeLayout>

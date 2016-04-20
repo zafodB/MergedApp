@@ -138,8 +138,8 @@ public class NavDrawerActivity extends AppCompatActivity
         menuRest.add(Menu.NONE, ID_LOG_OFF_MENU, Menu.NONE, "Log off").setIcon(android.R.drawable.ic_lock_idle_lock);
 
 
-        Log.i(ApplicationMain.TAG, String.valueOf(ApplicationMain.userGroups.size()) + " is the size of groups");
-        Log.i(ApplicationMain.TAG, "loadUp buttons");
+//        Log.i(ApplicationMain.TAG, String.valueOf(ApplicationMain.userGroups.size()) + " is the size of groups");
+//        Log.i(ApplicationMain.TAG, "loadUp buttons");
     }
 
 }

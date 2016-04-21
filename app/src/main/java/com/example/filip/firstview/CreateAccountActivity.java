@@ -188,13 +188,13 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     static void createUserRecord(AuthData authData, String email, String name, int age) {
-//        userAuthData = authData;
 
         ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("email").setValue(email);
         ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("name").setValue(name);
         ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("age").setValue(age);
-        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("inGroups").child("0").setValue("0");
+        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("inGroups").child("My Tasks").setValue("My Tasks");
 
+        ApplicationMain.userGroups.add("My Tasks");
     }
 
 }

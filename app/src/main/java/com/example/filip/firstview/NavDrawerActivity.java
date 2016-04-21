@@ -70,6 +70,12 @@ public class NavDrawerActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onResume() {
+        loadUpButtons();
+        super.onResume();
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -123,7 +129,11 @@ public class NavDrawerActivity extends AppCompatActivity
 
     void loadUpButtons() {
         myMenu = navigationView.getMenu();
+
+        myMenu.clear();
         menuGroups = myMenu.addSubMenu("Groups");
+
+        menuGroups.clear();
         int i = 0;
         for (String s : ApplicationMain.userGroups) {
             menuGroups.add(R.id.menu_group_groups, ID_GROUPS[i], Menu.NONE, s).setIcon(android.R.drawable

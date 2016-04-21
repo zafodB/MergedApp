@@ -44,6 +44,8 @@ public class LoginScreenActivity extends AppCompatActivity {
     private LoginButton myLogin;
     private CallbackManager myCallback;
     ProgressDialog dialog;
+    AuthData myAuthData;
+    Profile fbProfile;
 
 
     TextView forgetPass;
@@ -56,7 +58,6 @@ public class LoginScreenActivity extends AppCompatActivity {
     String fbBirthday;
 
 //    static List<String> userGroups = new ArrayList<String>();
-
 
 
     @Override
@@ -114,9 +115,9 @@ public class LoginScreenActivity extends AppCompatActivity {
                             Log.i(ApplicationMain.TAG, "Firebase authentication success");
                             Log.i(ApplicationMain.TAG, authData.toString());
 
-                            final AuthData myAuthData = authData;
+                            myAuthData = authData;
 
-                            final Profile fbProfile = Profile.getCurrentProfile();
+                            fbProfile = Profile.getCurrentProfile();
                             fbName = fbProfile.getName();
 
                             GraphRequest request = GraphRequest.newMeRequest(
@@ -341,6 +342,7 @@ public class LoginScreenActivity extends AppCompatActivity {
                 "You've been logged out.", Toast.LENGTH_LONG).show();
     }
 
+
     void loadUpGroups() {
         ApplicationMain.myFirebaseRef.child("ListOfUsers").child(ApplicationMain.myFirebaseRef.getAuth().getUid())
                 .child("inGroups").addValueEventListener(new ValueEventListener() {
@@ -348,13 +350,14 @@ public class LoginScreenActivity extends AppCompatActivity {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
-                boolean noGroups = false;
+                boolean noGroups = true;
+
                 for (DataSnapshot i : dataSnapshot.getChildren()) {
-                    if (i.getValue(String.class).equals("0")) {
-                        noGroups = true;
-                        break;
-                    }
-                    ApplicationMain.userGroups.add(i.getValue(String.class));
+                        if (!i.getValue(String.class).equals("My Tasks")) {
+                            noGroups = false;
+                            ApplicationMain.userGroups.add(i.getValue(String.class));
+                        }
+
                 }
 
                 Intent myIntent;
@@ -362,13 +365,17 @@ public class LoginScreenActivity extends AppCompatActivity {
                 if (noGroups) {
                     myIntent = new Intent(LoginScreenActivity.this, GroupPick.class);
                     LoginScreenActivity.this.startActivityForResult(myIntent, 0);
-                    ApplicationMain.myFirebaseRef.child("ListOfUsers").child(ApplicationMain.myFirebaseRef.getAuth().getUid())
-                            .child("inGroups").removeEventListener(this);
 
-                }else {
+//                    ApplicationMain.myFirebaseRef.child("ListOfUsers").child(ApplicationMain.myFirebaseRef.getAuth
+// ().getUid())
+//                            .child("inGroups").removeEventListener(this);
+
+                } else {
                     myIntent = new Intent(LoginScreenActivity.this, NavDrawerActivity.class);
                     LoginScreenActivity.this.startActivity(myIntent);
-                    ApplicationMain.myFirebaseRef.child("ListOfUsers").child(ApplicationMain.myFirebaseRef.getAuth().getUid())
+
+                    ApplicationMain.myFirebaseRef.child("ListOfUsers").child(ApplicationMain.myFirebaseRef.getAuth()
+                            .getUid())
                             .child("inGroups").removeEventListener(this);
                 }
 
@@ -384,6 +391,5 @@ public class LoginScreenActivity extends AppCompatActivity {
         });
 
     }
-
 
 }

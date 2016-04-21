@@ -99,13 +99,15 @@ public class GroupPick extends AppCompatActivity {
                     } else {
                         ApplicationMain.myFirebaseRef.child("ListOfUsers").child(ApplicationMain.userAuthData.getUid
                                 ()).child("inGroups").child(groupName).setValue(groupName);
-                        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(ApplicationMain.userAuthData.getUid
-                                ()).child("inGroups").child("My Tasks").setValue("My Tasks");
-                        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(ApplicationMain.userAuthData.getUid
-                                ()).child("inGroups").child("0").removeValue();
+
                         ApplicationMain.myFirebaseRef.child("Groups").child(groupName).setValue("0");
                         finish();
                     }
+                } else {
+                    //Join existing group
+                    ApplicationMain.myFirebaseRef.child("ListOfUsers").child(ApplicationMain.userAuthData.getUid
+                            ()).child("inGroups").child(groupNameInput.getText().toString()).setValue(groupNameInput
+                            .getText().toString());
                 }
             }
         });

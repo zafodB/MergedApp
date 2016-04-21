@@ -5,8 +5,8 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="other settings"
-        android:id="@+id/Some"
+        android:text="Group Settings"
+        android:id="@+id/group_settings"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="181dp" />
@@ -16,7 +16,7 @@
         android:layout_height="wrap_content"
         android:text="Some settings"
         android:id="@+id/button4"
-        android:layout_below="@+id/Some"
+        android:layout_below="@+id/group_settings"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="38dp" />
 </RelativeLayout>

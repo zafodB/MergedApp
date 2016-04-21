@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:background="@drawable/illos">
+    android:background="@drawable/backgrou">
 
     <EditText
         android:layout_width="280dp"
@@ -31,7 +31,7 @@
         android:id="@+id/setDateButton"
         android:background="@color/abc_search_url_text_normal"
         android:layout_above="@+id/timeInput"
-        android:layout_alignParentEnd="true" />
+        android:layout_toEndOf="@+id/dateInput" />
 
     <TextView
         android:layout_width="200dp"
@@ -61,10 +61,10 @@
         android:layout_height="wrap_content"
         android:text="addTask"
         android:id="@+id/addTaskBtn"
-        android:layout_marginBottom="56dp"
         android:background="@color/abc_search_url_text_normal"
-        android:layout_alignParentBottom="true"
-        android:layout_alignEnd="@+id/timeInput" />
+        android:layout_marginTop="86dp"
+        android:layout_below="@+id/setTimeButton"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>

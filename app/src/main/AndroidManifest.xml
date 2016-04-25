@@ -11,7 +11,8 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".ApplicationMain">
+        android:name=".ApplicationMain"
+        >
 
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
@@ -20,7 +21,8 @@
         <activity
             android:name=".LoginScreenActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait">
             <intent-filter>
             <action android:name="android.intent.action.MAIN" />
 
@@ -31,35 +33,42 @@
 
         <activity
             android:name=".CreateAccountActivity"
-            android:parentActivityName=".LoginScreenActivity" />
+            android:parentActivityName=".LoginScreenActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".NavDrawerActivity"
             android:launchMode="singleTop"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".LoginScreenActivity" />
+            android:parentActivityName=".LoginScreenActivity"
+            android:screenOrientation="portrait"/>
 
         <activity android:name=".GroupPick"
-                  android:parentActivityName=".LoginScreenActivity"/>
+                  android:parentActivityName=".LoginScreenActivity"
+                  android:screenOrientation="portrait"/>
 
         <activity
             android:name=".Feedback"
-            android:parentActivityName=".NavDrawerActivity" />
+            android:parentActivityName=".NavDrawerActivity"
+            android:screenOrientation="portrait"/>
+
         <activity
             android:name=".Settings"
-            android:parentActivityName=".NavDrawerActivity" />
-
+            android:parentActivityName=".NavDrawerActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
-            android:theme="@android:style/Theme.Translucent.NoTitleBar" />
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".AddNewTaskActivity"
-            android:parentActivityName=".NavDrawerActivity" />
+            android:parentActivityName=".NavDrawerActivity"
+            android:screenOrientation="portrait"/>
 
     </application>
 

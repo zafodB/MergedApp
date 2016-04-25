@@ -19,7 +19,7 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/the_button_text"
-        android:id="@+id/changingText"
+        android:id="@+id/sign_in_label"
         android:layout_alignParentTop="true"
         android:layout_alignParentStart="true" />
 
@@ -31,7 +31,7 @@
         android:id="@+id/signInEmail"
         android:singleLine="true"
         android:hint="@string/email_input_text"
-        android:layout_below="@+id/changingText"
+        android:layout_below="@+id/sign_in_label"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="40dp" />
 

@@ -25,6 +25,7 @@ public class NavDrawerActivity extends AppCompatActivity
     SubMenu menuGroups;
     SubMenu menuRest;
 
+
     final private int ID_SETTINGS_MENU = 1;
     final private int ID_FEEDBACK_MENU = 2;
     final private int ID_LOG_OFF_MENU = 3;
@@ -63,7 +64,7 @@ public class NavDrawerActivity extends AppCompatActivity
 
         try {
             fragmentManager.beginTransaction().replace(R.id.fragment_space, TasksListFragment.newInstance
-                    (getApplicationContext(), ApplicationMain.userGroups.get(0))).commit();
+                    (getApplicationContext(), ApplicationMain.getUserGroups().get(0))).commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -135,7 +136,7 @@ public class NavDrawerActivity extends AppCompatActivity
 
         menuGroups.clear();
         int i = 0;
-        for (String s : ApplicationMain.userGroups) {
+        for (String s : ApplicationMain.getUserGroups()) {
             menuGroups.add(R.id.menu_group_groups, ID_GROUPS[i], Menu.NONE, s).setIcon(android.R.drawable
                     .btn_star_big_on);
             i++;
@@ -148,8 +149,9 @@ public class NavDrawerActivity extends AppCompatActivity
         menuRest.add(Menu.NONE, ID_LOG_OFF_MENU, Menu.NONE, "Log off").setIcon(android.R.drawable.ic_lock_idle_lock);
 
 
-//        Log.i(ApplicationMain.TAG, String.valueOf(ApplicationMain.userGroups.size()) + " is the size of groups");
-//        Log.i(ApplicationMain.TAG, "loadUp buttons");
+//        Log.i(ApplicationMain.LOGIN_TAG, String.valueOf(ApplicationMain.userGroups.size()) + " is the size of
+// groups");
+//        Log.i(ApplicationMain.LOGIN_TAG, "loadUp buttons");
     }
 
 }

@@ -14,12 +14,6 @@ import java.util.Calendar;
  * Created by filip on 07/04/2016.
  */
 public class TimePickerFragment extends DialogFragment implements TimePickerDialog.OnTimeSetListener {
-    @Override
-    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-        AddNewTaskActivity.hour = hourOfDay;
-        AddNewTaskActivity.minute = minute;
-        AddNewTaskActivity.timeInput.setText(hourOfDay + ":" + minute);
-    }
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -33,5 +27,14 @@ public class TimePickerFragment extends DialogFragment implements TimePickerDial
 
     }
 
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+        AddNewTaskActivity.setHour(hourOfDay);
+        AddNewTaskActivity.setMinute(minute);
+
+        AddNewTaskActivity.setTimeText(minute, hourOfDay);
+        AddNewTaskActivity.updateTimeDate();
+
+    }
 
 }

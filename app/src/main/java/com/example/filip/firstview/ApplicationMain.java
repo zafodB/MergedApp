@@ -11,11 +11,11 @@ import java.util.List;
  */
 public class ApplicationMain extends android.app.Application {
 
-    static Firebase myFirebaseRef;
-    static List<String> userGroups = new ArrayList<>();
+    static private Firebase myFirebaseRef;
+    static private List<String> userGroups = new ArrayList<>();
     static AuthData userAuthData;
 
-    public static final String TAG = "fifko";
+    public static final String LOGIN_TAG = "login";
 
     @Override
     public void onCreate() {
@@ -28,6 +28,26 @@ public class ApplicationMain extends android.app.Application {
     public void onTerminate() {
         LoginScreenActivity.LogOff(getApplicationContext());
         super.onTerminate();
+    }
+
+    public static Firebase getFirebaseRef() {
+        return myFirebaseRef;
+    }
+
+    public static List<String> getUserGroups() {
+        return userGroups;
+    }
+
+    public static void setUserGroups(List<String> userGroups) {
+        ApplicationMain.userGroups = userGroups;
+    }
+
+    public  static void addToUserGroups (String group){
+        ApplicationMain.userGroups.add(group);
+    }
+
+    public  static void addToUserGroups (int pos, String group){
+        ApplicationMain.userGroups.add(pos, group);
     }
 
 }

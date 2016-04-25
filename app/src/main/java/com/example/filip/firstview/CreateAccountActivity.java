@@ -1,7 +1,6 @@
 package com.example.filip.firstview;
 
 import android.app.ProgressDialog;
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -15,32 +14,30 @@ import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class CreateAccountActivity extends AppCompatActivity {
 
-    EditText name;
-    EditText email;
-    EditText password;
-    EditText confirmPassword;
-    EditText age;
-    ProgressDialog dialog;
+    private EditText name;
+    private EditText email;
+    private EditText password;
+    private EditText confirmPassword;
+    private EditText age;
+    private ProgressDialog dialog;
 
-    CheckBox terms;
-    String enteredName;
-    String enteredEmail;
-    String enteredPass;
-    String enteredConfirmPass;
-    int enteredAge;
-    static AuthData userAuthData;
-
+    private CheckBox terms;
+    private String enteredName;
+    private String enteredEmail;
+    private String enteredPass;
+    private String enteredConfirmPass;
+    private int enteredAge;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_account_activity);
-
-        Firebase.setAndroidContext(this);
 
         name = (EditText) findViewById(R.id.signUpName);
         email = (EditText) findViewById(R.id.singUpEmail);
@@ -49,11 +46,7 @@ public class CreateAccountActivity extends AppCompatActivity {
         confirmPassword = (EditText) findViewById(R.id.signUpPassConfirm);
         terms = (CheckBox) findViewById(R.id.iAccept);
 
-        dialog = new ProgressDialog(this); // this = YourActivity
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setMessage("Retrievin' data from the base o' Fire ");
-        dialog.setIndeterminate(true);
-        dialog.setCanceledOnTouchOutside(false);
+        setUpLoadingDialog();
 
         Button signUpButton = (Button) findViewById(R.id.CreateAccButton);
         signUpButton.setOnClickListener(new View.OnClickListener() {
@@ -65,100 +58,104 @@ public class CreateAccountActivity extends AppCompatActivity {
                                                 enteredPass = password.getText().toString();
                                                 enteredConfirmPass = confirmPassword.getText().toString();
 
-
+                                                //Check input for wrongly added data.
                                                 if (enteredName.equals("")) {
                                                     Toast.makeText(getApplicationContext(),
                                                             "Enter a name.", Toast.LENGTH_LONG).show();
-//                                                    Log.i(LoginScreenActivity.TAG, "No email entered.");
 
                                                 } else if (enteredEmail.equals("")) {
                                                     Toast.makeText(getApplicationContext(),
                                                             "Enter an e-mail.", Toast.LENGTH_LONG).show();
-//                                                    Log.i(LoginScreenActivity.TAG, "No email entered.");
 
-                                                } else if (age.getText() == null) {
-
+                                                } else if (age.getText().toString().equals("")) {
                                                     Toast.makeText(getApplicationContext(),
                                                             "Enter age.", Toast.LENGTH_LONG).show();
-//                                                    Log.i(LoginScreenActivity.TAG, "No email entered.");
 
                                                 } else if (enteredPass.equals("")) {
-
-
                                                     Toast.makeText(getApplicationContext(),
                                                             "Enter a password.", Toast.LENGTH_LONG).show();
-//                                                    Log.i(LoginScreenActivity.TAG, "No password entered.");
 
                                                 } else if (enteredConfirmPass.equals("")) {
                                                     Toast.makeText(getApplicationContext(),
                                                             "Repeat a password.", Toast.LENGTH_LONG).show();
-//                                                    Log.i(LoginScreenActivity.TAG, "No password confirmation
-// entered.");
 
-                                                } else if (enteredPass.equals(enteredConfirmPass) != true) {
+                                                } else if (!enteredPass.equals(enteredConfirmPass)) {
                                                     Toast.makeText(getApplicationContext(),
                                                             "Passwords do not match.", Toast.LENGTH_LONG).show();
-//                                                    Log.i(LoginScreenActivity.TAG, "Entered passwords don't match.");
 
-                                                } else if (terms.isChecked() != true) {
+                                                } else if (!terms.isChecked()) {
                                                     Toast.makeText(getApplicationContext(),
                                                             "The terms must be accepted.", Toast.LENGTH_LONG).show();
-//                                                    Log.i(LoginScreenActivity.TAG, "Terms weren't accepted.");
 
                                                 } else {
                                                     enteredAge = Integer.parseInt(age.getText().toString());
 
                                                     dialog.show();
-                                                    ApplicationMain.myFirebaseRef.createUser(enteredEmail,
+                                                    ApplicationMain.getFirebaseRef().createUser(enteredEmail,
                                                             enteredPass, new Firebase.ValueResultHandler<Map<String,
                                                                     Object>>() {
                                                                 @Override
                                                                 public void onSuccess(Map<String, Object> result) {
-                                                                    Log.i(ApplicationMain.TAG, "Firebase user " +
+                                                                    Log.i(ApplicationMain.LOGIN_TAG, "Firebase user " +
                                                                             "sign-up success.");
-                                                                    Log.i(ApplicationMain.TAG, "Successfully " +
+                                                                    Log.i(ApplicationMain.LOGIN_TAG, "Successfully " +
                                                                             "created user account with uid: " +
                                                                             result.get("uid"));
 
 
-                                                                    ApplicationMain.myFirebaseRef.authWithPassword
+                                                                    ApplicationMain.getFirebaseRef().authWithPassword
                                                                             (enteredEmail, enteredPass, new Firebase
                                                                                     .AuthResultHandler() {
-                                                                        @Override
-                                                                        public void onAuthenticated(AuthData authData) {
+                                                                                @Override
+                                                                                public void onAuthenticated(AuthData
+                                                                                                                    authData) {
 
 
-                                                                            Log.i(ApplicationMain.TAG, "Firebase " +
-                                                                                    "authentication success.");
-                                                                            Log.i(ApplicationMain.TAG, "User ID: " +
-                                                                                    "" + authData.getUid() + ", " +
-                                                                                    "Provider: " + authData
-                                                                                    .getProvider());
+                                                                                    Log.i(ApplicationMain.LOGIN_TAG,
+                                                                                            "Firebase " +
+                                                                                                    "authentication " +
+                                                                                                    "success.");
+                                                                                    Log.i(ApplicationMain.LOGIN_TAG,
+                                                                                            "User ID: " +
+                                                                                                    "" + authData
+                                                                                                    .getUid() +
+                                                                                                    ", " +
+                                                                                                    "Provider: " +
+                                                                                                    authData
+                                                                                                            .getProvider());
 
-                                                                            createUserRecord(authData, enteredEmail,
-                                                                                    enteredName, enteredAge);
-                                                                            ApplicationMain.userAuthData = authData;
+                                                                                    createUserRecord(authData.getUid(),
+                                                                                            enteredEmail,
+                                                                                            enteredName, enteredAge);
+                                                                                    ApplicationMain.userAuthData =
+                                                                                            authData;
 
-                                                                            setResult(3);
-                                                                            finish();
-                                                                            dialog.hide();
-                                                                        }
+                                                                                    setResult(3);
+                                                                                    finish();
+                                                                                    dialog.hide();
+                                                                                }
 
-                                                                        @Override
-                                                                        public void onAuthenticationError
-                                                                                (FirebaseError firebaseError) {
-                                                                            // there was an error
-                                                                            Toast.makeText(getApplicationContext(),
-                                                                                    firebaseError.getMessage(), Toast
-                                                                                            .LENGTH_LONG).show();
+                                                                                @Override
+                                                                                public void onAuthenticationError
+                                                                                        (FirebaseError firebaseError) {
+                                                                                    // there was an error
+                                                                                    Toast.makeText
+                                                                                            (getApplicationContext(),
+                                                                                                    firebaseError
+                                                                                                            .getMessage
+                                                                                                                    (), Toast
+                                                                                                            .LENGTH_LONG)
+                                                                                            .show();
 
-                                                                            Log.i(ApplicationMain.TAG, "Firebase " +
-                                                                                    "authentication error.");
-                                                                            Log.i(ApplicationMain.TAG,
-                                                                                    firebaseError.getMessage());
-                                                                            dialog.hide();
-                                                                        }
-                                                                    });
+                                                                                    Log.i(ApplicationMain.LOGIN_TAG,
+                                                                                            "Firebase " +
+                                                                                                    "authentication " +
+                                                                                                    "error.");
+                                                                                    Log.i(ApplicationMain.LOGIN_TAG,
+                                                                                            firebaseError.getMessage());
+                                                                                    dialog.hide();
+                                                                                }
+                                                                            });
 
                                                                 }
 
@@ -169,9 +166,9 @@ public class CreateAccountActivity extends AppCompatActivity {
                                                                             firebaseError.getMessage(), Toast
                                                                                     .LENGTH_LONG).show();
 
-                                                                    Log.i(ApplicationMain.TAG, "Firebase user " +
+                                                                    Log.i(ApplicationMain.LOGIN_TAG, "Firebase user " +
                                                                             "sign-up error.");
-                                                                    Log.i(ApplicationMain.TAG, firebaseError
+                                                                    Log.i(ApplicationMain.LOGIN_TAG, firebaseError
                                                                             .getMessage());
                                                                     dialog.hide();
                                                                 }
@@ -187,14 +184,28 @@ public class CreateAccountActivity extends AppCompatActivity {
 
     }
 
-    static void createUserRecord(AuthData authData, String email, String name, int age) {
+    //Set up loading dialog
+    private void setUpLoadingDialog() {
+        dialog = new ProgressDialog(this);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage(getString(R.string.loading_message));
+        dialog.setIndeterminate(true);
+        dialog.setCanceledOnTouchOutside(false);
+    }
 
-        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("email").setValue(email);
-        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("name").setValue(name);
-        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("age").setValue(age);
-        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(authData.getUid()).child("inGroups").child("My Tasks").setValue("My Tasks");
+    //Create user record inside the database. Uses AuthData to get Uid.
+    static void createUserRecord(String uid, String email, String name, int age) {
+        Firebase localRef = ApplicationMain.getFirebaseRef();
 
-        ApplicationMain.userGroups.add("My Tasks");
+        localRef.child("ListOfUsers").child(uid).child("email").setValue(email);
+        localRef.child("ListOfUsers").child(uid).child("name").setValue(name);
+        localRef.child("ListOfUsers").child(uid).child("age").setValue(age);
+        localRef.child("ListOfUsers").child(uid).child("inGroups").child("My " +
+                "Tasks").setValue("My Tasks");
+
+        ApplicationMain.addToUserGroups("My Tasks");
+
+        Log.i(ApplicationMain.LOGIN_TAG, "Account successfully created.");
     }
 
 }

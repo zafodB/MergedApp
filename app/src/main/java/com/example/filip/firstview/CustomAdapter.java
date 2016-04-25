@@ -11,6 +11,8 @@ import android.widget.CompoundButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.firebase.client.Firebase;
+
 import java.util.List;
 
 /**
@@ -21,6 +23,7 @@ class CustomAdapter extends ArrayAdapter<Task> {
 
     CheckBox rowCheckBox;
     String groupId;
+    Firebase localRef;
 
     public CustomAdapter(Context context, List<Task> taskData, String groupId) {
         super(context, R.layout.task_details_row, taskData);
@@ -29,6 +32,8 @@ class CustomAdapter extends ArrayAdapter<Task> {
 
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
+        localRef = ApplicationMain.getFirebaseRef();
+
         LayoutInflater myInflater = LayoutInflater.from(getContext());
         View customView = myInflater.inflate(R.layout.task_details_row, parent, false);
 
@@ -54,11 +59,11 @@ class CustomAdapter extends ArrayAdapter<Task> {
             public void onClick(View v) {
                 if (getItem(position).isDone()) {
                     rowCheckBox.setChecked(false);
-                    ApplicationMain.myFirebaseRef.child("Groups").child(groupId).child(getItem(position).getId()
+                    localRef.child("Groups").child(groupId).child(getItem(position).getId()
                             .toString()).child("isDone").setValue("false");
                 } else {
                     rowCheckBox.setChecked(true);
-                    ApplicationMain.myFirebaseRef.child("Groups").child(groupId).child(getItem(position).getId()
+                    localRef.child("Groups").child(groupId).child(getItem(position).getId()
                             .toString()).child("isDone").setValue("true");
                 }
             }

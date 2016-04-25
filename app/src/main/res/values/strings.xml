@@ -27,4 +27,11 @@
     <string name="group_join_text">Join or create a group</string>
     <string name="create_group_button_text">Create</string>
     <string name="group_name">Type a name!</string>
+    <string name="loading_message">Retrievin\' data from the base o\' Fire </string>
+    <string name="confirm_text">Confirm</string>
+    <string name="reset_pass_text">Reset password?</string>
+    <string name="email_reset_message">We\'ve sent you an email with instructions.</string>
+    <string name="connection_error_message">Sorry, there was an error, try again.</string>
+    <string name="my_tasks_name">My Tasks</string>
+
 </resources>

@@ -15,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
@@ -33,11 +34,19 @@ public class GroupPick extends AppCompatActivity {
     List<String> allGroups = new ArrayList<>();
     boolean joinGroup = false;
 
+    Firebase localRef;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.group_pick);
+        localRef = ApplicationMain.getFirebaseRef();
+
         loadAllGroups();
+
+//        for (String s : ApplicationMain.getUserGroups()){
+//            Log.i(ApplicationMain.LOGIN_TAG, s);
+//        }
 
         createGroup = (Button) findViewById(R.id.create_group_button);
 
@@ -97,24 +106,26 @@ public class GroupPick extends AppCompatActivity {
                     if (!validName) {
                         Toast.makeText(getApplicationContext(), "The name is invalid.", Toast.LENGTH_SHORT).show();
                     } else {
-                        ApplicationMain.myFirebaseRef.child("ListOfUsers").child(ApplicationMain.userAuthData.getUid
+                        localRef.child("ListOfUsers").child(ApplicationMain.userAuthData.getUid
                                 ()).child("inGroups").child(groupName).setValue(groupName);
 
-                        ApplicationMain.myFirebaseRef.child("Groups").child(groupName).setValue("0");
+                        localRef.child("Groups").child(groupName).setValue("0");
+//                        ApplicationMain.addToUserGroups(groupName);
                         finish();
                     }
                 } else {
                     //Join existing group
-                    ApplicationMain.myFirebaseRef.child("ListOfUsers").child(ApplicationMain.userAuthData.getUid
+                    localRef.child("ListOfUsers").child(ApplicationMain.userAuthData.getUid
                             ()).child("inGroups").child(groupNameInput.getText().toString()).setValue(groupNameInput
                             .getText().toString());
+                    finish();
                 }
             }
         });
     }
 
     void loadAllGroups() {
-        ApplicationMain.myFirebaseRef.child("Groups").addValueEventListener(new ValueEventListener() {
+        localRef.child("Groups").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 allGroups.clear();

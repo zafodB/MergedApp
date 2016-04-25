@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 
 import com.firebase.client.DataSnapshot;
+import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 import com.firebase.client.ValueEventListener;
 
@@ -29,6 +30,7 @@ public class TasksListFragment extends ListFragment {
     static List<Task> tasks = new ArrayList<Task>();
 
     String groupId;
+    Firebase localRef;
 
 
     @Nullable
@@ -41,9 +43,11 @@ public class TasksListFragment extends ListFragment {
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+        localRef = ApplicationMain.getFirebaseRef();
         myAdapter = new CustomAdapter(getContext(), tasks, groupId);
-        Log.i(ApplicationMain.TAG, "loadup tasks");
+        Log.i(ApplicationMain.LOGIN_TAG, "loadup tasks");
         loadUpContent();
+
 
         setListAdapter(myAdapter);
 
@@ -54,7 +58,7 @@ public class TasksListFragment extends ListFragment {
     public static Fragment newInstance(Context context, String groupId) {
         TasksListFragment instance = new TasksListFragment();
 
-        Log.i(ApplicationMain.TAG, "assign groupid");
+        Log.i(ApplicationMain.LOGIN_TAG, "assign groupid");
         instance.groupId = groupId;
 
         return instance;
@@ -63,7 +67,8 @@ public class TasksListFragment extends ListFragment {
 
     void loadUpContent() {
         if (groupId.equals("My Tasks")){
-            ApplicationMain.myFirebaseRef.child("ListOfUsers").child(ApplicationMain.userAuthData.getUid()).child("inGroups").child("MyTasks").addValueEventListener(new ValueEventListener() {
+            localRef.child("ListOfUsers").child(ApplicationMain.userAuthData.getUid()).child("inGroups").child
+                    ("MyTasks").addValueEventListener(new ValueEventListener() {
                 
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -76,7 +81,7 @@ public class TasksListFragment extends ListFragment {
                 }
             });
         } else {
-            ApplicationMain.myFirebaseRef.child("Groups").child(groupId).addValueEventListener(new ValueEventListener() {
+            localRef.child("Groups").child(groupId).addValueEventListener(new ValueEventListener() {
 
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -108,14 +113,14 @@ public class TasksListFragment extends ListFragment {
             }
         }
 
-//        Log.i(LoginScreenActivity.TAG,date);
+//        Log.i(LoginScreenActivity.LOGIN_TAG,date);
         return Integer.parseInt(date);
     }
 
     void loadUpTasks(DataSnapshot dataSnapshot){
         int j = 0;
         tasks.clear();
-//                Log.i(LoginScreenActivity.TAG, "date chenged");
+//                Log.i(LoginScreenActivity.LOGIN_TAG, "date chenged");
 
         for (DataSnapshot i : dataSnapshot.getChildren()) {
             j++;

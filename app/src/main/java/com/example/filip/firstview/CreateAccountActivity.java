@@ -127,8 +127,8 @@ public class CreateAccountActivity extends AppCompatActivity {
                                                                                     createUserRecord(authData.getUid(),
                                                                                             enteredEmail,
                                                                                             enteredName, enteredAge);
-                                                                                    ApplicationMain.userAuthData =
-                                                                                            authData;
+                                                                                    ApplicationMain.setUserAuthData
+                                                                                            (authData);
 
                                                                                     setResult(3);
                                                                                     finish();

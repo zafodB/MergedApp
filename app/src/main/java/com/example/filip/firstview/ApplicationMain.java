@@ -13,7 +13,7 @@ public class ApplicationMain extends android.app.Application {
 
     static private Firebase myFirebaseRef;
     static private List<String> userGroups = new ArrayList<>();
-    static AuthData userAuthData;
+    static private AuthData userAuthData;
 
     public static final String LOGIN_TAG = "login";
 
@@ -50,4 +50,11 @@ public class ApplicationMain extends android.app.Application {
         ApplicationMain.userGroups.add(pos, group);
     }
 
+    public static AuthData getUserAuthData() {
+        return userAuthData;
+    }
+
+    public static void setUserAuthData(AuthData userAuthData) {
+        ApplicationMain.userAuthData = userAuthData;
+    }
 }

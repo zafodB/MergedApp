@@ -148,7 +148,7 @@ public class LoginScreenActivity extends AppCompatActivity {
 
                             request.executeAsync();
 
-                            ApplicationMain.userAuthData = authData;
+                            ApplicationMain.setUserAuthData(authData);
 
                             loadUpGroups();
 
@@ -207,7 +207,7 @@ public class LoginScreenActivity extends AppCompatActivity {
                             Log.i(ApplicationMain.LOGIN_TAG, "User ID: " + authData.getUid() + ", Provider: " +
                                     authData.getProvider());
 
-                            ApplicationMain.userAuthData = authData;
+                            ApplicationMain.setUserAuthData(authData);
                             loadUpGroups();
 
                         }
@@ -351,7 +351,7 @@ public class LoginScreenActivity extends AppCompatActivity {
         LoginManager.getInstance().logOut();
 
         ApplicationMain.setUserGroups(new ArrayList<String>());
-        TasksListFragment.tasks.clear();
+        TasksListFragment.setTasks(new ArrayList<Task>());
 
         Log.i(ApplicationMain.LOGIN_TAG, "Logged out.");
 

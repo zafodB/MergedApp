@@ -28,13 +28,13 @@ import java.util.List;
 
 public class GroupPick extends AppCompatActivity {
 
-    Button createGroup;
-    EditText groupNameInput;
+    private Button createGroup;
+    private EditText groupNameInput;
 
-    List<String> allGroups = new ArrayList<>();
-    boolean joinGroup = false;
+    private List<String> allGroups = new ArrayList<>();
+    private boolean joinGroup = false;
 
-    Firebase localRef;
+    private Firebase localRef;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,7 +106,7 @@ public class GroupPick extends AppCompatActivity {
                     if (!validName) {
                         Toast.makeText(getApplicationContext(), "The name is invalid.", Toast.LENGTH_SHORT).show();
                     } else {
-                        localRef.child("ListOfUsers").child(ApplicationMain.userAuthData.getUid
+                        localRef.child("ListOfUsers").child(ApplicationMain.getUserAuthData().getUid
                                 ()).child("inGroups").child(groupName).setValue(groupName);
 
                         localRef.child("Groups").child(groupName).setValue("0");
@@ -115,7 +115,7 @@ public class GroupPick extends AppCompatActivity {
                     }
                 } else {
                     //Join existing group
-                    localRef.child("ListOfUsers").child(ApplicationMain.userAuthData.getUid
+                    localRef.child("ListOfUsers").child(ApplicationMain.getUserAuthData().getUid
                             ()).child("inGroups").child(groupNameInput.getText().toString()).setValue(groupNameInput
                             .getText().toString());
                     finish();

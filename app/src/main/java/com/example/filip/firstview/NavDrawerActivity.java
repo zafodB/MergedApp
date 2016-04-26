@@ -19,11 +19,11 @@ import android.view.View;
 public class NavDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    FragmentManager fragmentManager;
-    NavigationView navigationView;
-    Menu myMenu;
-    SubMenu menuGroups;
-    SubMenu menuRest;
+    private FragmentManager fragmentManager;
+    private NavigationView navigationView;
+    private Menu myMenu;
+    private SubMenu menuGroups;
+    private SubMenu menuRest;
 
 
     final private int ID_SETTINGS_MENU = 1;
@@ -128,7 +128,7 @@ public class NavDrawerActivity extends AppCompatActivity
         return true;
     }
 
-    void loadUpButtons() {
+    private void loadUpButtons() {
         myMenu = navigationView.getMenu();
 
         myMenu.clear();

@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
@@ -25,18 +26,20 @@ import java.util.UUID;
  */
 public class TasksListFragment extends ListFragment {
 
-    static ArrayAdapter myAdapter;
+    private static ArrayAdapter myAdapter;
+    private TextView listEmpty;
 
-    static List<Task> tasks = new ArrayList<Task>();
+    private static List<Task> tasks = new ArrayList<>();
 
-    String groupId;
-    Firebase localRef;
+    private String groupId;
+    private Firebase localRef;
 
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         ViewGroup myView = (ViewGroup) inflater.inflate(R.layout.task_list_fragment, null);
+        listEmpty = (TextView) myView.findViewById(R.id.empty_list_message);
 
         return myView;
     }
@@ -45,12 +48,11 @@ public class TasksListFragment extends ListFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         localRef = ApplicationMain.getFirebaseRef();
         myAdapter = new CustomAdapter(getContext(), tasks, groupId);
-        Log.i(ApplicationMain.LOGIN_TAG, "loadup tasks");
+
         loadUpContent();
 
 
         setListAdapter(myAdapter);
-
 
         super.onActivityCreated(savedInstanceState);
     }
@@ -65,11 +67,11 @@ public class TasksListFragment extends ListFragment {
     }
 
 
-    void loadUpContent() {
-        if (groupId.equals("My Tasks")){
-            localRef.child("ListOfUsers").child(ApplicationMain.userAuthData.getUid()).child("inGroups").child
+    private void loadUpContent() {
+        if (groupId.equals("My Tasks")) {
+            localRef.child("ListOfUsers").child(ApplicationMain.getUserAuthData().getUid()).child("inGroups").child
                     ("MyTasks").addValueEventListener(new ValueEventListener() {
-                
+
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
                     loadUpTasks(dataSnapshot);
@@ -96,18 +98,18 @@ public class TasksListFragment extends ListFragment {
         }
     }
 
-    int getDate(int dueYear, int dueMonth, int dueDay){
+    private int getDate(int dueYear, int dueMonth, int dueDay) {
         String date;
 
-        if (dueMonth<10){
-            if (dueDay<10){
-                date = String.valueOf(dueYear)+"0"+String.valueOf(dueMonth)+"0"+String.valueOf(dueDay);
-            }else {
+        if (dueMonth < 10) {
+            if (dueDay < 10) {
+                date = String.valueOf(dueYear) + "0" + String.valueOf(dueMonth) + "0" + String.valueOf(dueDay);
+            } else {
                 date = String.valueOf(dueYear) + "0" + String.valueOf(dueMonth) + String.valueOf(dueDay);
             }
-        }else{
-            if (dueDay<10){
-                date = String.valueOf(dueYear)+String.valueOf(dueMonth)+"0"+String.valueOf(dueDay);
+        } else {
+            if (dueDay < 10) {
+                date = String.valueOf(dueYear) + String.valueOf(dueMonth) + "0" + String.valueOf(dueDay);
             } else {
                 date = String.valueOf(dueYear) + String.valueOf(dueMonth) + String.valueOf(dueDay);
             }
@@ -117,13 +119,10 @@ public class TasksListFragment extends ListFragment {
         return Integer.parseInt(date);
     }
 
-    void loadUpTasks(DataSnapshot dataSnapshot){
-        int j = 0;
+    private void loadUpTasks(DataSnapshot dataSnapshot) {
         tasks.clear();
-//                Log.i(LoginScreenActivity.LOGIN_TAG, "date chenged");
 
         for (DataSnapshot i : dataSnapshot.getChildren()) {
-            j++;
             int day = i.child("dateDay").getValue(Integer.class);
             int month = i.child("dateMonth").getValue(Integer.class);
             int year = i.child("dateYear").getValue(Integer.class);
@@ -155,8 +154,16 @@ public class TasksListFragment extends ListFragment {
                 tasks.add(pos, new Task(name, day, month, year, uuid, isDone, isDoubleChecked));
             }
 
-            myAdapter.notifyDataSetChanged();
         }
+        myAdapter.notifyDataSetChanged();
+
+        if (tasks.isEmpty()) {
+            listEmpty.setVisibility(View.VISIBLE);
+        } else
+            listEmpty.setVisibility(View.GONE);
     }
 
+    public static void setTasks(List<Task> tasks) {
+        TasksListFragment.tasks = tasks;
+    }
 }

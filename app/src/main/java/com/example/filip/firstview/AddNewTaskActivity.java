@@ -97,7 +97,7 @@ public class AddNewTaskActivity extends AppCompatActivity {
                     String selectedGroup = pickGroup.getSelectedItem().toString();
 
                     if (selectedGroup.equals("My Tasks")) {
-                        localRef.child("ListOfUsers").child(ApplicationMain.userAuthData.getUid
+                        localRef.child("ListOfUsers").child(ApplicationMain.getUserAuthData().getUid
                                 ()).child("inGroups").child("My Tasks").child(uuid).setValue(map);
                     } else {
                         localRef.child("Groups").child(selectedGroup).child(uuid).setValue(map);
@@ -136,7 +136,7 @@ public class AddNewTaskActivity extends AppCompatActivity {
         pickGroup.setAdapter(spinnerAdapter);
     }
 
-    public static   void setTimeText(int minute, int hour) {
+    public static void setTimeText(int minute, int hour) {
         if (minute < 10) {
             timeText = (hour + ":0" + minute);
         } else

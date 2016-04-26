@@ -8,19 +8,17 @@ import java.util.UUID;
  */
 public class Task {
 
-    UUID id;
-    int dueDay;
-    int dueMonth;
-    int dueYear;
-    int dueMinute;
-    int dueHour;
-    boolean isDone;
-    int whoDidIt; //user id within the group
-    boolean isDoubleChecked;
-    int[] whoIsResponsible; //kids responsible
-
-//    boolean done;
-    String name;
+    private UUID id;
+    private int dueDay;
+    private int dueMonth;
+    private int dueYear;
+    private int dueMinute;
+    private int dueHour;
+    private boolean isDone;
+    private int whoDidIt; //user id within the group
+    private boolean isDoubleChecked;
+    private int[] whoIsResponsible; //kids responsible
+    private String name;
 
     public Task(){
         id = UUID.randomUUID();
@@ -74,23 +72,6 @@ public class Task {
         whoDidIt = -1;
         this.isDoubleChecked = isDoubleChecked;
     }
-
-//    public Task(String name, int day, int month, int year, int minute, int hour, int[] responsible){
-//        id = UUID.randomUUID();
-//        this.name = name;
-//
-//        dueDay = day;
-//        dueMonth = month;
-//        dueYear = year;
-//        dueMinute = minute;
-//        dueHour = hour;
-//
-//        isDone = false;
-//        whoDidIt = -1;
-//        isDoubleChecked = false;
-//
-//        whoIsResponsible = responsible;
-//    }
 
     public boolean isDone() {
         return isDone;
@@ -171,6 +152,7 @@ public class Task {
     public void setDueYear(int dueYear) {
         this.dueYear = dueYear;
     }
+
     public int getDate(){
         String date;
 

@@ -21,9 +21,9 @@ import java.util.List;
 
 class CustomAdapter extends ArrayAdapter<Task> {
 
-    CheckBox rowCheckBox;
-    String groupId;
-    Firebase localRef;
+    private CheckBox rowCheckBox;
+    private String groupId;
+    private Firebase localRef;
 
     public CustomAdapter(Context context, List<Task> taskData, String groupId) {
         super(context, R.layout.task_details_row, taskData);

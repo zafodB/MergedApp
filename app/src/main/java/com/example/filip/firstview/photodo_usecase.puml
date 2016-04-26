@@ -7,7 +7,6 @@ left to right direction
 :Baby User: as babyuser
 
 usecase "See group status" as UC1
-usecase "See points" as UC2
 usecase "View tasks" as UC3
 usecase UC4 as "See who is responsible
  for the task"
@@ -43,6 +42,8 @@ usecase UC29 as "Remove people
 from the group"
 usecase UC30 as "Mark user as Super-user"
 usecase UC31 as "See people in the group"
+usecase UC32 as "View calendar
+with tasks"
 
 superuser -left-> user
 babyuser -left-> user
@@ -56,6 +57,8 @@ UC11 -left- superuser
 UC12 -left- superuser
 UC13 -left- superuser
 
+UC26 -left- superuser
+UC26 -left- babyuser
 UC3 -left- babyuser
 UC10 -left- babyuser
 UC12 -left- babyuser
@@ -89,9 +92,11 @@ UC25 .left.> UC23 : includes
 
 UC29 .left.> UC1 : extends
 UC31 .left.> UC1 : includes
-UC2 .left.> UC1 : includes
 UC30 .left.>UC23 : extends
 
+UC27 .left.> UC26 : includes
+UC28 .left.> UC26 : includes
+UC32 .left.> UC3 : includes
 
 
 

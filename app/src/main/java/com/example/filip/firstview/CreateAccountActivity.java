@@ -14,8 +14,6 @@ import com.firebase.client.AuthData;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
 public class CreateAccountActivity extends AppCompatActivity {

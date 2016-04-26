@@ -3,7 +3,6 @@ package com.example.filip.firstview;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,7 +14,6 @@ import com.firebase.client.Firebase;
 
 import java.util.Calendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -40,7 +38,6 @@ public class AddNewTaskActivity extends AppCompatActivity {
     private Firebase localRef;
 
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,7 +57,7 @@ public class AddNewTaskActivity extends AppCompatActivity {
             public void onClick(View v) {
                 showDatePickerDialog(getCurrentFocus());
                 setDateText(day, month + 1, year);
-               updateTimeDate();
+                updateTimeDate();
 
             }
         });
@@ -80,12 +77,16 @@ public class AddNewTaskActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (taskNameInput.getText().length() == 0) {
-                    Toast.makeText(getApplicationContext(), "TASK IS MISSING A NAME!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), getString(R.string.task_missing_name), Toast
+                            .LENGTH_SHORT).show();
+                } else if (taskNameInput.getText().length() > 20) {
+                    Toast.makeText(getApplicationContext(), getString(R.string.task_name_long), Toast.LENGTH_SHORT)
+                            .show();
                 } else {
                     String taskName = taskNameInput.getText().toString();
                     String uuid = UUID.randomUUID().toString();
 
-                    Map<String, String> map = new HashMap<String, String>();
+                    Map<String, String> map = new HashMap<>();
                     map.put("name", taskName);
                     map.put("dateDay", String.valueOf(day));
                     map.put("dateMonth", String.valueOf(month));
@@ -128,9 +129,8 @@ public class AddNewTaskActivity extends AppCompatActivity {
     }
 
 
-
     private void addGroupsToSpinner() {
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<String>(this, android.R.layout
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout
                 .simple_spinner_dropdown_item, ApplicationMain.getUserGroups());
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         pickGroup.setAdapter(spinnerAdapter);
@@ -143,7 +143,7 @@ public class AddNewTaskActivity extends AppCompatActivity {
             timeText = (hour + ":" + minute);
     }
 
-    public static void updateTimeDate(){
+    public static void updateTimeDate() {
         dateInput.setText(AddNewTaskActivity.dateText);
         timeInput.setText(AddNewTaskActivity.timeText);
     }

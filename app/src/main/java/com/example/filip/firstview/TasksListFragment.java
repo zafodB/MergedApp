@@ -57,7 +57,7 @@ public class TasksListFragment extends ListFragment {
         super.onActivityCreated(savedInstanceState);
     }
 
-    public static Fragment newInstance(Context context, String groupId) {
+    public static Fragment newInstance(String groupId) {
         TasksListFragment instance = new TasksListFragment();
 
         Log.i(ApplicationMain.LOGIN_TAG, "assign groupid");
@@ -130,13 +130,9 @@ public class TasksListFragment extends ListFragment {
 
             boolean isDone;
             boolean isDoubleChecked;
-            if (i.child("isDone").getValue(String.class).equals("true")) {
-                isDone = true;
-            } else isDone = false;
+            isDone = i.child("isDone").getValue(String.class).equals("true");
 
-            if (i.child("isDoubleChecked").getValue(String.class).equals("true")) {
-                isDoubleChecked = true;
-            } else isDoubleChecked = false;
+            isDoubleChecked = i.child("isDoubleChecked").getValue(String.class).equals("true");
 
             UUID uuid = UUID.fromString(i.getKey());
 

@@ -47,7 +47,6 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/task_responsible"
-        android:id="@+id/rowTaskResponsible"
         android:layout_below="@+id/rowTaskName"
         android:layout_toEndOf="@+id/space" />
 </RelativeLayout>

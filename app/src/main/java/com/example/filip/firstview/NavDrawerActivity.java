@@ -10,7 +10,6 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
@@ -21,9 +20,6 @@ public class NavDrawerActivity extends AppCompatActivity
 
     private FragmentManager fragmentManager;
     private NavigationView navigationView;
-    private Menu myMenu;
-    private SubMenu menuGroups;
-    private SubMenu menuRest;
 
 
     final private int ID_SETTINGS_MENU = 1;
@@ -64,7 +60,7 @@ public class NavDrawerActivity extends AppCompatActivity
 
         try {
             fragmentManager.beginTransaction().replace(R.id.fragment_space, TasksListFragment.newInstance
-                    (getApplicationContext(), ApplicationMain.getUserGroups().get(0))).commit();
+                    (ApplicationMain.getUserGroups().get(0))).commit();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -119,7 +115,7 @@ public class NavDrawerActivity extends AppCompatActivity
 
             fragmentManager = getSupportFragmentManager();
             fragmentManager.beginTransaction().replace(R.id.fragment_space, TasksListFragment.newInstance
-                    (getApplicationContext(), item.getTitle().toString())).commit();
+                    (item.getTitle().toString())).commit();
 
         }
 
@@ -129,10 +125,10 @@ public class NavDrawerActivity extends AppCompatActivity
     }
 
     private void loadUpButtons() {
-        myMenu = navigationView.getMenu();
+        Menu myMenu = navigationView.getMenu();
 
         myMenu.clear();
-        menuGroups = myMenu.addSubMenu("Groups");
+        SubMenu menuGroups = myMenu.addSubMenu("Groups");
 
         menuGroups.clear();
         int i = 0;
@@ -142,7 +138,7 @@ public class NavDrawerActivity extends AppCompatActivity
             i++;
         }
 
-        menuRest = myMenu.addSubMenu("Others");
+        SubMenu menuRest = myMenu.addSubMenu("Others");
         menuRest.add(Menu.NONE, ID_SETTINGS_MENU, Menu.NONE, "Settings").setIcon(android.R.drawable
                 .ic_menu_preferences);
         menuRest.add(Menu.NONE, ID_FEEDBACK_MENU, Menu.NONE, "Send Feedback").setIcon(android.R.drawable.ic_menu_send);

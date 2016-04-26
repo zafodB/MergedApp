@@ -5,13 +5,9 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.firebase.client.DataSnapshot;
@@ -69,10 +65,10 @@ public class GroupPick extends AppCompatActivity {
                 }
 
                 if (isThere) {
-                    createGroup.setText("JOIN");
+                    createGroup.setText(getString(R.string.group_join_button));
                     joinGroup = true;
                 } else {
-                    createGroup.setText("CREATE");
+                    createGroup.setText(getString(R.string.group_create_button));
                     joinGroup = false;
                 }
             }

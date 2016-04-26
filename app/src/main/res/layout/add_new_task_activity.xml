@@ -57,7 +57,7 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="addTask"
+        android:text="@string/add_task_text"
         android:id="@+id/addTaskBtn"
         android:layout_marginBottom="120dp"
         android:layout_alignParentBottom="true"

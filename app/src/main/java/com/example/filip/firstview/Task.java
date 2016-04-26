@@ -6,9 +6,9 @@ import java.util.UUID;
 /**
  * Created by filip on 08/04/2016.
  */
-public class Task {
+class Task {
 
-    private UUID id;
+    private final UUID id;
     private int dueDay;
     private int dueMonth;
     private int dueYear;

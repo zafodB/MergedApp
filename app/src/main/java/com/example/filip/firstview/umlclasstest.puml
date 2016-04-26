@@ -1,0 +1,108 @@
+@startuml
+
+class Task{
+-UUID id
+-int dueDay
+-int dueMonth
+-int dueYear
+-int dueMinute
+-int dueHour
+-boolean isDone
+-int whoDidIt
+-boolean isDoubleChecked
+-int[] whoIsResponsible
+-String name
+==
+..Constructors..
++Task()
++Task(name, day, month, year, UUID,
+isDone, isDoubleChecked)
+
+..Getters..
++getID()
++isDone()
++isDoubleChecked()
++getName()
++getWhoDidIt()
++getWhoIsResponsible()
++getDueDay()
++getDueHour()
++getDueMinute()
++getDueMonth()
++getDueYear()
++getDate()
+
+..Setters..
++setDone()
++setDoubleChecked()
++setName()
++setWhoDidIt()
++setWhoIsResponsible()
++setDueDay()
++setDueHour()
++setDueMinute()
++setDueMonth()
++setDueYear()
++setDate()
+
+}
+
+class AddNewTaskActivity{
+- {static} Calendar myCal
+- {static} int hour
+- {static} int minute
+- {static} int year
+- {static} int month
+- {static} int date
+- {static} String dateText
+- {static} String timeText
+- {static} TextView dateInput
+- {static} TextView timeInput
+
+- TextView taskNameInput
+- Spinner pickgroup
+- Firebase localRef
+
+==
+# void onCreate(Bundle savedInstance)
++ void showTimePickerDialog(View v)
++ void showDatePickerDialog(View v)
+- void addGroupsToSpinner()
++ {static} void updateTimeDate()
++ {static} void setTimeText(int minute, int hour)
++ {static} void setDateText(int day, int month, int year)
++ {static} void setDay (int day)
++ {static} void setHour (int hour)
++ {static} void setMinute (int minute)
++ {static} void setMonth (int month)
++ {static} void setYear (int year)
+}
+
+
+
+
+
+abstract class AbstractList
+abstract AbstractCollection
+interface List
+interface Collection
+
+List <|-- AbstractList
+Collection <|-- AbstractCollection
+
+Collection <|- List
+AbstractCollection <|- AbstractList
+AbstractList <|-- ArrayList
+
+class ArrayList {
+Object[] elementData
+size()
+}
+
+enum TimeUnit {
+DAYS
+HOURS
+MINUTES
+}
+
+@enduml

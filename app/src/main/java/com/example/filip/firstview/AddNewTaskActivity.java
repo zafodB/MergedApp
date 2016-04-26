@@ -136,6 +136,11 @@ public class AddNewTaskActivity extends AppCompatActivity {
         pickGroup.setAdapter(spinnerAdapter);
     }
 
+    public static void updateTimeDate() {
+        dateInput.setText(AddNewTaskActivity.dateText);
+        timeInput.setText(AddNewTaskActivity.timeText);
+    }
+
     public static void setTimeText(int minute, int hour) {
         if (minute < 10) {
             timeText = (hour + ":0" + minute);
@@ -143,10 +148,6 @@ public class AddNewTaskActivity extends AppCompatActivity {
             timeText = (hour + ":" + minute);
     }
 
-    public static void updateTimeDate() {
-        dateInput.setText(AddNewTaskActivity.dateText);
-        timeInput.setText(AddNewTaskActivity.timeText);
-    }
 
     public static void setDateText(int day, int month, int year) {
         dateText = (day + ". " + month + ". " + year);

@@ -37,23 +37,6 @@ class Task {
 
     }
 
-//    public Task(String name){
-//        this.name = name;
-//
-//        final Calendar myCal = Calendar.getInstance();
-//        dueDay = myCal.get(Calendar.DAY_OF_MONTH);
-//        dueMonth = myCal.get(Calendar.MONTH);
-//        dueYear = myCal.get(Calendar.YEAR);
-//        dueMinute = myCal.get(Calendar.MINUTE);
-//        dueHour = myCal.get(Calendar.HOUR_OF_DAY);
-//
-//        isDone = false;
-//    }
-
-    public UUID getId() {
-        return id;
-    }
-
     public Task(String name, int day, int month, int year, UUID uuid, boolean isDone, boolean isDoubleChecked){
         if (uuid == null) {
             id = UUID.randomUUID();
@@ -71,6 +54,10 @@ class Task {
         this.isDone = isDone;
         whoDidIt = -1;
         this.isDoubleChecked = isDoubleChecked;
+    }
+
+    public UUID getId() {
+        return id;
     }
 
     public boolean isDone() {

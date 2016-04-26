@@ -1,6 +1,5 @@
 package com.example.filip.firstview;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -24,6 +23,8 @@ import java.util.UUID;
 /**
  * Created by filip on 07/04/2016.
  */
+
+
 public class TasksListFragment extends ListFragment {
 
     private static ArrayAdapter myAdapter;

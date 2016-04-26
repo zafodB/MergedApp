@@ -32,12 +32,14 @@
     <string name="my_tasks_name">My Tasks</string>
     <string name="empty_list_message_text">Nothing seems to be here :(</string>
     <string name="logo_description">App logo</string>
-    <string name="add_task_text">Add Task</string>
+    <string name="save_task_text">Save Task</string>
     <string name="group_settings">Group Settings</string>
     <string name="settings_text">Other Settings</string>
     <string name="task_missing_name">The task is missing a name!</string>
     <string name="task_name_long">The task name is too long.</string>
     <string name="group_join_button">JOIN</string>
     <string name="group_create_button">CREATE</string>
+    <string name="detele_btn_text">Delete</string>
+    <string name="cancel_btn_text">Cancel</string>
 
 </resources>

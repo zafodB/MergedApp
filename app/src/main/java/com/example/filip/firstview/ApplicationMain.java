@@ -16,6 +16,7 @@ public class ApplicationMain extends android.app.Application {
     static private AuthData userAuthData;
 
     public static final String LOGIN_TAG = "login";
+    public static final String FIREBASE_COMMUNICATION_TAG = "firebase";
 
     @Override
     public void onCreate() {

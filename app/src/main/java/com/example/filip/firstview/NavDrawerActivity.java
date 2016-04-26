@@ -15,6 +15,8 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 
+import java.util.UUID;
+
 public class NavDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
@@ -38,7 +40,9 @@ public class NavDrawerActivity extends AppCompatActivity
         newTaskButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent myIntent = new Intent(NavDrawerActivity.this, AddNewTaskActivity.class);
+                Intent myIntent = new Intent(NavDrawerActivity.this, EditTaskActivity.class);
+                myIntent.putExtra("edit", false);
+                myIntent.putExtra("uuid", UUID.randomUUID().toString());
                 NavDrawerActivity.this.startActivityForResult(myIntent, 1);
             }
         });
@@ -145,9 +149,6 @@ public class NavDrawerActivity extends AppCompatActivity
         menuRest.add(Menu.NONE, ID_LOG_OFF_MENU, Menu.NONE, "Log off").setIcon(android.R.drawable.ic_lock_idle_lock);
 
 
-//        Log.i(ApplicationMain.LOGIN_TAG, String.valueOf(ApplicationMain.userGroups.size()) + " is the size of
-// groups");
-//        Log.i(ApplicationMain.LOGIN_TAG, "loadUp buttons");
     }
 
 }

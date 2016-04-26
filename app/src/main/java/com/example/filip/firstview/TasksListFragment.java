@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -52,7 +53,6 @@ public class TasksListFragment extends ListFragment {
 
         loadUpContent();
 
-
         setListAdapter(myAdapter);
 
         super.onActivityCreated(savedInstanceState);
@@ -61,7 +61,6 @@ public class TasksListFragment extends ListFragment {
     public static Fragment newInstance(String groupId) {
         TasksListFragment instance = new TasksListFragment();
 
-        Log.i(ApplicationMain.LOGIN_TAG, "assign groupid");
         instance.groupId = groupId;
 
         return instance;
@@ -69,9 +68,9 @@ public class TasksListFragment extends ListFragment {
 
 
     private void loadUpContent() {
-        if (groupId.equals("My Tasks")) {
+        if (groupId.equals(getString(R.string.my_tasks_name))) {
             localRef.child("ListOfUsers").child(ApplicationMain.getUserAuthData().getUid()).child("inGroups").child
-                    ("MyTasks").addValueEventListener(new ValueEventListener() {
+                    (getString(R.string.my_tasks_name)).addValueEventListener(new ValueEventListener() {
 
                 @Override
                 public void onDataChange(DataSnapshot dataSnapshot) {
@@ -123,36 +122,42 @@ public class TasksListFragment extends ListFragment {
     private void loadUpTasks(DataSnapshot dataSnapshot) {
         tasks.clear();
 
-        for (DataSnapshot i : dataSnapshot.getChildren()) {
-            int day = i.child("dateDay").getValue(Integer.class);
-            int month = i.child("dateMonth").getValue(Integer.class);
-            int year = i.child("dateYear").getValue(Integer.class);
-            String name = i.child("name").getValue(String.class);
+        try {
+            for (DataSnapshot i : dataSnapshot.getChildren()) {
+                int day = i.child("dateDay").getValue(Integer.class);
+                int month = i.child("dateMonth").getValue(Integer.class);
+                int year = i.child("dateYear").getValue(Integer.class);
+                String name = i.child("name").getValue(String.class);
 
-            boolean isDone;
-            boolean isDoubleChecked;
-            isDone = i.child("isDone").getValue(String.class).equals("true");
+                boolean isDone;
+                boolean isDoubleChecked;
+                isDone = i.child("isDone").getValue(String.class).equals("true");
 
-            isDoubleChecked = i.child("isDoubleChecked").getValue(String.class).equals("true");
+                isDoubleChecked = i.child("isDoubleChecked").getValue(String.class).equals("true");
 
-            UUID uuid = UUID.fromString(i.getKey());
+                UUID uuid = UUID.fromString(i.getKey());
 
-            if (tasks.isEmpty()) {
-                tasks.add(new Task(name, day, month, year, uuid, isDone, isDoubleChecked));
-            } else {
-                int pos = 0;
-                for (Task t : tasks) {
-                    if (t.getDate() > getDate(year, month, day)) {
-                        break;
+                if (tasks.isEmpty()) {
+                    tasks.add(new Task(name, day, month, year, uuid, isDone, isDoubleChecked));
+                } else {
+                    int pos = 0;
+                    for (Task t : tasks) {
+                        if (t.getDate() > getDate(year, month, day)) {
+                            break;
+                        }
+
+                        pos++;
                     }
-
-                    pos++;
+                    tasks.add(pos, new Task(name, day, month, year, uuid, isDone, isDoubleChecked));
                 }
-                tasks.add(pos, new Task(name, day, month, year, uuid, isDone, isDoubleChecked));
-            }
 
+            }
+            myAdapter.notifyDataSetChanged();
+
+        } catch (NullPointerException e) {
+            Log.i(ApplicationMain.LOGIN_TAG, "firebase too late");
         }
-        myAdapter.notifyDataSetChanged();
+
 
         if (tasks.isEmpty()) {
             listEmpty.setVisibility(View.VISIBLE);

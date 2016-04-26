@@ -45,7 +45,6 @@
             android:screenOrientation="portrait"/>
 
         <activity android:name=".GroupPick"
-                  android:parentActivityName=".LoginScreenActivity"
                   android:screenOrientation="portrait"/>
 
         <activity
@@ -66,7 +65,7 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".AddNewTaskActivity"
+            android:name=".EditTaskActivity"
             android:parentActivityName=".NavDrawerActivity"
             android:screenOrientation="portrait"/>
 

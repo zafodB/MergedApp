@@ -32,6 +32,7 @@ import com.firebase.client.AuthData;
 import com.firebase.client.DataSnapshot;
 import com.firebase.client.Firebase;
 import com.firebase.client.FirebaseError;
+import com.firebase.client.FirebaseException;
 import com.firebase.client.ValueEventListener;
 
 import org.json.JSONException;
@@ -370,8 +371,14 @@ public class LoginScreenActivity extends AppCompatActivity {
                 ApplicationMain.addToUserGroups(getString(R.string.my_tasks_name));
 
                 boolean noGroups = true;
+                String groupName;
                 for (DataSnapshot i : dataSnapshot.getChildren()) {
-                    String groupName = i.getValue(String.class);
+
+                    try {
+                        groupName = i.getValue(String.class);
+                    } catch (FirebaseException e) {
+                        continue;
+                    }
                     if (!groupName.equals(getString(R.string.my_tasks_name))) {
                         noGroups = false;
 

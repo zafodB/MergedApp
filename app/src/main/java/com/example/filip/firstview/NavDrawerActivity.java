@@ -22,14 +22,13 @@ import java.util.UUID;
 public class NavDrawerActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
 
-    private FragmentManager fragmentManager;
-    private NavigationView navigationView;
-
-
     final private int ID_SETTINGS_MENU = 1;
     final private int ID_FEEDBACK_MENU = 2;
     final private int ID_LOG_OFF_MENU = 3;
     final private int[] ID_GROUPS = {4, 5, 6, 7, 8, 9, 10};
+
+    private FragmentManager fragmentManager;
+    private NavigationView navigationView;
     private Map<String, Integer> groupMap = new HashMap<>();
 
     @Override
@@ -130,6 +129,15 @@ public class NavDrawerActivity extends AppCompatActivity
         return true;
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        loadUpButtons();
+        MenuItem myItem = navigationView.getMenu().getItem(0).getSubMenu().getItem(resultCode);
+        onNavigationItemSelected(myItem);
+    }
+
     private void loadUpButtons() {
         Menu myMenu = navigationView.getMenu();
 
@@ -153,12 +161,5 @@ public class NavDrawerActivity extends AppCompatActivity
 
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
 
-        loadUpButtons();
-        MenuItem myItem = navigationView.getMenu().getItem(0).getSubMenu().getItem(resultCode);
-        onNavigationItemSelected(myItem);
-    }
 }

@@ -120,7 +120,7 @@ public class GroupPick extends AppCompatActivity {
         });
     }
 
-    void loadAllGroups() {
+    protected void loadAllGroups() {
         localRef.child("Groups").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

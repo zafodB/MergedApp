@@ -33,7 +33,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     private String enteredPass;
     private String enteredConfirmPass;
     private int enteredAge;
-    static private boolean newUser;
+    private static boolean newUser;
     private static Firebase localRef;
 
     private static String uid;
@@ -203,7 +203,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     //Create user record inside the database. Uses AuthData to get Uid.
-    static void createUserRecord(String uid, String email, String name, int age) {
+    protected static void createUserRecord(String uid, String email, String name, int age) {
         localRef = ApplicationMain.getFirebaseRef();
 
         CreateAccountActivity.uid = uid;

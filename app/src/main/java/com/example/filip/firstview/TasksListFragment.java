@@ -5,7 +5,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.util.Log;
-import android.view.GestureDetector;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +28,9 @@ import java.util.UUID;
 public class TasksListFragment extends ListFragment {
 
     private static ArrayAdapter myAdapter;
-    private TextView listEmpty;
-
     private static List<Task> tasks = new ArrayList<>();
 
+    private TextView listEmpty;
     private String groupId;
     private Firebase localRef;
 

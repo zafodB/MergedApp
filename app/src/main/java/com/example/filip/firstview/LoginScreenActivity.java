@@ -44,12 +44,13 @@ import java.util.Calendar;
 public class LoginScreenActivity extends AppCompatActivity {
 
     private CallbackManager myCallback;
-    private ProgressDialog dialog;
+
     private AuthData myAuthData;
     private Profile fbProfile;
 
     private EditText email;
     private EditText password;
+    private ProgressDialog dialog;
     private String enteredEmail;
     private String enteredPass;
     private String fbName;
@@ -242,6 +243,47 @@ public class LoginScreenActivity extends AppCompatActivity {
         }
     }
 
+    //When returned back to activity
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+
+        //Returned from CreateAccountActivity
+        if (resultCode == RESULT_OK) {
+            loadUpGroups();
+        }
+
+        //Returned from Facebook login/approve application screen.
+        myCallback.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    //Unauthorize firebase connection, when activity is destroyed.
+    @Override
+    protected void onDestroy() {
+        localRef.unauth();
+        super.onDestroy();
+    }
+
+    //Some pre-made toolbar listener
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_settings) {
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
 
     //Set up confirmation dialog for password reset
     private void showConfirmDialog() {
@@ -265,7 +307,7 @@ public class LoginScreenActivity extends AppCompatActivity {
                             public void onError(FirebaseError firebaseError) {
                                 Toast.makeText(LoginScreenActivity.this, getString(R.string.connection_error_message)
                                         , Toast
-                                        .LENGTH_SHORT).show();
+                                                .LENGTH_SHORT).show();
                             }
                         });
                     }
@@ -274,46 +316,13 @@ public class LoginScreenActivity extends AppCompatActivity {
 
     }
 
-    //When returned back to activity
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
-        //Returned from CreateAccountActivity
-        if (resultCode == RESULT_OK) {
-            loadUpGroups();
-        }
-
-        //Returned from Facebook login/approve application screen.
-        myCallback.onActivityResult(requestCode, resultCode, data);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.menu_main, menu);
-        return true;
-    }
-
-    //Some pre-made toolbar listener
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    //Unauthorize firebase connection, when activity is destroyed.
-    @Override
-    protected void onDestroy() {
-        localRef.unauth();
-        super.onDestroy();
+    //Set up loading dialog
+    private void setUpLoadingDialog() {
+        dialog = new ProgressDialog(this);
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+        dialog.setMessage(getString(R.string.loading_message));
+        dialog.setIndeterminate(true);
+        dialog.setCanceledOnTouchOutside(false);
     }
 
     //Calculate age from facebook birthday data.
@@ -334,30 +343,6 @@ public class LoginScreenActivity extends AppCompatActivity {
                 return thisYear - year;
             }
         }
-    }
-
-    //Set up loading dialog
-    private void setUpLoadingDialog() {
-        dialog = new ProgressDialog(this);
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
-        dialog.setMessage(getString(R.string.loading_message));
-        dialog.setIndeterminate(true);
-        dialog.setCanceledOnTouchOutside(false);
-    }
-
-    //Wipe all the local user data after logout.
-    static protected void LogOff(Context context) {
-        ApplicationMain.getFirebaseRef().unauth();
-
-        LoginManager.getInstance().logOut();
-
-        ApplicationMain.setUserGroups(new ArrayList<String>());
-        TasksListFragment.setTasks(new ArrayList<Task>());
-
-        Log.i(ApplicationMain.LOGIN_TAG, "Logged out.");
-
-        Toast.makeText(context,
-                "You've been logged out.", Toast.LENGTH_LONG).show();
     }
 
     //Load up groups user is in.
@@ -406,6 +391,21 @@ public class LoginScreenActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    //Wipe all the local user data after logout.
+    static protected void LogOff(Context context) {
+        ApplicationMain.getFirebaseRef().unauth();
+
+        LoginManager.getInstance().logOut();
+
+        ApplicationMain.setUserGroups(new ArrayList<String>());
+        TasksListFragment.setTasks(new ArrayList<Task>());
+
+        Log.i(ApplicationMain.LOGIN_TAG, "Logged out.");
+
+        Toast.makeText(context,
+                "You've been logged out.", Toast.LENGTH_LONG).show();
     }
 
 }

@@ -1,6 +1,9 @@
 @startuml
 
-class Task{
+title Class diagram for <b>PhoToDo</b> app.
+
+
+class "Task" as task{
 -UUID id
 -int dueDay
 -int dueMonth
@@ -47,26 +50,32 @@ isDone, isDoubleChecked)
 
 }
 
-class AddNewTaskActivity{
+class "EditTaskActivity" as edit{
 - {static} Calendar myCal
 - {static} int hour
 - {static} int minute
 - {static} int year
 - {static} int month
-- {static} int date
+- {static} int day
 - {static} String dateText
 - {static} String timeText
 - {static} TextView dateInput
 - {static} TextView timeInput
 
 - TextView taskNameInput
-- Spinner pickgroup
+- Spinner pickGroup
 - Firebase localRef
+- boolean isEdit
+- String uuid
+- String group
+- Map<String, Integer> groupMp
+
 
 ==
 # void onCreate(Bundle savedInstance)
 + void showTimePickerDialog(View v)
 + void showDatePickerDialog(View v)
+..
 - void addGroupsToSpinner()
 + {static} void updateTimeDate()
 + {static} void setTimeText(int minute, int hour)
@@ -79,30 +88,187 @@ class AddNewTaskActivity{
 }
 
 
+class "TaskListFragment" as taskList{
 
+- {static} ArrayAdapter myAdapter
+- {static} LIst<Task> tasks
 
+- TextView listEmpty
+- String groupId
+- Firebase localRef
 
-abstract class AbstractList
-abstract AbstractCollection
-interface List
-interface Collection
+==
 
-List <|-- AbstractList
-Collection <|-- AbstractCollection
++ View onCreateView(LayoutInflater inlater,
+ViewGroup container, Bundle savedInstance)
 
-Collection <|- List
-AbstractCollection <|- AbstractList
-AbstractList <|-- ArrayList
-
-class ArrayList {
-Object[] elementData
-size()
++ void onActivityCreated (Bundle savedInstance)
++ {static} Fragment newInstance (String groupId)
+..
+- void loadUpContent()
+- int getDate(int dueYear, int dueMonth, int dueDay)
+- void loadUpTasks(DataSnapshot dataSnapshot)
+- {static} void setTasks(List<Task> tasks
 }
 
-enum TimeUnit {
-DAYS
-HOURS
-MINUTES
+class "NavDrawerActivity" as navDraw {
+..Button IDs..
+- int ID_SETTINGS_MENU
+- int ID_FEEDBACK_MENU
+- int ID_LOG_OFF_MENU
+- int[] ID_GROUPS
+
+..Other attributes..
+- FragmentManager fragmentManager
+- NavigationView navigationView
+- Map<String, Integer> groupMap
+
+
+==
+# void onCreate (Bundle savedInstanceState)
+# void onResume()
++ void onBackPressed()
++ boolean onCreateOptionsMenu(Menu menu)
++ boolean onNavigationItemSelected(MenuItem item)
+..
+- void loadUpButtons()
+# void onActivityResult(int requestCode,
+ int resultCode, Intent data)
 }
+
+class "DatePickerFragment" as datePick {
++ Dialog onCreateDialog(Bundle savedInstanceState)
++ void onDateSet(DatePicker view, int year,
+int monthOfYear, int dayOfMonth)
+}
+
+class "TimePickerFragment" as timePick {
++ Dialog onCreateDialog(Bundle savedInstanceState)
++ void onTimeSet(TimePicker view, int hourOfDay,
+ int minute)
+}
+
+class "ApplicationMain" as appMain{
+- {static} Firebase myFirebaseRef
+- {static} List<String> userGroups
+- {static} AuthData userAuthData
+
+..Tags..
++ {static} String LOGIN_TAG
++ {static} String FIREBASE_COMMUNICATION_TAG
+
++ void onCreate()
++ void onTerminate()
+
+==
+..Getters..
++ {static} Firebase getFirebaseRef()
++ {static} List<String> getUserGroups()
++ {static} AuthData getUserAuthData()
+
+..Setters..
++ {static} void setUserGroups (List<String> userGroups)
++ {static} void addToUserGroup (String group)
++ {static} void addToUserGroup (int pos, String group)
++ {static} void setUserAuthData (AuthData userAuthData)
+}
+
+class "LoginScreenActivity" as login{
+..Database handling..
+- CallbackManager myCallback
+- AuthData myAuthData
+- Profile fbProfile
+- Firebase localRef
+
+..Interface attributes..
+- EditText email
+- EditText password
+- ProgressDialog dialog
+- String enteredEmail
+- String enteredPass
+
+..Other attributes..
+- String fbName
+- String fbEmail
+- String fbBirthday
++ {static} int RESULT_OK
+
+==
+
+# void onCreate(Bundle savedInstanceState)
+# void onActivityResult(int requestCode,
+int resultCode, Intent data)
+# void onDestroy()
++ boolean onOptionsItemSelected(MenuItem item)
+- void showConfirmDialog()
+- void setUpLoadingDialog()
+- int calculateAge(int month, int day, int year)
+- void loadUpGroups()
+# {static} void LogOff(Context context)
+
+}
+
+class "CreateAccountActivity" as createAcc{
+..Interface elements..
+- EditText nameET
+- EditText emailET
+- EditText passwordET
+- EditText confirmPasswordET
+- EditText ageET
+- ProgressDialog dialog
+- CheckBox terms
+
+..Other attributes..
+- String enteredName
+- String enteredEmail
+- String enteredPass
+- String enteredConfirmPass
+- int enteredAge
+
+..
+
+- {static} boolean newUser
+- {static} Firebase localRef
+
+- {static} String uid
+- {static} String email
+- {static} String name
+- {static} int age
+
+==
+
+# void onCreate(Bundle savedInstanceState)
+- void setUpLoadingDialog()
+# {static} void createUserRecord(String uid, String email,
+ String name, int age)
+}
+
+class "GroupPick" as group {
+- Button createGroup
+- EditText groupNameInput
+- List<String> allGroups
+- boolean joinGroup
+- Firebase localRef
+
+# void onCreate(Bundle savedInstanceState)
+# void loadAllGroups()
+}
+
+class "Settings" as settings {
+# void onCreate(Bundle savedInstanceState)
+}
+
+
+appMain o-- login
+login o-- createAcc
+appMain o-- navDraw
+navDraw "1" -- "many" taskList
+taskList "1" -- "many" task
+taskList o-- edit
+edit o-- datePick
+edit o-- timePick
+createAcc o-- group
+navDraw o-- settings
+settings o-- group
 
 @enduml

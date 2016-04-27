@@ -278,7 +278,7 @@ public class LoginScreenActivity extends AppCompatActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
-        //Returned from GroupPick activity
+        //Returned from CreateAccountActivity
         if (resultCode == RESULT_OK) {
             loadUpGroups();
         }

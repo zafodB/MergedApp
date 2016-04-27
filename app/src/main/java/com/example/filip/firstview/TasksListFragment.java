@@ -49,7 +49,7 @@ public class TasksListFragment extends ListFragment {
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         localRef = ApplicationMain.getFirebaseRef();
-        myAdapter = new CustomAdapter(getContext(), tasks, groupId);
+        myAdapter = new CustomAdapter(getContext(), tasks, groupId, getString(R.string.my_tasks_name));
 
         loadUpContent();
 

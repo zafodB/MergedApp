@@ -27,11 +27,13 @@ class CustomAdapter extends ArrayAdapter<Task> {
     private CheckBox rowCheckBox;
     private final String groupId;
     private Firebase localRef;
+    private String myTasksName;
 
 
-    public CustomAdapter(Context context, List<Task> taskData, String groupId) {
+    public CustomAdapter(Context context, List<Task> taskData, String groupId, String myTasksName) {
         super(context, R.layout.task_details_row, taskData);
         this.groupId = groupId;
+        this.myTasksName = myTasksName;
 
 
     }
@@ -40,13 +42,12 @@ class CustomAdapter extends ArrayAdapter<Task> {
     public View getView(final int position, View convertView, ViewGroup parent) {
         localRef = ApplicationMain.getFirebaseRef();
 
-        LayoutInflater myInflater = LayoutInflater.from(getContext());
+        final LayoutInflater myInflater = LayoutInflater.from(getContext());
         View customView = myInflater.inflate(R.layout.task_details_row, parent, false);
 
         String taskName = getItem(position).getName();
         String taskDate = getItem(position).getDueDay() + "." + getItem(position).getDueMonth() + "." + getItem
                 (position).getDueYear();
-
 
 
         TextView rowTaskName = (TextView) customView.findViewById(R.id.rowTaskName);
@@ -64,14 +65,29 @@ class CustomAdapter extends ArrayAdapter<Task> {
         rowCheckBox.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                rowCheckBox.setChecked(false);
                 if (getItem(position).isDone()) {
-                    rowCheckBox.setChecked(false);
-                    localRef.child("Groups").child(groupId).child(getItem(position).getId()
-                            .toString()).child("isDone").setValue("false");
+
+
+                    if (groupId.equals(myTasksName)) {
+                        localRef.child("ListOfUsers").child(ApplicationMain.getUserAuthData().getUid
+                                ()).child("inGroups").child(myTasksName).child(getItem(position).getId()
+                                .toString()).child("isDone").setValue("false");
+                    } else {
+                        localRef.child("Groups").child(groupId).child(getItem(position).getId()
+                                .toString()).child("isDone").setValue("false");
+                    }
                 } else {
                     rowCheckBox.setChecked(true);
-                    localRef.child("Groups").child(groupId).child(getItem(position).getId()
-                            .toString()).child("isDone").setValue("true");
+                    if (groupId.equals(myTasksName)) {
+                        localRef.child("ListOfUsers").child(ApplicationMain.getUserAuthData().getUid
+                                ()).child("inGroups").child(myTasksName).child(getItem(position).getId()
+                                .toString()).child("isDone").setValue("true");
+                    } else {
+                        localRef.child("Groups").child(groupId).child(getItem(position).getId()
+                                .toString()).child("isDone").setValue("true");
+                    }
+
                 }
             }
 
@@ -89,11 +105,9 @@ class CustomAdapter extends ArrayAdapter<Task> {
                 myIntent.putExtra("year", getItem(position).getDueYear());
                 myIntent.putExtra("minute", getItem(position).getDueMinute());
                 myIntent.putExtra("hour", getItem(position).getDueHour());
-
+                myIntent.putExtra("group", groupId);
 
                 getContext().startActivity(myIntent);
-
-                Toast.makeText(getContext(), "You clicked " + getItem(position).getId(), Toast.LENGTH_SHORT).show();
             }
         });
 

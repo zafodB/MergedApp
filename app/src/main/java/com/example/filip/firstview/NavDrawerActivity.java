@@ -15,6 +15,8 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 public class NavDrawerActivity extends AppCompatActivity
@@ -28,6 +30,7 @@ public class NavDrawerActivity extends AppCompatActivity
     final private int ID_FEEDBACK_MENU = 2;
     final private int ID_LOG_OFF_MENU = 3;
     final private int[] ID_GROUPS = {4, 5, 6, 7, 8, 9, 10};
+    private Map<String, Integer> groupMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,7 +99,6 @@ public class NavDrawerActivity extends AppCompatActivity
         return true;
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
@@ -140,6 +142,7 @@ public class NavDrawerActivity extends AppCompatActivity
             menuGroups.add(R.id.menu_group_groups, ID_GROUPS[i], Menu.NONE, s).setIcon(android.R.drawable
                     .btn_star_big_on);
             i++;
+            groupMap.put(s, i);
         }
 
         SubMenu menuRest = myMenu.addSubMenu("Others");
@@ -148,7 +151,14 @@ public class NavDrawerActivity extends AppCompatActivity
         menuRest.add(Menu.NONE, ID_FEEDBACK_MENU, Menu.NONE, "Send Feedback").setIcon(android.R.drawable.ic_menu_send);
         menuRest.add(Menu.NONE, ID_LOG_OFF_MENU, Menu.NONE, "Log off").setIcon(android.R.drawable.ic_lock_idle_lock);
 
-
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        loadUpButtons();
+        MenuItem myItem = navigationView.getMenu().getItem(0).getSubMenu().getItem(resultCode);
+        onNavigationItemSelected(myItem);
+    }
 }

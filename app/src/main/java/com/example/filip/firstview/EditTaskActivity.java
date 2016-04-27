@@ -38,6 +38,10 @@ public class EditTaskActivity extends AppCompatActivity {
     private Firebase localRef;
     private boolean isEdit;
     private String uuid;
+    private String group;
+    private Map<String, Integer> groupMap = new HashMap();
+
+
 
 
     @Override
@@ -66,15 +70,18 @@ public class EditTaskActivity extends AppCompatActivity {
             year = myBundle.getInt("year");
             month = myBundle.getInt("month");
             day = myBundle.getInt("day");
+            group = myBundle.getString("group");
+
         } else {
             hour = myCal.get(Calendar.HOUR_OF_DAY);
             minute = myCal.get(Calendar.MINUTE);
             year = myCal.get(Calendar.YEAR);
             month = myCal.get(Calendar.MONTH);
             day = myCal.get(Calendar.DAY_OF_MONTH);
+            group = getString(R.string.my_tasks_name);
         }
 
-
+        pickGroup.setSelection(groupMap.get(group));
 
         Button setDateButton = (Button) findViewById(R.id.setDateButton);
         setDateButton.setOnClickListener(new View.OnClickListener() {
@@ -153,6 +160,8 @@ public class EditTaskActivity extends AppCompatActivity {
                 localRef.child("Groups").child(selectedGroup).child(uuid).setValue(map);
             }
 
+            setResult(groupMap.get(selectedGroup));
+
             finish();
         }
 
@@ -191,6 +200,13 @@ public class EditTaskActivity extends AppCompatActivity {
 
 
     private void addGroupsToSpinner() {
+        int i = 0;
+        groupMap.clear();
+        for (String s : ApplicationMain.getUserGroups()) {
+            groupMap.put(s, i);
+            i++;
+        }
+
         ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout
                 .simple_spinner_dropdown_item, ApplicationMain.getUserGroups());
         spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -233,5 +249,7 @@ public class EditTaskActivity extends AppCompatActivity {
     public static void setYear(int year) {
         EditTaskActivity.year = year;
     }
+
+
 }
 

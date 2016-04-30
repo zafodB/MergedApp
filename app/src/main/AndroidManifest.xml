@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.filip.firstview">
+    package="com.zafodB.PhoToDo">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:name=".ApplicationMain"
+        android:name="com.zafodB.PhoToDo.ApplicationMain"
         >
 
         <meta-data
@@ -19,7 +19,7 @@
             android:value="@string/facebook_app_id" />
 
         <activity
-            android:name=".LoginScreenActivity"
+            android:name="com.zafodB.PhoToDo.LoginScreenActivity"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
             android:screenOrientation="portrait">
@@ -32,29 +32,29 @@
         </activity>
 
         <activity
-            android:name=".CreateAccountActivity"
-            android:parentActivityName=".LoginScreenActivity"
+            android:name="com.zafodB.PhoToDo.CreateAccountActivity"
+            android:parentActivityName="com.zafodB.PhoToDo.LoginScreenActivity"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".NavDrawerActivity"
+            android:name="com.zafodB.PhoToDo.NavDrawerActivity"
             android:launchMode="singleTop"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.NoActionBar"
-            android:parentActivityName=".LoginScreenActivity"
+            android:parentActivityName="com.zafodB.PhoToDo.LoginScreenActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".GroupPick"
+        <activity android:name="com.zafodB.PhoToDo.GroupPick"
                   android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".Feedback"
-            android:parentActivityName=".NavDrawerActivity"
+            android:name="com.zafodB.PhoToDo.Feedback"
+            android:parentActivityName="com.zafodB.PhoToDo.NavDrawerActivity"
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".Settings"
-            android:parentActivityName=".NavDrawerActivity"
+            android:name="com.zafodB.PhoToDo.Settings"
+            android:parentActivityName="com.zafodB.PhoToDo.NavDrawerActivity"
             android:screenOrientation="portrait"/>
 
         <activity
@@ -65,8 +65,8 @@
             android:screenOrientation="portrait"/>
 
         <activity
-            android:name=".EditTaskActivity"
-            android:parentActivityName=".NavDrawerActivity"
+            android:name="com.zafodB.PhoToDo.EditTaskActivity"
+            android:parentActivityName="com.zafodB.PhoToDo.NavDrawerActivity"
             android:screenOrientation="portrait"/>
 
     </application>

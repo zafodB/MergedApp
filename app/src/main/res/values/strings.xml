@@ -39,7 +39,9 @@
     <string name="task_name_long">The task name is too long.</string>
     <string name="group_join_button">JOIN</string>
     <string name="group_create_button">CREATE</string>
-    <string name="detele_btn_text">Delete</string>
+    <string name="delete_btn_text">Delete</string>
     <string name="cancel_btn_text">Cancel</string>
+    <string name="feedback_text">Send us some feedback!</string>
+    <string name="feedback_button">Send</string>
 
 </resources>

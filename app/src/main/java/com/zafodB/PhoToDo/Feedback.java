@@ -2,13 +2,10 @@ package com.zafodB.PhoToDo;
 
 import android.os.Bundle;
 import android.os.SystemClock;
-import android.provider.*;
-import android.provider.Settings;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.firebase.client.Firebase;
 
@@ -29,7 +26,7 @@ public class Feedback extends AppCompatActivity {
 
         localRef = ApplicationMain.getFirebaseRef();
 
-        feedbackText = (EditText)findViewById(R.id.feedback_edit);
+        feedbackText = (EditText) findViewById(R.id.feedback_edit);
 
         sendFeedback = (Button) findViewById(R.id.send_feedback);
         sendFeedback.setOnClickListener(new View.OnClickListener() {

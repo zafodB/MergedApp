@@ -25,7 +25,7 @@ public class EditTaskActivity extends AppCompatActivity {
     private static int hour = myCal.get(Calendar.HOUR_OF_DAY);
     private static int minute = myCal.get(Calendar.MINUTE);
     private static int year = myCal.get(Calendar.YEAR);
-    private static int month = myCal.get(Calendar.MONTH);
+    private static int month = myCal.get(Calendar.MONTH) + 1;
     private static int day = myCal.get(Calendar.DAY_OF_MONTH);
     private static String dateText;
     private static String timeText;
@@ -127,6 +127,10 @@ public class EditTaskActivity extends AppCompatActivity {
         setDateText(day, month, year);
         setTimeText(minute, hour);
 
+
+        /**
+         * TODO: Check behavior of time field when editing existing task.
+         */
         updateTimeDate();
 
     }

@@ -4,11 +4,11 @@ left to right direction
 
 title Usecase diagram for <b>PhoToDo</b> app.
 
-:User of the app: as user
 :Super User: as superuser
 :Baby User: as babyuser
 
 usecase "See group status" as UC1
+usecase "Login" as UC2
 usecase "View tasks" as UC3
 usecase UC4 as "See who is responsible
  for the task"
@@ -47,19 +47,14 @@ usecase UC31 as "See people in the group"
 usecase UC32 as "View calendar
 with tasks"
 
-superuser -left-> user
-babyuser -left-> user
+superuser -left-> babyuser
 
 UC1 -left- superuser
-UC3 -left- superuser
 UC8 -left- superuser
 UC9 -left- superuser
-UC10 -left- superuser
 UC11 -left- superuser
-UC12 -left- superuser
-UC13 -left- superuser
 
-UC26 -left- superuser
+UC2 -left- babyuser
 UC26 -left- babyuser
 UC3 -left- babyuser
 UC10 -left- babyuser

@@ -10,7 +10,7 @@ android {
         exclude 'META-INF/NOTICE'}
 
     defaultConfig {
-        applicationId "com.example.filip.firstview"
+        applicationId "com.zafodB.PhoToDo"
         minSdkVersion 18
         targetSdkVersion 23
         versionCode 1

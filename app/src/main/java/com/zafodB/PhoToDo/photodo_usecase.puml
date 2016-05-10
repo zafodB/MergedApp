@@ -46,6 +46,20 @@ usecase UC30 as "Mark user as Super-user"
 usecase UC31 as "See people in the group"
 usecase UC32 as "View calendar
 with tasks"
+usecase UC33 as "Choose target group"
+usecase UC34 as "Create account"
+usecase UC35 as "Login using email
+and password"
+usecase UC36 as "Login using facebook"
+usecase UC37 as "Enter email"
+usecase UC38 as "Enter and confirm password"
+usecase UC39 as "Enter age"
+usecase UC40 as "Enter name"
+usecase UC41 as "Agree to terms
+and conditions"
+usecase UC42 as "Sign up"
+usecase UC43 as "Sign up using
+Facebook"
 
 superuser -left-> babyuser
 
@@ -60,6 +74,7 @@ UC3 -left- babyuser
 UC10 -left- babyuser
 UC12 -left- babyuser
 UC13 -left- babyuser
+UC42 -left- babyuser
 
 
 UC4 .left.> UC3 : includes
@@ -74,6 +89,7 @@ UC16 .left.> UC8 : includes
 UC17 .left.> UC8 : includes
 UC18 .left.> UC8 : includes
 UC19 .left.> UC8 : includes
+UC33 .left.> UC8 : includes
 UC8 .left.> UC11 : extends
 
 UC20 .left.> UC11: extends
@@ -95,6 +111,17 @@ UC27 .left.> UC26 : includes
 UC28 .left.> UC26 : includes
 UC32 .left.> UC3 : includes
 
+UC35 .left.> UC2 : extends
+UC36 .left.> UC2 : extends
+
+UC37 .left.> UC34 : includes
+UC38 .left.> UC34 : includes
+UC39 .left.> UC34 : includes
+UC40 .left.> UC34 : includes
+UC41 .left.> UC34 : includes
+
+UC34 .left.> UC42 : extends
+UC43 .left.> UC42 : extends
 
 
 

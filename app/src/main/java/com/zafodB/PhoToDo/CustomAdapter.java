@@ -62,8 +62,6 @@ class CustomAdapter extends ArrayAdapter<Task> {
             public void onClick(View v) {
                 rowCheckBox.setChecked(false);
                 if (getItem(position).isDone()) {
-
-
                     if (groupId.equals(myTasksName)) {
                         localRef.child("ListOfUsers").child(ApplicationMain.getUserAuthData().getUid
                                 ()).child("inGroups").child(myTasksName).child(getItem(position).getId()

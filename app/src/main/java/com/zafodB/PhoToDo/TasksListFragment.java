@@ -64,7 +64,6 @@ public class TasksListFragment extends ListFragment {
         return instance;
     }
 
-
     private void loadUpContent() {
         if (groupId.equals(getString(R.string.my_tasks_name))) {
             localRef.child("ListOfUsers").child(ApplicationMain.getUserAuthData().getUid()).child("inGroups").child
@@ -96,42 +95,16 @@ public class TasksListFragment extends ListFragment {
         }
     }
 
-    private int getDate(int dueYear, int dueMonth, int dueDay) {
-        String date;
-
-        if (dueMonth < 10) {
-            if (dueDay < 10) {
-                date = String.valueOf(dueYear) + "0" + String.valueOf(dueMonth) + "0" + String.valueOf(dueDay);
-            } else {
-                date = String.valueOf(dueYear) + "0" + String.valueOf(dueMonth) + String.valueOf(dueDay);
-            }
-        } else {
-            if (dueDay < 10) {
-                date = String.valueOf(dueYear) + String.valueOf(dueMonth) + "0" + String.valueOf(dueDay);
-            } else {
-                date = String.valueOf(dueYear) + String.valueOf(dueMonth) + String.valueOf(dueDay);
-            }
-        }
-
-//        Log.i(LoginScreenActivity.LOGIN_TAG,date);
-        return Integer.parseInt(date);
-    }
-
     private void loadUpTasks(DataSnapshot dataSnapshot) {
         tasks.clear();
-
         try {
             for (DataSnapshot i : dataSnapshot.getChildren()) {
                 int day = i.child("dateDay").getValue(Integer.class);
                 int month = i.child("dateMonth").getValue(Integer.class);
                 int year = i.child("dateYear").getValue(Integer.class);
                 String name = i.child("name").getValue(String.class);
-
-                boolean isDone;
-                boolean isDoubleChecked;
-                isDone = i.child("isDone").getValue(String.class).equals("true");
-
-                isDoubleChecked = i.child("isDoubleChecked").getValue(String.class).equals("true");
+                boolean isDone = i.child("isDone").getValue(String.class).equals("true");
+                boolean isDoubleChecked = i.child("isDoubleChecked").getValue(String.class).equals("true");
 
                 UUID uuid = UUID.fromString(i.getKey());
 
@@ -156,7 +129,6 @@ public class TasksListFragment extends ListFragment {
             Log.i(ApplicationMain.LOGIN_TAG, "firebase too late");
         }
 
-
         if (tasks.isEmpty()) {
             listEmpty.setVisibility(View.VISIBLE);
         } else
@@ -165,5 +137,26 @@ public class TasksListFragment extends ListFragment {
 
     public static void setTasks(List<Task> tasks) {
         TasksListFragment.tasks = tasks;
+    }
+
+    private int getDate(int dueYear, int dueMonth, int dueDay) {
+        String date;
+
+        if (dueMonth < 10) {
+            if (dueDay < 10) {
+                date = String.valueOf(dueYear) + "0" + String.valueOf(dueMonth) + "0" + String.valueOf(dueDay);
+            } else {
+                date = String.valueOf(dueYear) + "0" + String.valueOf(dueMonth) + String.valueOf(dueDay);
+            }
+        } else {
+            if (dueDay < 10) {
+                date = String.valueOf(dueYear) + String.valueOf(dueMonth) + "0" + String.valueOf(dueDay);
+            } else {
+                date = String.valueOf(dueYear) + String.valueOf(dueMonth) + String.valueOf(dueDay);
+            }
+        }
+
+//        Log.i(LoginScreenActivity.LOGIN_TAG,date);
+        return Integer.parseInt(date);
     }
 }

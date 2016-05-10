@@ -167,7 +167,6 @@ public class EditTaskActivity extends AppCompatActivity {
 
             finish();
         }
-
     }
 
     private void deleteTask() {
@@ -201,7 +200,6 @@ public class EditTaskActivity extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
-
     private void addGroupsToSpinner() {
         int i = 0;
         groupMap.clear();
@@ -227,7 +225,6 @@ public class EditTaskActivity extends AppCompatActivity {
         } else
             timeText = (hour + ":" + minute);
     }
-
 
     public static void setDateText(int day, int month, int year) {
         dateText = (day + ". " + month + ". " + year);

@@ -1,0 +1,136 @@
+@startuml
+
+left to right direction
+
+title Usecase diagram for <b>PhoToDo</b> app.
+
+
+:Super User: as superuser
+:Baby User: as babyuser
+
+usecase "See group status" as UC1<<NI>>
+usecase "Login" as UC2
+usecase "View tasks" as UC3
+usecase UC4<<NI>> as "See who is responsible
+ for the task"
+usecase "See notes" as UC5<<NI>>
+usecase "See due date" as UC6
+usecase "See sub-tasks" as UC7<<NI>>
+usecase "Edit task" as UC8
+usecase "Delete task" as UC9
+usecase "View onw profile" as UC10<<NI>>
+usecase "Create a new empty task" as UC11
+usecase "See points of other users" as UC12<<NI>>
+usecase "Mark task complete" as UC13
+usecase "Edit task name" as UC14
+usecase "Edit subtasks" as UC15<<NI>>
+usecase "Assign to users" as UC16<<NI>>
+usecase "Set high priority" as UC17<<NI>>
+usecase "Set due date" as UC18
+usecase "Edit notes" as UC19<<NI>>
+usecase "Add a picture" as UC20<<NI>>
+usecase "Shoot a picture" as UC21<<NI>>
+usecase UC22<<NI>> as "Pick a picture
+from gallery"
+usecase UC23<<NI>> as "Add other people
+to the group"
+usecase UC24 as "Invite people by email."<<NI>>
+usecase UC25 as "Invite people by QR code"<<NI>>
+usecase UC26 as "Join group"
+usecase UC27<<NI>> as "Join group by scanning
+ a QR code"
+usecase UC28<<NI>> as "Join group
+by email link"
+usecase UC29<<NI>> as "Remove people
+from the group"
+usecase UC30 as "Mark user as Super-user"<<NI>>
+usecase UC31 as "See people in the group"<<NI>>
+usecase UC32<<NI>> as "View calendar
+with tasks"
+usecase UC33 as "Choose target group"
+usecase UC34 as "Create account"
+usecase UC35 as "Login using email
+and password"
+usecase UC36 as "Login using facebook"
+usecase UC37 as "Enter email"
+usecase UC38 as "Enter and confirm password"
+usecase UC39 as "Enter age"
+usecase UC40 as "Enter name"
+usecase UC41 as "Agree to terms
+and conditions"
+usecase UC42 as "Sign up"
+usecase UC43 as "Sign up using
+Facebook"
+
+superuser -left-> babyuser
+
+UC1 -left- superuser
+UC8 -left- superuser
+UC9 -left- superuser
+UC11 -left- superuser
+
+UC2 -left- babyuser
+UC26 -left- babyuser
+UC3 -left- babyuser
+UC10 -left- babyuser
+UC12 -left- babyuser
+UC13 -left- babyuser
+UC42 -left- babyuser
+
+
+UC4 .left.> UC3 : includes
+UC5 .left.> UC3 : includes
+UC6 .left.> UC3 : includes
+UC7 .left.> UC3 : includes
+
+
+UC14 .left.> UC8 : includes
+UC15 .left.> UC8 : includes
+UC16 .left.> UC8 : includes
+UC17 .left.> UC8 : includes
+UC18 .left.> UC8 : includes
+UC19 .left.> UC8 : includes
+UC33 .left.> UC8 : includes
+UC8 .left.> UC11 : extends
+
+UC20 .left.> UC11: extends
+
+UC13 <.right. UC20: extends
+
+UC21 .left.> UC20 : includes
+UC22 .left.> UC20 : includes
+
+UC23 .left.> UC1 : extends
+UC24 .left.> UC23 : includes
+UC25 .left.> UC23 : includes
+
+UC29 .left.> UC1 : extends
+UC31 .left.> UC1 : includes
+UC30 .left.>UC23 : extends
+
+UC27 .left.> UC26 : includes
+UC28 .left.> UC26 : includes
+UC32 .left.> UC3 : includes
+
+UC35 .left.> UC2 : extends
+UC36 .left.> UC2 : extends
+
+UC37 .left.> UC34 : includes
+UC38 .left.> UC34 : includes
+UC39 .left.> UC34 : includes
+UC40 .left.> UC34 : includes
+UC41 .left.> UC34 : includes
+
+UC34 .left.> UC42 : extends
+UC43 .left.> UC42 : extends
+
+skinparam <<NI>>{
+usecaseBackgroundColor #ABABAB
+usecaseBorderColor grey
+usecaseArrowColor black
+}
+
+
+
+
+@enduml

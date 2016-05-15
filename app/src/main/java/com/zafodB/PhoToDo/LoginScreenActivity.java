@@ -358,7 +358,6 @@ public class LoginScreenActivity extends AppCompatActivity {
                 boolean noGroups = true;
                 String groupName;
                 for (DataSnapshot i : dataSnapshot.getChildren()) {
-
                     try {
                         groupName = i.getValue(String.class);
                     } catch (FirebaseException e) {
@@ -368,7 +367,6 @@ public class LoginScreenActivity extends AppCompatActivity {
                         noGroups = false;
 
                         ApplicationMain.addToUserGroups(i.getValue(String.class));
-
                     }
                 }
 

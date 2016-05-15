@@ -35,7 +35,7 @@ usecase UC23 as "Add other people
 to the group"
 usecase UC24 as "Invite people by email."
 usecase UC25 as "Invite people by QR code"
-usecase UC26 as "Join group"
+usecase UC26 as "Join/create group"
 usecase UC27 as "Join group by scanning
  a QR code"
 usecase UC28 as "Join group
@@ -60,6 +60,7 @@ and conditions"
 usecase UC42 as "Sign up"
 usecase UC43 as "Sign up using
 Facebook"
+usecase UC44 as "Create a new group"
 
 superuser -left-> babyuser
 
@@ -105,10 +106,11 @@ UC25 .left.> UC23 : includes
 
 UC29 .left.> UC1 : extends
 UC31 .left.> UC1 : includes
-UC30 .left.>UC23 : extends
+UC30 .left.> UC23 : extends
 
 UC27 .left.> UC26 : includes
 UC28 .left.> UC26 : includes
+UC44 .left.> UC26 : includes
 UC32 .left.> UC3 : includes
 
 UC35 .left.> UC2 : extends

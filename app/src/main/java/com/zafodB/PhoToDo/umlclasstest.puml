@@ -2,8 +2,13 @@
 
 title Class diagram for <b>PhoToDo</b> app.
 
+skinparam classArrowFontSize 20
+skinparam classBackgroundColor<<Model>> DarkSalmon
 
-class "Task" as task{
+class "Task" as task<<Model>>{
+
+
+
 -UUID id
 -int dueDay
 -int dueMonth
@@ -50,7 +55,7 @@ isDone, isDoubleChecked)
 
 }
 
-class "EditTaskActivity" as edit{
+class "EditTaskActivity" as edit<<Controller>>{
 - {static} Calendar myCal
 - {static} int hour
 - {static} int minute
@@ -88,7 +93,7 @@ class "EditTaskActivity" as edit{
 }
 
 
-class "TaskListFragment" as taskList{
+class "TaskListFragment" as taskList<<Controller>>{
 
 - {static} ArrayAdapter myAdapter
 - {static} LIst<Task> tasks
@@ -111,7 +116,22 @@ ViewGroup container, Bundle savedInstance)
 - {static} void setTasks(List<Task> tasks
 }
 
-class "NavDrawerActivity" as navDraw {
+class "CustomAdapter" as adapter<<Controller>>{
+- CheckBox rowCheckBox;
+- String groupId
+- Firebase localRef
+- String myTasksName
+
+==
+
++ CustomAdapter(Context context, List<Task> taskData,
+ String groupId, String myTasksName)
++ View getView(final int position,
+View convertView, ViewGroup parent)
+
+}
+
+class "NavDrawerActivity" as navDraw<<Controller>> {
 ..Button IDs..
 - int ID_SETTINGS_MENU
 - int ID_FEEDBACK_MENU
@@ -136,19 +156,19 @@ class "NavDrawerActivity" as navDraw {
  int resultCode, Intent data)
 }
 
-class "DatePickerFragment" as datePick {
+class "DatePickerFragment" as datePick<<Controller>> {
 + Dialog onCreateDialog(Bundle savedInstanceState)
 + void onDateSet(DatePicker view, int year,
 int monthOfYear, int dayOfMonth)
 }
 
-class "TimePickerFragment" as timePick {
+class "TimePickerFragment" as timePick<<Controller>> {
 + Dialog onCreateDialog(Bundle savedInstanceState)
 + void onTimeSet(TimePicker view, int hourOfDay,
  int minute)
 }
 
-class "ApplicationMain" as appMain{
+class "ApplicationMain" as appMain<<Controller>>{
 - {static} Firebase myFirebaseRef
 - {static} List<String> userGroups
 - {static} AuthData userAuthData
@@ -173,7 +193,7 @@ class "ApplicationMain" as appMain{
 + {static} void setUserAuthData (AuthData userAuthData)
 }
 
-class "LoginScreenActivity" as login{
+class "LoginScreenActivity" as login<<Controller>>{
 ..Database handling..
 - CallbackManager myCallback
 - AuthData myAuthData
@@ -200,6 +220,7 @@ class "LoginScreenActivity" as login{
 int resultCode, Intent data)
 # void onDestroy()
 + boolean onOptionsItemSelected(MenuItem item)
+..
 - void showConfirmDialog()
 - void setUpLoadingDialog()
 - int calculateAge(int month, int day, int year)
@@ -208,7 +229,7 @@ int resultCode, Intent data)
 
 }
 
-class "CreateAccountActivity" as createAcc{
+class "CreateAccountActivity" as createAcc<<Controller>>{
 ..Interface elements..
 - EditText nameET
 - EditText emailET
@@ -238,12 +259,13 @@ class "CreateAccountActivity" as createAcc{
 ==
 
 # void onCreate(Bundle savedInstanceState)
+..
 - void setUpLoadingDialog()
 # {static} void createUserRecord(String uid, String email,
  String name, int age)
 }
 
-class "GroupPick" as group {
+class "GroupPick" as group<<Controller>> {
 - Button createGroup
 - EditText groupNameInput
 - List<String> allGroups
@@ -251,24 +273,26 @@ class "GroupPick" as group {
 - Firebase localRef
 
 # void onCreate(Bundle savedInstanceState)
+..
 # void loadAllGroups()
 }
 
-class "Settings" as settings {
+class "Settings" as settings<<Controller>> {
 # void onCreate(Bundle savedInstanceState)
 }
 
 
-appMain o-- login
-login o-- createAcc
-appMain o-- navDraw
-navDraw "1" -- "many" taskList
-taskList "1" -- "many" task
-taskList o-- edit
-edit o-- datePick
-edit o-- timePick
-createAcc o-- group
-navDraw o-- settings
-settings o-- group
+appMain "1" *-right- "1" login
+login "1" o-- "0..1" createAcc
+login "1" o-- "0..1" navDraw
+navDraw "1" *-- "0..*" taskList
+taskList "1" -- "0..*" task
+taskList "1" o-- "0..1" edit
+taskList "1" *-up- "1" adapter
+edit "1" *-- "0..1" datePick
+edit "1" *-- "0..1" timePick
+createAcc "1" o-- "1" group
+navDraw "1" o-- "0..1" settings
+settings "1" o--"0..1"  group
 
 @enduml

@@ -29,8 +29,6 @@ class CustomAdapter extends ArrayAdapter<Task> {
         super(context, R.layout.task_details_row, taskData);
         this.groupId = groupId;
         this.myTasksName = myTasksName;
-
-
     }
 
     @Override

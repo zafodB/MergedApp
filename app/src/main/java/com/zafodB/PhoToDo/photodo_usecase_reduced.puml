@@ -6,7 +6,7 @@ title Usecase diagram for <b>PhoToDo</b> app.
 
 
 :Super User: as superuser
-:Baby User: as babyuser
+:Baby User\njolalal: as babyuser
 
 usecase "See group status" as UC1<<NI>>
 usecase "Login" as UC2
@@ -36,7 +36,7 @@ usecase UC23<<NI>> as "Add other people
 to the group"
 usecase UC24 as "Invite people by email."<<NI>>
 usecase UC25 as "Invite people by QR code"<<NI>>
-usecase UC26 as "Join group"
+usecase UC26 as "Join/create group"
 usecase UC27<<NI>> as "Join group by scanning
  a QR code"
 usecase UC28<<NI>> as "Join group
@@ -61,6 +61,7 @@ and conditions"
 usecase UC42 as "Sign up"
 usecase UC43 as "Sign up using
 Facebook"
+usecase UC44 as "Create a new group"
 
 superuser -left-> babyuser
 
@@ -110,6 +111,7 @@ UC30 .left.>UC23 : extends
 
 UC27 .left.> UC26 : includes
 UC28 .left.> UC26 : includes
+UC44 .left.> UC26 : includes
 UC32 .left.> UC3 : includes
 
 UC35 .left.> UC2 : extends
@@ -129,8 +131,5 @@ usecaseBackgroundColor #ABABAB
 usecaseBorderColor grey
 usecaseArrowColor black
 }
-
-
-
 
 @enduml

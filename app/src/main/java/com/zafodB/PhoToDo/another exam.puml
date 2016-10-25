@@ -1,0 +1,45 @@
+@startuml
+title __Pay for menu__ usecase
+actor Customer as cust
+participant app as "Restaurant \napp"
+participant card as "Card verification\nauthority"
+participant waitr as "Employee's app"
+
+
+activate cust
+cust -> app : Makes an order
+activate app
+cust <-- app : Asks for confirmation
+cust -> app : Confirms order
+
+app -> waitr : Sends details about order
+activate waitr
+cust <-- app : Displays confirmation message
+
+==Order gets delivered==
+
+cust -> app : Selects "Pay"
+cust <-- app : Asks customer to enter credit card details
+
+cust -> app: Enters card details
+app -> card : Sends card details to verify
+activate card
+
+alt Card details are valid
+
+    app <-- card : Approved
+    cust <-- app : Shows confirmation message
+
+
+else Card details are not valid
+
+    app <-- card : Eror
+    deactivate card
+    cust <-- app : Shows error message
+    note left : Go back to "Enter card details"
+
+end
+
+app -> waitr : Notifies about sucessfull payment
+deactivate waitr
+@enduml

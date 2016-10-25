@@ -1,0 +1,17 @@
+@startuml
+title __View menu__ usecase
+actor Customer as cust
+participant app as "Restaurant \napp"
+database Database
+
+activate cust
+cust -> app : Clicks on menu
+activate app
+app -> Database : Sends menu request
+activate Database
+app <-- Database : Responds with current menu
+deactivate Database
+cust <-- app : Displays the menu to the customer
+deactivate app
+
+@enduml

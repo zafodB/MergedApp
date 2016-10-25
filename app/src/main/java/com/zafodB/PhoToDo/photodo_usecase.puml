@@ -17,9 +17,8 @@ usecase "See due date" as UC6
 usecase "See sub-tasks" as UC7
 usecase "Edit task" as UC8
 usecase "Delete task" as UC9
-usecase "View onw profile" as UC10
+usecase "View own profile" as UC10
 usecase "Create a new empty task" as UC11
-usecase "See points of other users" as UC12
 usecase "Mark task complete" as UC13
 usecase "Edit task name" as UC14
 usecase "Edit subtasks" as UC15
@@ -61,6 +60,11 @@ usecase UC42 as "Sign up"
 usecase UC43 as "Sign up using
 Facebook"
 usecase UC44 as "Create a new group"
+usecase "Change name" as  UC46
+usecase "Change email" as UC47
+usecase "Change password" as UC48
+usecase "Change age" as UC49
+usecase "Share privileges" as UC50
 
 superuser -left-> babyuser
 
@@ -73,7 +77,6 @@ UC2 -left- babyuser
 UC26 -left- babyuser
 UC3 -left- babyuser
 UC10 -left- babyuser
-UC12 -left- babyuser
 UC13 -left- babyuser
 UC42 -left- babyuser
 
@@ -91,7 +94,7 @@ UC17 .left.> UC8 : includes
 UC18 .left.> UC8 : includes
 UC19 .left.> UC8 : includes
 UC33 .left.> UC8 : includes
-UC8 .left.> UC11 : extends
+UC8 .left.> UC11 : includes
 
 UC20 .left.> UC11: extends
 
@@ -106,6 +109,7 @@ UC25 .left.> UC23 : includes
 
 UC29 .left.> UC1 : extends
 UC31 .left.> UC1 : includes
+UC50 .left.> UC1 : extends
 UC30 .left.> UC23 : extends
 
 UC27 .left.> UC26 : includes
@@ -124,6 +128,11 @@ UC41 .left.> UC34 : includes
 
 UC34 .left.> UC42 : extends
 UC43 .left.> UC42 : extends
+
+UC46 .left.> UC10 : extends
+UC47 .left.> UC10 : extends
+UC48 .left.> UC10 : extends
+UC49 .left.> UC10 : extends
 
 
 

@@ -29,7 +29,7 @@ public class NavDrawerActivity extends AppCompatActivity
 
     private FragmentManager fragmentManager;
     private NavigationView navigationView;
-    private Map<String, Integer> groupMap = new HashMap<>();
+    private final Map<String, Integer> groupMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

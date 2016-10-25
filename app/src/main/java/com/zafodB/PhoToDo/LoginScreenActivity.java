@@ -59,11 +59,17 @@ public class LoginScreenActivity extends AppCompatActivity {
 
     private Firebase localRef;
 
-    public static final int RESULT_OK = 3;
+    private static final int RESULT_OK = 3;
+
+    private ApplicationMain appObj;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        appObj = (ApplicationMain) getApplicationContext();
+        Log.i(ApplicationMain.LOGIN_TAG, appObj.getMyString());
+
 
         FacebookSdk.sdkInitialize(getApplicationContext());
         localRef = ApplicationMain.getFirebaseRef();
@@ -74,7 +80,7 @@ public class LoginScreenActivity extends AppCompatActivity {
         LoginButton myLogin = (LoginButton) findViewById(R.id.fb_login_button);
         TextView forgetPass = (TextView) findViewById(R.id.password_forgot);
         email = (EditText) findViewById(R.id.signInEmail);
-        password = (EditText) findViewById(R.id.signInPass);
+        password = (EditText) findViewById(R.id.sign_in_pass);
 
         forgetPass.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -229,7 +235,7 @@ public class LoginScreenActivity extends AppCompatActivity {
         });
 
         //Create new account = launch CreateAccountActivity activity
-        Button SignUpButton = (Button) findViewById(R.id.signUpButton);
+        Button SignUpButton = (Button) findViewById(R.id.sign_up_button);
         if (SignUpButton != null) {
             SignUpButton.setOnClickListener(new View.OnClickListener() {
 
@@ -392,7 +398,7 @@ public class LoginScreenActivity extends AppCompatActivity {
     }
 
     //Wipe all the local user data after logout.
-    static protected void LogOff(Context context) {
+    static void LogOff(Context context) {
         ApplicationMain.getFirebaseRef().unauth();
 
         LoginManager.getInstance().logOut();

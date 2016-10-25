@@ -6,7 +6,7 @@
                 android:background="@drawable/backgrou">
 
     <EditText
-        android:id="@+id/signUpName"
+        android:id="@+id/sign_up_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:width="300dp"
@@ -18,12 +18,12 @@
         />
 
     <EditText
-        android:id="@+id/singUpEmail"
+        android:id="@+id/sing_up_email"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:width="300dp"
         android:inputType="textEmailAddress"
-        android:layout_below="@+id/signUpName"
+        android:layout_below="@+id/sign_up_name"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="15dp"
         android:hint="@string/email_input_text"
@@ -31,12 +31,12 @@
         />
 
     <EditText
-        android:id="@+id/signUpPassword"
+        android:id="@+id/sign_up_password"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:width="300dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/singUpEmail"
+        android:layout_below="@+id/sing_up_email"
         android:layout_marginTop="15dp"
         android:hint="@string/password_input_text"
         android:inputType="textPassword"
@@ -45,12 +45,12 @@
         />
 
     <EditText
-        android:id="@+id/signUpPassConfirm"
+        android:id="@+id/sign_up_pass_confirm"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:width="300dp"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/signUpPassword"
+        android:layout_below="@+id/sign_up_password"
         android:layout_marginTop="15dp"
         android:hint="@string/password_confirm_text"
         android:inputType="textPassword"
@@ -59,14 +59,14 @@
         />
 
     <EditText
-        android:id="@+id/signUpAge"
+        android:id="@+id/sign_up_age"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:width="300dp"
         android:inputType="number"
         android:singleLine="true"
         android:layout_centerHorizontal="true"
-        android:layout_below="@+id/signUpPassConfirm"
+        android:layout_below="@+id/sign_up_pass_confirm"
         android:layout_marginTop="15dp"
         android:hint="@string/age_hint"
         />
@@ -75,20 +75,20 @@
     <CheckBox
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/signUpAge"
+        android:layout_below="@+id/sign_up_age"
         android:layout_marginTop="50dp"
         android:text="@string/accept_terms"
-        android:id="@+id/iAccept"
+        android:id="@+id/i_accept"
         android:layout_centerHorizontal="true"
         />
 
     <Button
-        android:id="@+id/CreateAccButton"
+        android:id="@+id/create_acc_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/add_task_button_text"
 
-        android:layout_below="@+id/iAccept"
+        android:layout_below="@+id/i_accept"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="35dp" />
 

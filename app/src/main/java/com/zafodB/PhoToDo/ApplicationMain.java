@@ -15,6 +15,12 @@ public class ApplicationMain extends android.app.Application {
     static private List<String> userGroups = new ArrayList<>();
     static private AuthData userAuthData;
 
+    private String myString = "JOOO";
+
+    public String getMyString() {
+        return myString;
+    }
+
     public static final String LOGIN_TAG = "login";
     public static final String FIREBASE_COMMUNICATION_TAG = "firebase";
 

@@ -13,10 +13,10 @@ import com.firebase.client.Firebase;
  * Created by filip on 07/04/2016.
  */
 public class Feedback extends AppCompatActivity {
-    Firebase localRef;
+    private Firebase localRef;
 
-    EditText feedbackText;
-    Button sendFeedback;
+    private EditText feedbackText;
+    private Button sendFeedback;
 
     //Sets up feedback activity with simple method sending feedback.
     @Override

@@ -21,6 +21,8 @@ import java.util.Map;
  */
 public class EditTaskActivity extends AppCompatActivity {
 
+    private final static int TASK_NAME_MAX_LENGTH = 100;
+
     private final static Calendar myCal = Calendar.getInstance();
     private static int hour = myCal.get(Calendar.HOUR_OF_DAY);
     private static int minute = myCal.get(Calendar.MINUTE);
@@ -38,7 +40,7 @@ public class EditTaskActivity extends AppCompatActivity {
     private boolean isEdit;
     private String uuid;
     private String group;
-    private Map<String, Integer> groupMap = new HashMap();
+    private final Map<String, Integer> groupMap = new HashMap();
 
 
 
@@ -128,9 +130,6 @@ public class EditTaskActivity extends AppCompatActivity {
         setTimeText(minute, hour);
 
 
-        /**
-         * TODO: Check behavior of time field when editing existing task.
-         */
         updateTimeDate();
 
     }
@@ -139,7 +138,7 @@ public class EditTaskActivity extends AppCompatActivity {
         if (taskNameInput.getText().length() == 0) {
             Toast.makeText(getApplicationContext(), getString(R.string.task_missing_name), Toast
                     .LENGTH_SHORT).show();
-        } else if (taskNameInput.getText().length() > 20) {
+        } else if (taskNameInput.getText().length() > TASK_NAME_MAX_LENGTH) {
             Toast.makeText(getApplicationContext(), getString(R.string.task_name_long), Toast.LENGTH_SHORT)
                     .show();
         } else {
@@ -189,13 +188,13 @@ public class EditTaskActivity extends AppCompatActivity {
         }
     }
 
-    public void showTimePickerDialog(View v) {
+    private void showTimePickerDialog(View v) {
         DialogFragment newFragment = new TimePickerFragment();
         newFragment.show(getSupportFragmentManager(), "timePicker");
         timeInput.setText(EditTaskActivity.timeText);
     }
 
-    public void showDatePickerDialog(View v) {
+    private void showDatePickerDialog(View v) {
         DialogFragment newFragment = new DatePickerFragment();
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }

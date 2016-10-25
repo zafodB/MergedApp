@@ -6,7 +6,7 @@ title Usecase diagram for <b>PhoToDo</b> app.
 
 
 :Super User: as superuser
-:Baby User\njolalal: as babyuser
+:Baby User: as babyuser
 
 usecase "See group status" as UC1<<NI>>
 usecase "Login" as UC2
@@ -18,9 +18,9 @@ usecase "See due date" as UC6
 usecase "See sub-tasks" as UC7<<NI>>
 usecase "Edit task" as UC8
 usecase "Delete task" as UC9
-usecase "View onw profile" as UC10<<NI>>
+usecase "View own profile" as UC10<<NI>>
 usecase "Create a new empty task" as UC11
-usecase "See points of other users" as UC12<<NI>>
+usecase "Reset password" as UC12
 usecase "Mark task complete" as UC13
 usecase "Edit task name" as UC14
 usecase "Edit subtasks" as UC15<<NI>>
@@ -62,6 +62,12 @@ usecase UC42 as "Sign up"
 usecase UC43 as "Sign up using
 Facebook"
 usecase UC44 as "Create a new group"
+usecase "Change name" as  UC46<<NI>>
+usecase "Change email" as UC47<<NI>>
+usecase "Change password" as UC48<<NI>>
+usecase "Change age" as UC49 <<NI>>
+usecase "Share privileges" as UC50 <<NI>>
+
 
 superuser -left-> babyuser
 
@@ -74,7 +80,6 @@ UC2 -left- babyuser
 UC26 -left- babyuser
 UC3 -left- babyuser
 UC10 -left- babyuser
-UC12 -left- babyuser
 UC13 -left- babyuser
 UC42 -left- babyuser
 
@@ -92,7 +97,7 @@ UC17 .left.> UC8 : includes
 UC18 .left.> UC8 : includes
 UC19 .left.> UC8 : includes
 UC33 .left.> UC8 : includes
-UC8 .left.> UC11 : extends
+UC8 .left.> UC11 : includes
 
 UC20 .left.> UC11: extends
 
@@ -103,6 +108,7 @@ UC22 .left.> UC20 : includes
 
 UC23 .left.> UC1 : extends
 UC24 .left.> UC23 : includes
+UC50 .left.> UC1 : extends
 UC25 .left.> UC23 : includes
 
 UC29 .left.> UC1 : extends
@@ -116,6 +122,7 @@ UC32 .left.> UC3 : includes
 
 UC35 .left.> UC2 : extends
 UC36 .left.> UC2 : extends
+UC12 .left.> UC2 : extends
 
 UC37 .left.> UC34 : includes
 UC38 .left.> UC34 : includes
@@ -125,6 +132,17 @@ UC41 .left.> UC34 : includes
 
 UC34 .left.> UC42 : extends
 UC43 .left.> UC42 : extends
+
+'UC45 .down.> UC10 : extends
+'UC46 .left.> UC45 : includes
+'UC47 .left.> UC45 : includes
+'UC48 .left.> UC45 : includes
+'UC49 .left.> UC45 : includessds
+
+UC46 .left.> UC10 : extends
+UC47 .left.> UC10 : extends
+UC48 .left.> UC10 : extends
+UC49 .left.> UC10 : extends
 
 skinparam <<NI>>{
 usecaseBackgroundColor #ABABAB

@@ -1,11 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.zafodB.PhoToDo">
+          xmlns:tools="http://schemas.android.com/tools"
+          package="com.zafodB.PhoToDo">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
 
     <application
+        android:versionCode="2"
+        android:versionName="1.1"
+
         android:allowBackup="true"
         android:icon="@drawable/logo"
         android:label="@string/app_name"
@@ -59,6 +63,7 @@
 
         <activity
             android:name="com.facebook.FacebookActivity"
+            tools:replace = "android:theme"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
             android:label="@string/app_name"
             android:theme="@android:style/Theme.Translucent.NoTitleBar"

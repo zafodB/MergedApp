@@ -46,16 +46,16 @@ public class CreateAccountActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.create_account_activity);
 
-        nameET = (EditText) findViewById(R.id.signUpName);
-        emailET = (EditText) findViewById(R.id.singUpEmail);
-        passwordET = (EditText) findViewById(R.id.signUpPassword);
-        ageET = (EditText) findViewById(R.id.signUpAge);
-        confirmPasswordET = (EditText) findViewById(R.id.signUpPassConfirm);
-        terms = (CheckBox) findViewById(R.id.iAccept);
+        nameET = (EditText) findViewById(R.id.sign_up_name);
+        emailET = (EditText) findViewById(R.id.sing_up_email);
+        passwordET = (EditText) findViewById(R.id.sign_up_password);
+        ageET = (EditText) findViewById(R.id.sign_up_age);
+        confirmPasswordET = (EditText) findViewById(R.id.sign_up_pass_confirm);
+        terms = (CheckBox) findViewById(R.id.i_accept);
 
         setUpLoadingDialog();
 
-        Button signUpButton = (Button) findViewById(R.id.CreateAccButton);
+        Button signUpButton = (Button) findViewById(R.id.create_acc_button);
         signUpButton.setOnClickListener
                 (new View.OnClickListener() {
                      @Override
@@ -203,7 +203,7 @@ public class CreateAccountActivity extends AppCompatActivity {
     }
 
     //Create user record inside the database. Uses AuthData to get Uid.
-    protected static void createUserRecord(String uid, String email, String name, int age) {
+    static void createUserRecord(String uid, String email, String name, int age) {
         localRef = ApplicationMain.getFirebaseRef();
 
         CreateAccountActivity.uid = uid;

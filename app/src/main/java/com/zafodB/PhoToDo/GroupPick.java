@@ -27,7 +27,7 @@ public class GroupPick extends AppCompatActivity {
     private Button createGroup;
     private EditText groupNameInput;
 
-    private List<String> allGroups = new ArrayList<>();
+    private final List<String> allGroups = new ArrayList<>();
     private boolean joinGroup = false;
 
     private Firebase localRef;
@@ -120,7 +120,7 @@ public class GroupPick extends AppCompatActivity {
         });
     }
 
-    protected void loadAllGroups() {
+    private void loadAllGroups() {
         localRef.child("Groups").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

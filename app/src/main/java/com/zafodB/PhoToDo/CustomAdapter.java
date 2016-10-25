@@ -22,7 +22,7 @@ class CustomAdapter extends ArrayAdapter<Task> {
     private CheckBox rowCheckBox;
     private final String groupId;
     private Firebase localRef;
-    private String myTasksName;
+    private final String myTasksName;
 
 
     public CustomAdapter(Context context, List<Task> taskData, String groupId, String myTasksName) {

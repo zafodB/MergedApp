@@ -1,0 +1,24 @@
+@startuml
+left to right direction
+
+:Customer: as cust
+
+usecase "Make a reservation" as UC1
+usecase "Pay for order" as UC2
+usecase "Make an order" as UC3
+usecase "Ask a question about menu" as UC4
+usecase UC5 as "Get answer"
+usecase "View menu" as UC6
+usecase UC7 as "Make a special
+dietary request"
+
+
+cust -- UC1
+UC3 ..> UC2 :include
+cust -- UC3
+UC3 ..> UC7 :include
+cust -- UC4
+UC4 ..> UC5 :include
+cust -- UC6
+
+@enduml
